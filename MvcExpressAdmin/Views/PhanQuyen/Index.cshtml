@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "Phân quyền";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+    <script>
+                //$(document).ready(function () {
+                //    $("#tableGrid").DataTable({
+                //        "processing": true, // for show progress bar
+                //        "serverSide": true, // for process server side
+                //        "filter": true, // this is for disable filter (search box)
+                //        "orderMulti": false, // for disable multiple column at once
+                //        "pageLength": 10,
+
+                //        "ajax": {
+                //            "url": "/rssNews/LoadData",
+                //            "type": "POST",
+                //            "datatype": "json"
+                //        },
+                //        "columnDefs":// khong filter cột
+                //            [{
+                //                "targets": [0],//Customer ID
+                //                "visible": true,
+                //                "searchable": true
+                //            }
+                //                ,
+
+                //            {
+                //                "targets": [2], //Phone
+                //                "searchable": false,
+                //                "orderable": false
+                //            },
+                //            {
+                //                "targets": [3],//Edit
+                //                "searchable": false,
+                //                "orderable": false
+                //            }
+                //                //{
+                //                //    "targets": [9],//Delete
+                //                //    "searchable": false,
+                //                //    "orderable": false
+                //                //}
+                //            ],
+
+                //        "columns": [
+                //            { "data": "Title", "name": "Title", "autoWidth": true },
+                //            { "data": "Link", "name": "Link", "title": "Link", "autoWidth": true },
+                //            //{ "data": "ContactName", "name": "ContactName", "title": "Liên hệ", "autoWidth": true },
+                //            //{ "data": "ContactTitle", "name": "ContactTitle", "autoWidth": true },
+                //            //{ "data": "City", "name": "City", "autoWidth": true },
+                //            //{ "data": "PostalCode", "name": "PostalCode", "autoWidth": true },
+                //            //{ "data": "Country", "name": "Country", "autoWidth": true },
+                //            //{ "data": "Phone", "name": "Phone", "title": "Điện thoại", "autoWidth": true },
+                //            {
+                //                "render": function (data, type, full, meta) {
+                //                    return '<a class="btn btn-info" href="/rssNews/Edit/' + full.rssID + '">Edit</a>';
+                //                }
+                //            },
+                //            {
+                //                data: null, render: function (data, type, row) {
+                //                    return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.rssID + "'); >Delete</a>";
+                //                }
+                //            },
+                //        ]
+                //    });
+                //});
+
+        angular.module('phanquyen', []).controller('WebsiteInfomation', function ($scope) {
+            $scope.data = {
+                fullname: 'Nguyễn Văn Cường',
+                email: 'Thehalfheart@gmail.com',
+                phone: '0979 306 603',
+                topic: 'Học lập trình online miễn phí',
+                website: "freetuts.net"
+            };
+        });
+        function BasicController($scope) {
+            $scope.name = "Minh Hang",
+                $scope.age = "24",
+                $scope.output = function () {
+                    return $scope.name + " " + $scope.age + " tuoi";
+                }
+        }
+    </script>
+}
+<div class="headingtop">
+    <section class="content-header">
+        <h1 class="cssheaderleft">
+            @ViewData["HeadingTenDM"]
+        </h1>
+        <ol class="breadcrumb">
+            @Html.Raw(ViewData["HeadingTopRight"])
+        </ol>
+    </section>
+</div>
+<section class="content">
+    <div style="width:100%; margin-top:2px;margin-left:2px;margin-right:2px;">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="box box-warning">
+                    <div class="box-body" id="divLeft">
+                        @*<table id="tableGrid" class="table table-striped table-bordered dt-responsive" style="width:100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Bộ phận</th>
+                                        <th>User</th>
+                                        <th>Họ tên</th>
+                                        <th>Quyền</th>
+                                    </tr>
+                                </thead>
+                            </table>*@
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box box-danger">
+                    <div class="box-body" id="divRight">
+                        <div ng-app="" ng-controller="BasicController">
+                            Name: <input type="text" ng-model="name"><br>
+                            Age: <input type="number" ng-model="age"><br>
+                            Out put: {{ output() }}
+                        </div>
+                        @*<div ng-controller="BasicController">
+                <p>
+                Chủ sở hữu: {{data.fullname}} <br />
+                Email: {{data.email}} <br />
+                Điện Thoại: {{data.phone}} <br />
+                Chủ Đề: {{data.topic}} <br />
+                Website: {{data.website}}
+            </p>
+        </div>*@
+
+
+                        @*First Name:
+        <input type="text" ng-model="fname" />
+        <br /> Last Name:
+        <input type="text" ng-model="lname" />
+        <br /> Result: {{fname+''+lname}}*@
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

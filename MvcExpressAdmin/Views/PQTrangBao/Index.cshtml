@@ -1,0 +1,150 @@
+﻿
+@{
+    ViewBag.Title = "Phân quyền trang báo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        function Xem_Quyen_By_MaNV(stt, manv, hoten) {
+            UnAllBox();
+            $('#chknv' + stt).prop("checked", true);
+            $("#ndchon").val("0," + manv);
+            $("#lbHoTen").html(hoten);
+            UnCheckUserBox();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Xem_Quyen_By_MaNV", "PQTrangBao")',                
+                data: "{'sMaNV':'" + manv + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var tv = data.data;
+                    var ch = tv.split('#$%');
+                    var len = ch.length;                 
+                    for (i = 1; i < len; i++) {
+                        if (ch[i] != "undifined") {
+                            $('#' + ch[i]).prop('checked', true);
+                        }
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function UnAllBox() {
+
+            // var check = $(obj).is(":checked");
+            for (var i = 0; i < $("#dsnv").find("tr").length; i++) {
+                var checkbox = $("#dsnv").find("tr").eq(i).find("td").find("input[type=checkbox]");
+
+                $(checkbox).prop("checked", false);
+                $("#ndchon").val('');
+            }
+
+        }
+        function UnCheckUserBox() {
+
+            for (var i = 1; i < $("#dsquyen").find("tr").length; i++) {
+                var checkbox = $("#dsquyen").find("tr").eq(i).find("td").find("input[type=checkbox]");
+                $(checkbox).attr("checked", false);
+            }
+
+        }
+        function SelectUser(tt2, vl) {
+            var tt = $("#" + tt2).is(':checked');
+            var m = $("#ndchon").val();
+            if (!tt) {
+                m = m.replace("," + vl, "");
+                $("#ndchon").val(m);
+            }
+            else if (tt) {
+                m = m.replace("," + vl, "");
+                m = m + "," + vl;
+                $("#ndchon").val(m);
+            }
+            else if (m != vl) {
+
+                m = m.replace("," + vl, "");
+                m = m + "," + vl;
+                $("#ndchon").val(m);
+            }
+            else if (m == null || m.length == 0 || m == "0") {
+                $("#ndchon").val("0," + vl);
+
+            }
+        }
+        function SetFunc(MaNV, NewspaperId) {
+
+            // var lbalert="lb"+
+            var nd = $("#ndchon").val();
+            // alert(nd);
+            var id = "lb" + NewspaperId.toString();
+            var chk = $("#chk" + NewspaperId.toString()).is(":checked");
+            // alert(id);
+            if (nd == null || nd.length == 0 || nd == "0") {
+
+                CheckNotify(id, "Chọn user", "top", "error", false, false);
+                if (chk) {
+                    $("#chk" + NewspaperId.toString()).prop("checked", false);
+                }
+                else {
+                    $("#chk" + NewspaperId.toString()).prop("checked", true);
+                }
+            }
+            else {
+                $.ajax({
+                    type: "POST",                   
+                    url: '@Url.Action("SetFunc", "PQTrangBao")',          
+                    data: "{'sNewspaperId':'" + NewspaperId + "', 'sMaNV':'" + nd + "', 'sCHK':'" + chk + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == 1) {
+                            CheckNotify("" + id, "Thành công", "top", "success", true, false);
+                        }
+                        else {
+                            CheckNotify("" + id, "Thất bại", "top", "error", true, false);
+                        }
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
+
+        }
+    </script>
+}
+<div class="headingtop">
+    <section class="content-header">
+        <h1 class="cssheaderleft">
+            @ViewData["HeadingTenDM"]
+        </h1>
+        <ol class="breadcrumb">
+            @Html.Raw(ViewData["HeadingTopRight"])
+        </ol>
+    </section>
+</div>
+<input type="hidden" id="ndchon" />
+<section class="content">
+    <div style="width:100%; margin-top:2px;margin-left:2px;margin-right:2px;">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-warning">
+                    <div class="box-body" id="divLeft">
+                        @Html.Action("LoadNhanVien", "PQTrangBao")
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="box box-danger">
+                    <div class="box-body" id="divRight">
+                        @Html.Action("LoadTrangBao", "PQTrangBao")
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "Menu website";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        //function AddFlatform() {         
+        //    var oWnd = $find("<%=popupMenuCha.ClientID %>");
+        //    oWnd.show();
+        //    $("#txtMenu1").val('');
+        //}
+
+        function AddFlatform() {
+            $('#dialog').dialog({
+                autoOpen: true,
+                width: 400,
+                height: 400,
+                resizable: true,
+                title: 'My Table',
+                modal: true,
+                open: function (event, ui) {
+                    $(this).load('@Url.Action("PartialForm", "wMenu")');
+                },
+                buttons: {
+                    "Close": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        }
+
+    </script>
+}
+
+<div class="headingtop">
+    <section class="content-header">
+        <h1 class="cssheaderleft">
+            @ViewData["HeadingTenDM"]
+        </h1>
+        <ol class="breadcrumb">
+            @Html.Raw(ViewData["HeadingTopRight"])
+        </ol>
+    </section>
+</div>
+<div style="width:100%; margin-top:2px;margin-left:2px;margin-right:2px;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-body" id="divLeft">
+                    @Html.Action("LoadData", "wMenu")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dialog"></div>
+
+<telerik:RadWindow RenderMode="Lightweight" ID="popupMenuCha" runat="server" Modal="true" Title="Cập nhật menu" Width="500px" Skin="Windows7"
+                   Height="330px" VisibleOnPageLoad="false" Behaviors="Minimize, Move, Close" VisibleStatusbar="false" ReloadOnShow="false"
+                   EnableShadow="true" EnableViewState="true">
+    <ContentTemplate>
+        <telerik:RadAjaxPanel runat="server" EnableViewState="true" ShowChooser="true">
+
+            <div class="box box-success">
+                <telerik:DialogOpener RenderMode="Lightweight" runat="server" ID="DialogOpener1" Skin="Windows7"></telerik:DialogOpener>
+                <div class="box-body">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Tên menu cha</div>
+                            <input type="text" id="txtMenu1" style="width: 94%" class="form-control styleText" tabindex="1" placeholder="Nhập tên menu cha" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group csswidth">
+                            <div class="input-group-addon">Icon</div>
+                            <input type="text" id="txtIcon" readonly="readonly" class="form-control" style="width: 95%" />
+                            <div id="btnSelectImg" class="cssBorder input-group-addon" tabindex="3" style="width: 7%; border-left: 1px solid #ccc;" onclick="OpenImgManager()">Browse</div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Thư mục</div>
+                            <input type="text" id="txtFolder" style="width: 94%" class="form-control styleText" tabindex="2" placeholder="Nhập tên thư mục" />
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <input type="checkbox" id="chkHL_Flatform" tabindex="3" checked="checked" />
+                            </span>
+                            <span>
+                                <button type="button" class="btn btn-success btn-flat" style="height: 33px;">Hiệu lực</button>
+                            </span>
+                            <div class="navbar-right" style="margin-right: 5px;">
+                                <input type="button" id="btnUpd_Flatform" value="Cập nhật menu" class="btn btn-success" onclick="SaveMenu1()" tabindex="4" style="height: 33px;" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </telerik:RadAjaxPanel>
+    </ContentTemplate>
+</telerik:RadWindow>
+

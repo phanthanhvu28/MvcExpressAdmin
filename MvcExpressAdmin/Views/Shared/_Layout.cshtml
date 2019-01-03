@@ -1,0 +1,441 @@
+﻿@{
+    MvcExpressAdmin.Controllers.AdminSiteController myClass = new MvcExpressAdmin.Controllers.AdminSiteController();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Administrator</title>
+    <webopt:BundleReference ID="BundleReference1" runat="server" Path="~/Content/css" />
+    @*@Styles.Render("~/Content/css")*@
+    @*@Scripts.Render("~/bundles/modernizr")*@
+
+
+    <link href="../Content/Layout/jqwidgets/jqx.base.css" rel="stylesheet" />
+    <link href="../Content/Layout/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+
+    <link href="../Content/Layout/bootstrap/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Ionicons -->
+    <link href="../Content/Layout/bootstrap/css/ionicons.min.css" rel="stylesheet" />
+
+    <!-- Theme style -->
+    <link href="../Content/Layout/dist/css/AdminLTE.min.css" rel="stylesheet" />
+    <link href="../Content/Layout/Site.css" rel="stylesheet" />
+
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+    folder instead of downloading all of them to reduce the load. -->
+    <link href="../Content/Layout/dist/css/skins/_all-skins.min.css" rel="stylesheet" />
+    <!-- iCheck -->
+    <link href="../Content/Layout/plugins/iCheck/flat/blue.css" rel="stylesheet" />
+
+
+
+    <link href="../Content/Layout/bootstrap/css/beyond.min.css" rel="stylesheet" />
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link href="../Content/Layout/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.css" rel="stylesheet" />
+
+    <script src="../Content/Layout/jqwidgets/jquery-1.11.1.min.js"></script>
+    <script src="../Content/Layout/jqwidgets/jqxcore.js"></script>
+    <script src="../Content/Layout/jqwidgets/jqxpopover.js"></script>
+    <script src="../Content/Layout/jqwidgets/jqxbuttons.js"></script>
+    <script src="../Content/Layout/jqwidgets/demos.js"></script>
+
+    <link href="../Content/Layout/autocomplete/jquery-ui.css" rel="stylesheet" />
+    <script src="../Content/Layout/autocomplete/jquery-ui.js"></script>
+
+    @*AngularJs*@
+    <script src="../Scripts/angular.min.js"></script>
+
+    <script src="../Angular/Module.js"></script>
+    <script src="../Angular/Service.js"></script>
+    <script src="../Angular/Controller.js"></script>
+
+    @*----------Angular2--------------------*@
+    <script src="../node_modules/core-js/client/shim.min.js"></script>
+    <script src="../node_modules/zone.js/dist/zone.js"></script>
+    <script src="../node_modules/systemjs/dist/system.src.js"></script>
+    <script src="../systemjs.config.js"></script>
+    <script>
+        System.import('../main.js').catch(function (err) { console.error(err); });
+    </script>
+
+</head>
+
+<body class="skin-blue sidebar-mini">
+    <div id="wrapper" runat="server">
+
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="/Home" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>AD</b></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>ADMINISTRATOR</b></span>
+            </a>
+
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="../Content/Layout/Images/logo.jpg" class="user-image" />
+                                @Html.Raw(myClass.GetFullName())
+
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <img src="../Content/Layout/Images/logo.jpg" class="img-circle">
+                                    <p>
+                                        <span class="hidden-xs" id="lbUser2" runat="server"></span>
+
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+
+                                        <input type="button" id="btnDoiMK" class="btn btn-default btn-flat" value="@myClass.GetTT("tt_dmk")" onclick="popDoiMK()" />
+                                    </div>
+                                    <div class="pull-right">
+                                        <input type="button" id="btnThoat" class="btn btn-default btn-flat" value="@myClass.GetTT("tt_signout")" onclick="Thoat()" />
+
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Control Sidebar Toggle Button -->
+
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
+                <div class="user-panel" style="">
+                    <div class="pull-left image">
+                        <img src="@myClass.LoadImageLang()" style="height:40px;width:40px" id="lbNgonngu" role="button" class="cssnn" aria-disabled="false" />
+
+                    </div>
+                    <div class="pull-left info">
+                        <label style="" class="cssxuong cssxuong-widget" id="lbxuong">@myClass.Derpartment()</label>
+                    </div>
+                </div>
+                @*=========menu============*@
+                @Html.Action("Menu", "AdminSite")
+
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <div class="loading" align="center" style="z-index: 99999999" id="lloading">
+                <div id="loadingcount" style="text-align: center; font-size: 18px; color: #f00; font-weight: bold"></div>
+                <img src="../Content/Layout/Images/loading.gif" alt="" />
+            </div>
+            @RenderBody()
+
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer" style="float: left">
+            <div class="pull-right hidden-xs" style="padding-right: 230px;">
+                <b>Version</b> 1.0.0
+            </div>
+            <strong>Copyright &copy; 2017 <a>Expressviet</a>.</strong> All rights reserved.
+
+        </footer>
+        <!-- Add the sidebar's background. This div must be placed
+        immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div>
+
+    <div id="popDoiMK" style="width: 370px;" class="modal hide fade" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+
+            <h3 id="H2">@myClass.GetTT("tt_dmk").ToUpper()</h3>
+        </div>
+        <div class="modal-body">
+            <div class="box_pq">
+                <table style="width: 100%">
+
+                    <tr>
+                        <td style="height: 45px;">
+                            <label class="icon120" for="name">@myClass.GetTT("tt_mkc") </label>
+                            <input type="password" name="name" class="txtn" id="txtmkc" placeholder="@myClass.GetTT("tt_mkc")" maxlength="150" style="width: 250px;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height: 45px;">
+                            <label class="icon120" for="name">@myClass.GetTT("tt_mkm")</label>
+                            <input type="password" name="name" id="txtmkm" class="txtn" placeholder="@myClass.GetTT("tt_mkm")" maxlength="150" style="width: 250px;" />
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td style="height: 45px;">
+                            <label class="icon120" for="name">@myClass.GetTT("tt_confirm")</label>
+                            <input type="password" name="name" id="txtconfirm" class="txtn" placeholder="@myClass.GetTT("tt_confirm")" maxlength="150" style="width: 250px;" />
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: center;">
+                            <input type="button" class="btn btn-block btn-warning btn-lg" value="@myClass.GetTT("bt_save")" id="btnSave" onclick="DoiMK()" style="width: 100px; height: 35px;" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="../Content/Layout/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- AdminLTE App -->
+    <script src="../Content/Layout/dist/js/app.min.js"></script>
+    <script src="../Content/Layout/notify/jquery.notyfy.js"></script>
+    <script src="../Content/Layout/notify/notify.js"></script>
+    <script src="../Content/Layout/notify/notify-metro.js"></script>
+    <script src="../Content/Layout/notify/jquery.fixedheadertable.js"></script>
+    <script src="../Content/Layout/notify/jquery-confirm.js"></script>
+
+    <link href="../Content/Layout/notify/jquery-confirm.css" rel="stylesheet" />
+
+
+
+    <script src="../Content/Layout/dist/js/popover.js"></script>
+    <link href="../Content/Layout/dist/css/popover.css" rel="stylesheet" />
+
+    <script src="../Content/Layout/datatime/jquery.datetimepicker.full.js"></script>
+    <link href="../Content/Layout/datatime/jquery.datetimepicker.css" rel="stylesheet" />
+
+    <link href="../Content/Layout/autocomplete/css_auto.css" rel="stylesheet" />
+
+
+    <script src="../Content/Layout/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+
+
+
+
+    @*---------------------lightbox--------------*@
+    @*<script src="../Content/Layout/js/jquery.lightbox-0.5.js"></script>
+        <link href="../Content/Layout/lightbox.css" rel="stylesheet" />
+        <script src="../Content/Layout/js/bootshop.js"></script>*@
+
+
+
+    @*@Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")*@
+    @RenderSection("scripts", required: false)
+
+    <script>
+        $(function () {
+            var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/") + 1);
+            // alert(pgurl);
+            $("#menu li").each(function () {
+                if ($('a', this).attr("href").substr($('a', this).attr("href").lastIndexOf("/") + 1) == pgurl || $('a', this).attr("href") == '')
+                    $(this).addClass("active");
+            });
+        });
+        function CheckNotify(id, msg, pos, css, focus, ep) {
+            $("#" + id).notify({
+                text: msg
+            }, {
+                    style: 'bootstrap',
+                    elementPosition: pos,
+                    className: css,
+                    autoHide: true,
+                    clickToHide: true,
+                    autoHideDelay: 1300
+                });
+            if (focus) {
+                $("#" + id).focus();
+            }
+            if (ep) {
+                $("#" + id).val('');
+            }
+        }
+        function ALM(tv) {
+            $.alert({
+                title: 'Thông báo!',
+                content: tv,
+                closeIcon: true,
+                closeIconClass: 'fa fa-close',
+                confirmButton: 'OK',
+                cancelButton: 'OK'
+            });
+        }
+        function Thoat() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Signout", "Ajax")',
+                data: "",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    location.href = data;
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function popDoiMK() {
+
+            $('#popDoiMK').modal();
+            //$('#popDoiMK').css("left", "500px");
+        }
+        function DoiMK() {
+           // alert('hihi');
+            var mkc = $("#txtmkc").val();
+            var mkm = $("#txtmkm").val();
+            var confirm = $("#txtconfirm").val();
+            if (mkc == null || mkc.length == 0) {
+                CheckNotify("txtmkc", "@myClass.GetTT("nt_nmkc")", "top", "error", true, false);
+            }
+            else if (mkm == null || mkm.length == 0) {
+
+                CheckNotify("txtmkm", "@myClass.GetTT("nt_nmkm")", "top", "error", true, false);
+            }
+            else if (mkm != confirm) {
+                CheckNotify("btnSave", "@myClass.GetTT("nt_confirm")", "top", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("ChangPass", "Ajax")',
+                    data: "{'MatKhau_old':'" + mkc + "', 'MatKhau_new':'" + mkm + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == "1") {
+                            CheckNotify("btnSave", "@myClass.GetTT("nt_success")", "top", "success", true, false);
+                        }
+                        else if (data == "0") {
+                            CheckNotify("btnSave", "@myClass.GetTT("nt_mkckd")", "top", "error", true, false);
+                        }
+                        else {
+                            CheckNotify("btnSave", "Error", "top", "error", true, false);
+                        }
+                    },
+                    error: function () {
+                        CheckNotify("btnSave", "Error", "top", "error", true, false);
+                    }
+                });
+            }
+        }
+        function ChonFac(f) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("ChonPhongBan", "Ajax")',
+                data: '{F:"' + f + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#lloading").fadeIn();
+                    location.href = location.href;
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function ChonLag(L) {
+            $.ajax({
+                type: "POST",
+               url: '@Url.Action("ChonLag", "Ajax")',
+                data: '{L:"' + L + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    $("#lloading").fadeIn();
+                    location.href = location.href;
+
+                },
+                failure: function (response) {
+
+                }
+            });
+        }
+        $('#lbxuong').fu_popover(
+            {
+                dismissable: true,
+                width: '170px',
+                placement: 'bottom',
+                title: '@myClass.GetTT("tt_x")',
+                content: '@Html.Raw(myClass.ListDerp())'
+            }
+        );
+
+        $('#lbNgonngu').fu_popover(
+            {
+                dismissable: true,
+                width: '150px',
+                placement: 'bottom',
+                title: '@myClass.GetTT("tt_nn")',
+                content: '@Html.Raw(myClass.ListLanguge())'
+            }
+        );
+    </script>
+    <link href="~/Content/Datatable/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Datatable/responsive.bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Content/Datatable/jquery.dataTables.min.js"></script>
+    <script src="~/Content/Datatable/dataTables.bootstrap4.min.js"></script>
+
+    <link href="~/Content/FreezeTable/ScrollTabla.css" rel="stylesheet" />
+    <script src="~/Content/FreezeTable/jquery.CongelarFilaColumna.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script type="text/javascript">
+        window.onresize = function (event) {
+            SetWidthHeight();
+        }
+        function SetWidthHeight() {
+            var height = $(window).height();
+            var width = $(window).width();
+
+            $.ajax({
+                url: "../../windowSize.ashx",
+                data: {
+                    'Height': height,
+                    'Width': width
+                },
+                contentType: "application/json; charset=utf-8",
+                dataType: "text"
+            }).done(function (data) {
+                if (data.isFirst) {
+                    window.location.reload();
+                };
+            }).fail(function (xhr) {
+                alert("Problem to retrieve browser size.");
+            });
+
+        }
+        $(function () {
+            SetWidthHeight();
+        });
+
+    </script>
+ 
+
+
+
+</body>
+</html>

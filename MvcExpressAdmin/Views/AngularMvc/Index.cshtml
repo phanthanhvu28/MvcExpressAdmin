@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+
+
+    </script>
+}
+<div class="headingtop">
+    <section class="content-header">
+        <h1 class="cssheaderleft">
+            @ViewData["HeadingTenDM"]
+        </h1>
+        <ol class="breadcrumb">
+            @Html.Raw(ViewData["HeadingTopRight"])
+        </ol>
+    </section>
+</div>
+
+<div class="col-md-4">
+    <div class="box box-danger">
+        <div class="box-body" id="divRight">
+
+            <app>loading...</app>
+
+        </div>
+    </div>
+</div>
+<div class="col-md-8">
+    <div class="box box-danger">
+        <div class="box-body" id="divRight">
+
+            <div ng-controller="myCntrl">
+                @*<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+                    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>*@
+
+                <h1> Employee Details Page</h1>
+
+                <br />
+
+                <div class="divList">
+                    <p class="divHead">Employee List</p>
+                    <table cellpadding="12" class="table table-bordered table-hover">
+                        <tr>
+                            <td><b>TID</b></td>                           
+                        </tr>
+                        <tr ng-repeat="ghichu in ghichus">
+                            <td>
+                                {{ghichu.TID}}
+                            </td>                           
+                        </tr>
+                    </table>
+                </div>               
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-app="">
+    Angular JS Demo <br />
+    Input :  <input type="text" ng-model="helloworld" /><br />
+
+    {{helloworld}}
+
+</div>
+
+

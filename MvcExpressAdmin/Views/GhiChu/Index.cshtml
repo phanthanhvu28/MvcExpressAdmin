@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "Ghi chú ngôn ngữ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        function ChangeND(tid, lid) {
+            var tname = $("#txt" + tid + lid).val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UpdateGhiChu", "GhiChu")',
+                data: "{'STID':'" + tid + "','SLID':'" + lid + "','STNAME':'" + tname + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {                  
+                }
+            });
+        }
+        function DeleteTT(tid) {
+            $.confirm({
+                title: 'Confirm!',
+                confirm: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("DeleteGhiChu", "GhiChu")',                      
+                        data: "{'STID':'" + tid + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == 1) {
+                                $("#tt-" + tid).fadeOut();
+                            }                          
+                            else {
+                                CheckNotify("tt-" + tid, "Error", "top", "error", true, false);
+                            }
+                        }
+                    });
+                }
+            })
+        }
+        function AddGhiChu() {
+            var nn = $("input[type=radio]:checked").val();
+            var tid = $("#matd").val();
+            var tname = $("#tentd").val();
+            if (tid == null || tid.length == 0) {
+                CheckNotify("matd", "Nhập mã", "top", "error", true, false);
+            }
+            else if (tname == null || tname.length == 0) {
+                CheckNotify("tentd", "Nhập tên", "top", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("InsertGhiChu", "GhiChu")',
+                    data: "{'SLID':'" + nn + "','STID':'" + tid + "','STNAME':'" + tname + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("addGC", "Thành công", "top", "success", true, false);
+                            search(0);
+                            $("#tentd").val('');
+                        }
+                        else if (data == 0) {
+                            CheckNotify("addGC", "Fail", "top", "error", true, false);
+                        }
+                        else {
+                            CheckNotify("addGC", "Error", "top", "error", true, false);
+                        }
+                    }
+                });
+            }
+        }
+        function search(type) {
+            var nn = $("input[type=radio]:checked").val();           
+            var tid = $("#matd").val();          
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SearchGhiChu", "GhiChu")',
+                data: "{'SLID':'" + nn + "','SKEY':'" + tid + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success == true) {
+                        $("#dsdata").fadeIn();                       
+                        $("#dsdata").html(data.data);
+                    }
+
+                }
+            });
+        }
+        function ChangeLang(nn) {
+            var tid = $("#matd").val();
+            $("#tentd").val('');
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SearchGhiChu", "GhiChu")',               
+                data: "{'sLID':'" + nn + "','sKEY':'" + tid + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.success == true) {
+                        $("#dsdata").fadeIn();
+                        $("#dsdata").html(data.data);
+                    }
+                }
+            });
+        }
+    </script>
+}
+<div class="headingtop">
+    <section class="content-header">
+        <h1 class="cssheaderleft">
+            @ViewData["HeadingTenDM"]
+        </h1>
+        <ol class="breadcrumb">
+            @Html.Raw(ViewData["HeadingTopRight"])
+        </ol>
+    </section>
+</div>
+
+<section class="content">
+    <div style="width:100%; margin-top:2px;margin-left:2px;margin-right:2px;">
+        @Html.Action("LoadData", "GhiChu")
+    </div>
+</section>
+

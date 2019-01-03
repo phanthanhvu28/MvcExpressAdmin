@@ -1,0 +1,225 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@section scripts{
+    <script type="text/javascript">
+        var timer = setInterval(GetTimer, 5000);
+        var async = -1;
+        function GetTimer() {
+            $.post("@Url.Action("GetTimer", "AllRss")", {}, function (data) {               
+                if (data.success == true) {
+                    $("#msgArray").html(data.shtml);                   
+                }
+                async = data.async;              
+            });
+        }
+        $(function () {
+           // timer;
+            if (async == 0)
+            {              
+                clearInterval(timer);
+            }
+            else timer;           
+        });
+        $(document).ready(function () {
+            $("#listNewspaper").CongelarFilaColumna({ Columnas: 0, coloreacelda: true, colorcelda: '#EFFBFB' });          
+        });
+
+        function CheckAllNewsPaper() {
+            $("#chkSelect").val('0');
+            for (var i = 1; i < $("#listNewspaper").find("tr").length; i++) {
+                var checkbox = $("#listNewspaper").find("tr").eq(i).find("td").find("input[type=checkbox]");
+
+                if (!$('#chkAll').is(':checked')) {
+                    $(checkbox).prop("checked", false);
+                }
+                else {
+                    $(checkbox).prop("checked", true);
+                    var vl = $(checkbox).val();
+                    SelNewsPapers(vl);
+                }
+            }
+
+        }
+        function SelNewsPapers(vl) {
+            var chk = $("#chkSelect").val();
+            if (chk == null || chk.length == 0 || chk == "0") {
+                $("#chkSelect").val("0," + vl);
+            }
+            else {
+                if (chk != vl) {
+                    chk = chk.replace(",undefined", "");
+                    chk = chk + "," + vl;
+                    $("#chkSelect").val(chk);
+                }
+            }
+        }
+
+        function SelNewsPaper(stt2, vl) {
+            var tt = $("#" + stt2).is(':checked');
+            var m = $("#chkSelect").val();
+
+            if (!tt) {
+                m = m.replace("," + vl, "");
+
+                $("#chkSelect").val(m);
+            }
+            else if (tt) {
+
+                m = m.replace("," + vl, "");
+                m = m + "," + vl;
+                $("#chkSelect").val(m);
+            }
+            else if (m != vl) {
+
+                m = m.replace("," + vl, "");
+                m = m + "," + vl;
+                $("#chkSelect").val(m);
+            }
+            else if (m == null || m.length == 0 || m == "0") {
+                $("#chkSelect").val("0," + vl);
+            }
+
+            //if ($("#" + stt2).length == $("#" + stt2 + ":checked").length) {
+            //    $("#chkAll").prop("checked", true);
+            //} else {
+            //    $("#chkAll").prop("checked", false);
+            //}
+        }
+
+        function UpdSelect() {
+
+            var vlselect = $("#chkSelect").val();
+            if (vlselect == null || vlselect == "0" || vlselect.length == 0) {
+                ALM("Vui lòng chọn trang báo");
+            }
+            else {
+                // var msgArr = $("#msgArray").html();
+                $.confirm({
+                    title: 'Thông báo!',
+                    content: 'Bạn có chắc chắn muốn lấy dữ liệu rss?',
+                    confirm: function () {
+                        async = -1;
+                        $("#lloading").fadeIn();
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("GetAllRss", "AllRss")',
+                            data: '{AllNewsPaper:"' + vlselect + '"}',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            cache: false,
+                            success: function (response) {
+                                if (response.success == true) {
+                                    $("#lloading").fadeOut();
+                                    $('#divRun').load('/AllRss/LoadNewsPaperRun');
+                                    setInterval(
+                                        function () {
+                                            $.post("@Url.Action("GetTimer", "AllRss")", {}, function (data) {
+                                                if (data.success == true)
+                                                    $("#msgArray").html(data.html);                                                
+                                            });
+                                        }, 5000)
+                                }
+                            },
+                            failure: function () {
+                            }
+                        });
+                    },
+                    cancel: function () {
+                    }
+                });
+            }
+        }
+        function SyncData() {     
+
+            $.confirm({
+                title: 'Đồng bộ dữ liệu!',
+                content: 'Bạn có chắc chắn muốn đồng bộ dữ liệu?',
+                confirm: function () {                  
+                   $("#lloading").fadeIn();
+                   $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("SyncData", "AllRss")',
+                            data: '',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            cache: false,
+                            success: function (response) {
+                                if (response.success == true) {
+                                    $("#lloading").fadeOut();     
+                                    $('#divNewspaper').load('/AllRss/LoadNewsPaper');
+                                    $('#divRun').load('/AllRss/LoadNewsPaperRun');
+                                }
+                            },
+                            failure: function () {
+                            }
+                        });
+                },
+                cancel: function () {
+
+                }
+            });
+        }
+        function ResetArr() {
+            $.confirm({
+                title: 'Thông báo!',
+                content: 'Bạn có chắc chắn muốn reset array?',
+                confirm: function () {
+                    $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("ResetData", "AllRss")',
+                            data: '',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            cache: false,
+                            success: function (response) {
+                                if (response.success == true) { 
+                                    $("#msgArray").html(response.shtml);     
+                                    $('#divRun').load('/AllRss/LoadNewsPaperRun');
+                                }
+                            },
+                            failure: function () {
+                            }
+                        });
+                },
+                cancel: function () {
+
+                }
+            });
+        }
+    </script>
+}
+<div class="headingtop">
+    <section class="content-header">
+        @Html.Action("PerFunction", "AllRss")
+
+        <ol class="breadcrumb">
+            @Html.Raw(ViewData["HeadingTopRight"])
+        </ol>
+    </section>
+</div>
+<section class="content">
+    <input type="hidden" id="chkSelect" value="0" />
+    <div style="width:100%; margin-top:2px;margin-left:2px;margin-right:2px;">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="box box-warning">
+                    <div class="box-body" id="divNewspaper">
+                        @Html.Action("LoadNewsPaper", "AllRss")
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box box-danger">
+                    <div class="box-body" id="divRun">
+                        @Html.Action("LoadNewsPaperRun", "AllRss")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

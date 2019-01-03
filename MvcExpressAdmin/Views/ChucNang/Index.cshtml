@@ -1,0 +1,493 @@
+﻿
+@{
+    ViewBag.Title = "Chức năng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    MvcExpressAdmin.Controllers.AdminSiteController myclass = new MvcExpressAdmin.Controllers.AdminSiteController();
+    MvcExpressAdmin.Controllers.ChucNangController ctrChucNang = new MvcExpressAdmin.Controllers.ChucNangController();
+
+}
+@section scripts{
+    <script type="text/javascript">
+        function AddDanhmuc(madmc, loai) {
+            $("#txtBien").val('0');
+            $('#fdanhmuc').modal();
+            $("#txttendm").val('');
+            $("#txtfile").val('');
+            if (loai == 'dmcha') {
+                $("#txtfile").prop("disabled", true);
+            }
+            else {
+                $("#txtfile").prop("disabled", false);
+            }
+            $("#txtMaDMC").val('0');
+            $("#txtLoai").val(loai);
+            $("#txtMaDMC").val(madmc);
+            $("#txtmadm").val('0');
+        }
+        function ChangeLang(nn) {
+            $("#txtBien").val('1');
+            var madm = "";
+            if ($("#txtLoai").val() == "dmcha") {
+                madm = $("#txtMaDMC").val();
+            }
+            else {
+                madm = $("#txtmadm").val();
+            }
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadDMEdit", "ChucNang")',
+                data: '{sMaDM:"' + madm + '",sNN:"' + nn + '",sLOAIDM:"' + $("#txtLoai").val() + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (response) {
+                    var tv = response;
+                    var m = tv.split("#$%");
+                    if (m.length == 5) {
+
+                        $("#txtMaDMC").val(m[0]);
+                        if (m[3] == "True")
+                            $("#chk_hienthi").prop("checked", true);
+                        else
+                            $("#chk_hienthi").prop("checked", false);
+
+                        $("#txttendm").val(m[1]);
+                        $("#txtfile").val(m[2]);
+                        $("#txtthutu").val(m[4]);
+
+                    }
+                    else {
+                        $("#txttendm").val('');
+                    }
+                },
+                failure: function () {
+                }
+            });
+        }
+         function EditDanhmuc(ma, loai) {
+
+             $("#txtBien").val('0');
+            $('#fdanhmuc').modal();
+             $("#txtLoai").val(loai);
+             $("#txtmadm").val(ma);
+
+
+            var nn = $("input[type=radio]:checked").val();
+            $.ajax({
+               type: "POST",
+               url: '@Url.Action("LoadDMEdit", "ChucNang")',
+                data: '{sMaDM:"' + ma + '",sNN:"' + nn + '",sLOAIDM:"' + loai + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (response) {
+                    var tv = response;
+                    var m = tv.split("#$%");
+                    if (m.length == 5) {
+                        $("#txtMaDMC").val(m[0]);
+                        if (m[3] == "True")
+                            $("#chk_hienthi").prop("checked", true);
+                        else
+                            $("#chk_hienthi").prop("checked", false);
+
+                        $("#txttendm").val(m[1]);
+                        $("#txtfile").val(m[2]);
+                        $("#txtthutu").val(m[4]);
+                    }
+                },
+                failure: function () {
+                }
+            });
+        }
+        function SaveDanhMuc() {
+
+            var nn = $('input:radio[name=form-field-radio1]:checked').val();
+
+            var bien = $("#txtBien").val();
+
+            var tendm = $("#txttendm").val();
+            var stt = $("#txtthutu").val();
+
+            var madmc = $("#txtMaDMC").val();
+            var loai = $("#txtLoai").val();
+
+            var file = $("#txtfile").val();
+
+            var madmcon = $("#txtmadm").val();
+
+
+            var hienthi = $("#chk_hienthi").is(":checked");
+            if (nn == null || nn.length == 0 || nn == "0") {
+
+                CheckNotify("lbnn", "@myclass.GetTT("nt_cnn")", "top", "error", true, false);
+            }
+            else if (tendm == null || tendm.length == 0 || tendm == "0") {
+
+                CheckNotify("txttendm", "@myclass.GetTT("nt_ntdm")", "top", "error", true, false);
+            }
+            else if (stt == null || stt.length == 0 || stt == "0") {
+
+                CheckNotify("txtthutu", "@myclass.GetTT("nt_nstt")", "bottom", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("INSERT_UPDATE_DANHMUC", "ChucNang")',
+                    data: "{'sLOAI':'" + loai + "','sMADMCHA':'" + madmc + "','sTENMDC':'" + tendm + "','sSITE':'" + file + "', 'sHIENTHI':'" + hienthi + "', 'sSTT':'" + stt + "', 'sLID':'" + nn + "', 'sMaDMCon':'" + madmcon + "', 'Bien':'" + bien + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == "ins") {
+                            $("#txtBien").val('1');
+
+                            CheckNotify("btnluudm", "@myclass.GetTT("nt_success")", "top", "success", true, false);
+                            LOAD_JAVASCRIPT_DANHMUC();
+                        }
+                        else {
+                            CheckNotify("btnluudm", "@myclass.GetTT("nt_fail")", "top", "error", true, false);
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        }
+        function AddFunc(madm) {
+
+            $('#FCModal').modal();
+            $('#txtMaDM_cn').val(madm);
+        }
+        function UpdateCN(madm, macn) {
+
+            $('#FCModal').modal();
+            $('#txtMaDM_cn').val(madm);
+            $("#txtMaCN").val(macn);
+            $("#txtMaCN").prop("disabled", true);
+            var nn = $('input:radio[name=form-field-radio2]:checked').val();
+            $.ajax({
+                type: "POST",
+                 url: '@Url.Action("Show_ChucNang_Update", "ChucNang")',
+                data: '{sMaDM:"' + madm + '",sMaCN:"' + macn + '",sNN:"' + nn + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (response) {
+                    $('#txtTenCN').val(response);
+                },
+                failure: function (response) {
+
+                }
+            });
+        }
+        function ChangeLang_CN(nn) {
+
+            var madm = $('#txtMaDM_cn').val();
+            var macn = $("#txtMaCN").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Show_ChucNang_Update", "ChucNang")',
+                data: '{sMaDM:"' + madm + '",sMaCN:"' + macn + '",sNN:"' + nn + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (response) {
+                    $('#txtTenCN').val(response);
+                },
+                failure: function () {
+
+                }
+            });
+        }
+        function SaveFunc() {
+            var nn = $('input:radio[name=form-field-radio2]:checked').val();
+            var macn = $("#txtMaCN").val();
+            var tencn = $("#txtTenCN").val();
+            var madm = $("#txtMaDM_cn").val();
+
+            if (macn == null || macn.length == 0 || macn == "0") {
+
+                CheckNotify("txtMaCN", "@myclass.GetTT("nt_nmcn")", "top", "error", true, false);
+            }
+            else if (tencn == null || tencn.length == 0 || tencn == "0") {
+
+                CheckNotify("txtTenCN", "@myclass.GetTT("nt_ntcn")", "top", "error", true, false);
+            }
+            else {
+                //alert('123');
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("INSERT_UPDATE_CHUCNANG", "ChucNang")',
+                    data: "{'sMADM':'" + madm + "','sMACN':'" + macn + "','sLID':'" + nn + "','sTENCN':'" + tencn + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("btnSaveCN", "@myclass.GetTT("nt_success")", "top", "success", true, false);
+                            LOAD_JAVASCRIPT_DANHMUC();
+                        }
+                        else {
+                            CheckNotify("btnSaveCN", "@myclass.GetTT("nt_fail")", "top", "error", true, false);
+
+                        }
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
+        }
+        function DeleteCN(idcn, madm, macn) {
+            $.confirm({
+                title: 'Confirm!',
+                content: '@myclass.GetTT("tt_content_per_del")',
+                confirm: function () {
+                    $.ajax({
+                        type: "POST",
+                         url: '@Url.Action("Delete_Chucnang", "ChucNang")',
+                        data: "{'sMADM':'" + madm + "','sMaCN':'" + macn + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == 1) {
+                                CheckNotify("cn" + madm + "-" + macn, "@myclass.GetTT("nt_success")", "top", "success", true, false);
+                                $('#' + idcn).fadeOut();
+                            }
+                            else {
+                                CheckNotify("cn" + madm + "-" + macn, "@myclass.GetTT("nt_fail")", "top", "error", true, false);
+                            }
+
+                        },
+                        error: function () {
+                            CheckNotify("cn" + madm + "-" + macn, "Error", "top", "error", true, false);
+                        }
+                    });
+                },
+                cancel: function () {
+                }
+            });
+        }
+        function DeleteDanhMuc(madm, loaidm) {
+            $.confirm({
+                title: 'Confirm!',
+                content: '@myclass.GetTT("tt_content_per_del")',
+                confirm: function () {
+                    $.ajax({
+                        type: "POST",
+                         url: '@Url.Action("Delete_DanhMuc", "ChucNang")',
+                        data: "{'sMADM':'" + madm + "','sLOAIDM':'" + loaidm + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == 1) {
+                                if (loaidm == "dmcon") {
+                                    CheckNotify("submenu" + madm, "@myclass.GetTT("nt_success")", "top", "success", true, false);
+                                    $('#submenu' + madm).fadeOut();
+                                }
+                                else if (loaidm == "dmcha") {
+                                    LOAD_JAVASCRIPT_DANHMUC();
+                                }
+                            }
+                            else {
+                                CheckNotify("sub_del" + madm, "@myclass.GetTT("nt_fail")", "top", "error", false, false);
+                            }
+                        },
+                        error: function () {
+                            CheckNotify("sub_del" + madm, "Error", "top", "error", false, false);
+
+                        }
+                    });
+                },
+                cancel: function () {
+
+                }
+            });
+        }
+        function LOAD_JAVASCRIPT_DANHMUC() {
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LOAD_JAVASCRIPT_DANHMUC", "ChucNang")',
+                data: "",
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (data) {                   
+                    $("#dsquyen").fadeIn();
+                    $("#dsquyen").html(data);
+                },
+                error: function () {
+
+                }
+            });
+        }
+
+        function Update_HieuLuc_Cha(MaDMC) {
+            var hluc = $("#chkDMCha_" + MaDMC).is(':checked');
+            $.ajax({
+                type: "POST",
+              url: '@Url.Action("Update_HieuLuc_Cha", "ChucNang")',
+                data: "{'sMaDMC':'" + MaDMC + "','sHienThi':'" + hluc + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (data) {
+                    
+                    if (data == 0) {
+                        CheckNotify("chkDMCha_" + MaDMC, "@myclass.GetTT("nt_success")", "top", "success", false, false);
+
+                    }
+                    else{
+                        CheckNotify("chkDMCha_" + MaDMC, "@myclass.GetTT("nt_fail")", "top", "error", false, false);
+                    }                 
+                },
+                failure: function () {
+                    CheckNotify("chkDMCha_" + MaDMC, "Error", "top", "error", false, false);
+                }
+            });
+        }
+        function Update_HieuLuc_Con(MaDM) {
+            var hluc = $("#chkDMCon_" + MaDM).is(':checked');
+
+            $.ajax({
+                type: "POST",
+                 url: '@Url.Action("Update_HieuLuc_Con", "ChucNang")',
+                data: "{'sMaDM':'" + MaDM + "','sHienThi':'" + hluc + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data == 0) {
+                        CheckNotify("chkDMCon_" + MaDM, "@myclass.GetTT("nt_success")", "top", "success", false, false);
+                    }
+                    else{
+                        CheckNotify("chkDMCon_" + MaDM, "@myclass.GetTT("nt_fail")", "top", "error", false, false);
+                    }                  
+                },
+                failure: function (response) {
+                    CheckNotify("chkDMCon_" + MaDM, "Error", "top", "error", false, false);
+                }
+            });
+        }
+    </script>
+}
+<div class="headingtop">
+    <section class="content-header">
+        <h1 class="cssheaderleft">
+            @ViewData["HeadingTenDM"]
+        </h1>
+        <ol class="breadcrumb">
+            @Html.Raw(ViewData["HeadingTopRight"])
+        </ol>
+    </section>
+</div>
+<section class="content">
+    <div style="width:100%; margin-top:2px;margin-left:2px;margin-right:2px;">
+        @Html.Action("LoadData", "ChucNang")
+    </div>
+</section>
+
+<div id="fdanhmuc" style="width: 500px" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+        <h3 id="H2">@myclass.GetTT("tt_upd_dm").ToUpper()</h3>
+    </div>
+    <div class="modal-body">
+        <div class="box_pq">
+            <table style="width: 100%">
+                <tr>
+                    <td style="height: 45px;" colspan="2">
+                        <label class="icon120" for="name" id="lbnn">&nbsp;<i class="icon-list"></i>@myclass.GetTT("tt_nn")</label>
+                        <div class="control-group" style="padding-left: 130px;">
+                            <div class="radio">
+                                <label style="padding-right: 10px;">
+                                    @Html.Raw(ctrChucNang.RadioLanguge())
+                                </label>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="txtMaDMC" value="0" />
+                        <input type="hidden" id="txtmadm" value="0" />
+                        <input type="hidden" id="txtLoai" value="0" />
+                        <input type="hidden" id="txtBien" value="0" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 45px;" colspan="2">
+                        <label class="icon120" for="name">@myclass.GetTT("tt_tdm") </label>
+                        <input type="text" name="name" class="txtn" id="txttendm" onkeypress="SaveDanhMucE(event)" placeholder="@myclass.GetTT("tt_tdm")" maxlength="150" style="width: 370px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 45px;">
+                        <label class="icon120" for="name">@myclass.GetTT("tt_ftc")</label>
+                        <input type="text" name="name" id="txtfile" class="txtn" onkeypress="SaveDanhMucE(event)" placeholder="@myclass.GetTT("tt_ftc")" maxlength="150" />
+                    </td>
+                    <td style="height: 45px;">
+                        <label class="icon120" for="name">@myclass.GetTT("tt_order")</label>
+                        <input type="text" name="name" id="txtthutu" class="txtn" onkeypress="SaveDanhMucE(event)" placeholder="@myclass.GetTT("tt_order")" maxlength="50" style="width: 80px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 45px;">
+                        <div class="checkbox" style="margin-left: 20px;">
+                            <label>
+                                <input type="checkbox" class="colored-blue chkhidden" id="chk_hienthi" checked="checked">
+                                <span class="text">@myclass.GetTT("tt_display")</span>
+                            </label>
+                        </div>
+                    </td>
+                    <td style="text-align: right; padding-right: 25px;" colspan="4">
+                        <input type="button" class="btn btn-block btn-warning btn-lg" value="@myclass.GetTT("bt_save")" id="btnluudm" onclick="SaveDanhMuc()" style="width: 100px; height: 35px;" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div id="FCModal" style="width: 500px" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="H1">@myclass.GetTT("tt_tqtc").ToUpper()</h3>
+    </div>
+    <div class="modal-body">
+        <div class="box_pq">
+            <table style="width: 100%">
+                <tr>
+                    <td style="height: 45px;" colspan="2">
+                        <label class="icon120" for="name">&nbsp;<i class="icon-list"></i>@myclass.GetTT("tt_nn")</label>
+
+
+                        <div class="control-group" style="padding-left: 130px;">
+                            <div class="radio">
+                                <label style="padding-right: 10px;">
+                                    @Html.Raw(ctrChucNang.RadioLangugeFunc())
+
+                                </label>
+                            </div>
+                        </div>
+                        <input type="hidden" id="txtMaDM_cn" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 45px;" colspan="2">
+                        <label class="icon120" for="name">@myclass.GetTT("tt_mcn")</label>
+                        <input type="text" name="name" class="txtn" id="txtMaCN" placeholder="@myclass.GetTT("tt_mcn")" maxlength="150" style="width: 370px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 45px;">
+                        <label class="icon120" for="name">@myclass.GetTT("tt_tcna")</label>
+                        <input type="text" name="name" id="txtTenCN" class="txtn" placeholder="@myclass.GetTT("tt_tcna")" style="width: 370px;" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: center; padding-right: 20px;" colspan="4">
+                        <input type="button" class="btn btn-block btn-warning btn-lg" value="@myclass.GetTT("bt_save")" id="btnSaveCN" onclick="SaveFunc()" style="width: 100px; height: 35px;" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+
+

@@ -1,0 +1,154 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Login</title>
+    <meta name="description" content="login page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+
+    <link href="Content/Layout/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    <link href="Content/Layout/bootstrap/css/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="Content/Layout/bootstrap/css/beyond.min.css" rel="stylesheet" />
+    <link href="Content/Layout/bootstrap/css/demo.min.css" rel="stylesheet" />
+    <link href="Content/Layout/bootstrap/css/animate.min.css" rel="stylesheet" />
+
+
+    <script src="Content/Layout/notify/jquery-3.1.0.min.js"></script>
+    <script src="Content/Layout/notify/jquery.notyfy.js"></script>
+    <script src="Content/Layout/notify/notify.js"></script>
+    <script src="Content/Layout/notify/notify-metro.js"></script>
+
+
+    <script type="text/javascript">
+        function CheckNotify(id, msg, pos, css, focus, ep) {
+            $("#" + id).notify({
+                text: msg
+            }, {
+                style: 'bootstrap',
+                elementPosition: pos,
+                className: css,
+                autoHide: true,
+                clickToHide: true,
+                autoHideDelay: 1300
+            });
+            if (focus) {
+                $("#" + id).focus();
+            }
+            if (ep) {
+                $("#" + id).val('');
+            }
+        }
+        function LoginE(event) {
+            var key = event.keyCode;
+            if (parseInt(key) == 13) {
+
+                LogIn()
+            }
+        }
+        function LogIn() {
+            var NgonNgu = $("#slNgonNgu option:selected").val();
+            var Username = $("#txtUsername").val();
+            var Password = $("#txtPassword").val();
+
+            if (Username == null || Username.length == 0) {
+                CheckNotify("txtUsername", "Chưa nhập Username", "top", "error", true, false);
+            }
+            else if (Password == null || Password.length == 0) {
+                CheckNotify("txtPassword", "Chưa nhập password", "top", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Login", "Ajax")',
+                    data: "{'Username':'" + Username + "', 'MatKhau':'" + Password + "', 'LID':'" + NgonNgu + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (result, status, xhr) {
+                        
+                        if (result == "0") {
+                            CheckNotify("btnLogin", "Đăng nhập thất bại", "bottom", "error", true, false);
+                        }
+                        else {
+                            @*@{Html.Partial(result);}*@
+                            location.href = result;
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        CheckNotify("btnLogin", "Không có username trong hệ thống", "bottom", "error", true, false);
+                    }
+                });
+            }
+        }
+        function Change() {          
+        }
+    </script>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="login-container animated fadeInDown">
+            <div class="loginbox bg-white">
+                <div class="loginbox-title">ĐĂNG NHẬP HỆ THỐNG</div>
+                <div class="loginbox-social">
+
+                    <div class="social-buttons">
+                        <a class="button-facebook">
+                            <i class="social-icon fa fa-facebook"></i>
+                        </a>
+                        <a class="button-twitter">
+                            <i class="social-icon fa fa-twitter"></i>
+                        </a>
+                        <a class="button-google">
+                            <i class="social-icon fa fa-google-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="loginbox-or">
+                    <div class="or-line"></div>
+                    <div class="or">OR</div>
+                </div>
+                <asp:PlaceHolder runat="server" ID="ErrorMessage" Visible="false">
+                    <p class="text-danger">
+                        <asp:Literal runat="server" ID="FailureText" />
+                    </p>
+                </asp:PlaceHolder>
+
+                <div class="loginbox-textbox custom-select">
+                    @Html.DropDownList("slNgonNgu", (IEnumerable<SelectListItem>)ViewData["DropListLanguge"], new { @class= "form-control", @onchange = "Change()" })                    
+                    @*<select style="" id="slNgonNgu" class="form-control">
+                        @Html.Action("Languge", "Partial");
+                    </select>*@
+                </div>
+
+                <div class="loginbox-textbox">                    
+                    <input type="text" name="txtUsername" class="form-control" id="txtUsername" placeholder="Username" tabindex="1" onkeypress="LoginE(event)" />
+                </div>
+                <div class="loginbox-textbox" style="margin-top: 15px;">
+                    <input type="password" name="txtPassword" class="form-control" id="txtPassword" placeholder="Password" tabindex="2" onkeypress="LoginE(event)" />
+                </div>
+                <div class="loginbox-submit">
+                    <label class="btn btn-primary btn-block" tabindex="3" id="btnLogin" style="padding: 8px; cursor: pointer" onclick="LogIn()" onkeypress="LoginE(event)">Login</label>
+                </div>
+                <div class="loginbox-signup">
+                </div>
+            </div>
+
+        </div>
+    </form>
+</body>
+</html>
+
+
