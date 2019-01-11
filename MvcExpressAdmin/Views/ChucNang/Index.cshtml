@@ -380,114 +380,131 @@
     </div>
 </section>
 
-<div id="fdanhmuc" style="width: 500px" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<div id="fdanhmuc" style="" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
 
-        <h3 id="H2">@myclass.GetTT("tt_upd_dm").ToUpper()</h3>
-    </div>
-    <div class="modal-body">
-        <div class="box_pq">
-            <table style="width: 100%">
-                <tr>
-                    <td style="height: 45px;" colspan="2">
-                        <label class="icon120" for="name" id="lbnn">&nbsp;<i class="icon-list"></i>@myclass.GetTT("tt_nn")</label>
-                        <div class="control-group" style="padding-left: 130px;">
-                            <div class="radio">
-                                <label style="padding-right: 10px;">
-                                    @Html.Raw(ctrChucNang.RadioLanguge())
-                                </label>
-                            </div>
-                        </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">@myclass.GetTT("tt_upd_dm").ToUpper()</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-                        <input type="hidden" id="txtMaDMC" value="0" />
-                        <input type="hidden" id="txtmadm" value="0" />
-                        <input type="hidden" id="txtLoai" value="0" />
-                        <input type="hidden" id="txtBien" value="0" />
-                    </td>
-                </tr>
-                <tr>
-                    <td style="height: 45px;" colspan="2">
-                        <label class="icon120" for="name">@myclass.GetTT("tt_tdm") </label>
-                        <input type="text" name="name" class="txtn" id="txttendm" onkeypress="SaveDanhMucE(event)" placeholder="@myclass.GetTT("tt_tdm")" maxlength="150" style="width: 370px;" />
-                    </td>
-                </tr>
-                <tr>
-                    <td style="height: 45px;">
-                        <label class="icon120" for="name">@myclass.GetTT("tt_ftc")</label>
-                        <input type="text" name="name" id="txtfile" class="txtn" onkeypress="SaveDanhMucE(event)" placeholder="@myclass.GetTT("tt_ftc")" maxlength="150" />
-                    </td>
-                    <td style="height: 45px;">
-                        <label class="icon120" for="name">@myclass.GetTT("tt_order")</label>
-                        <input type="text" name="name" id="txtthutu" class="txtn" onkeypress="SaveDanhMucE(event)" placeholder="@myclass.GetTT("tt_order")" maxlength="50" style="width: 80px;" />
-                    </td>
-                </tr>
-                <tr>
-                    <td style="height: 45px;">
-                        <div class="checkbox" style="margin-left: 20px;">
-                            <label>
-                                <input type="checkbox" class="colored-blue chkhidden" id="chk_hienthi" checked="checked">
-                                <span class="text">@myclass.GetTT("tt_display")</span>
-                            </label>
-                        </div>
-                    </td>
-                    <td style="text-align: right; padding-right: 25px;" colspan="4">
-                        <input type="button" class="btn btn-block btn-warning btn-lg" value="@myclass.GetTT("bt_save")" id="btnluudm" onclick="SaveDanhMuc()" style="width: 100px; height: 35px;" />
-                    </td>
-                </tr>
-            </table>
+
+            <div class="modal-body">               
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="height: 45px;" colspan="3">
+                                <label class="icon120" for="name" id="lbnn">&nbsp;<i class="icon-list"></i>@myclass.GetTT("tt_nn")</label>
+                                <div class="control-group" style="padding-left: 130px;">
+                                    <div class="radio">
+                                        <label style="padding-right: 10px;">
+                                            @Html.Raw(ctrChucNang.RadioLanguge())
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" id="txtMaDMC" value="0" />
+                                <input type="hidden" id="txtmadm" value="0" />
+                                <input type="hidden" id="txtLoai" value="0" />
+                                <input type="hidden" id="txtBien" value="0" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="height: 45px;" colspan="4">
+                                <label class="icon120" for="name">@myclass.GetTT("tt_tdm") </label>
+                                <input type="text" name="name" class="txtn" id="txttendm" onkeypress="SaveDanhMucE(event)" placeholder="@myclass.GetTT("tt_tdm")" maxlength="150" style="width: 470px;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="height: 45px;">
+                                <label class="icon120" for="name">@myclass.GetTT("tt_ftc")</label>
+                                <input type="text" name="name" id="txtfile" class="txtn" onkeypress="SaveDanhMucE(event)" placeholder="@myclass.GetTT("tt_ftc")" maxlength="150" />
+                            </td>
+                            <td style="height: 45px;">
+                                <label class="icon120" for="name">@myclass.GetTT("tt_order")</label>
+                                <input type="text" name="name" id="txtthutu" class="txtn" onkeypress="SaveDanhMucE(event)" placeholder="@myclass.GetTT("tt_order")" maxlength="50" style="width: 80px;" />
+                            </td>
+                            <td style="height: 45px;">
+                                <div class="checkbox" style="">
+                                    <label>
+                                        <input type="checkbox" class="colored-blue chkhidden" id="chk_hienthi" checked="checked">
+                                        <span class="text">@myclass.GetTT("tt_display")</span>
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>                      
+                    </table>              
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input type="button" class="btn btn-block btn-warning btn-lg" value="@myclass.GetTT("bt_save")" id="btnluudm" onclick="SaveDanhMuc()" style="width: 100px; height: 35px;" />
+            </div>
         </div>
-    </div>
-</div>
-
-
-<div id="FCModal" style="width: 500px" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="H1">@myclass.GetTT("tt_tqtc").ToUpper()</h3>
-    </div>
-    <div class="modal-body">
-        <div class="box_pq">
-            <table style="width: 100%">
-                <tr>
-                    <td style="height: 45px;" colspan="2">
-                        <label class="icon120" for="name">&nbsp;<i class="icon-list"></i>@myclass.GetTT("tt_nn")</label>
-
-
-                        <div class="control-group" style="padding-left: 130px;">
-                            <div class="radio">
-                                <label style="padding-right: 10px;">
-                                    @Html.Raw(ctrChucNang.RadioLangugeFunc())
-
-                                </label>
-                            </div>
-                        </div>
-                        <input type="hidden" id="txtMaDM_cn" />
-                    </td>
-                </tr>
-                <tr>
-                    <td style="height: 45px;" colspan="2">
-                        <label class="icon120" for="name">@myclass.GetTT("tt_mcn")</label>
-                        <input type="text" name="name" class="txtn" id="txtMaCN" placeholder="@myclass.GetTT("tt_mcn")" maxlength="150" style="width: 370px;" />
-                    </td>
-                </tr>
-                <tr>
-                    <td style="height: 45px;">
-                        <label class="icon120" for="name">@myclass.GetTT("tt_tcna")</label>
-                        <input type="text" name="name" id="txtTenCN" class="txtn" placeholder="@myclass.GetTT("tt_tcna")" style="width: 370px;" />
-                    </td>
-                </tr>
-
-                <tr>
-                    <td style="text-align: center; padding-right: 20px;" colspan="4">
-                        <input type="button" class="btn btn-block btn-warning btn-lg" value="@myclass.GetTT("bt_save")" id="btnSaveCN" onclick="SaveFunc()" style="width: 100px; height: 35px;" />
-                    </td>
-                </tr>
-            </table>
         </div>
     </div>
 
 
-</div>
+    <div id="FCModal" style="" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">               
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">@myclass.GetTT("tt_tqtc").ToUpper()</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                   
+                        <table style="width: 100%">
+                            <tr>
+                                <td style="height: 45px; width:100px">
+                                    <label style="width:100%" class="icon120" for="name">&nbsp;<i class="icon-list"></i>@myclass.GetTT("tt_nn")</label>
+                                </td>
+                                <td style="height: 45px;">   
+                                    <div class="control-group" style="padding-left: 10px;">
+                                        <div class="radio">
+                                            <label style="padding-right: 10px;">
+                                                @Html.Raw(ctrChucNang.RadioLangugeFunc())
+
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="txtMaDM_cn" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height: 45px;">
+                                    <label style="width:100%" class="icon120" for="name">@myclass.GetTT("tt_mcn")</label>
+                                </td>
+                                <td style="height: 45px;">
+                                   
+                                    <input type="text" name="name" class="txtn" id="txtMaCN" placeholder="@myclass.GetTT("tt_mcn")" maxlength="150" style="width: 100%;" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height: 45px;">
+                                    <label style="width:100%" class="icon120" for="name">@myclass.GetTT("tt_tcna")</label>
+                                </td>
+                                <td style="height: 45px;">
+                                   
+                                    <input type="text" name="name" id="txtTenCN" class="txtn" placeholder="@myclass.GetTT("tt_tcna")" style="width: 100%;" />
+                                </td>
+                            </tr>                          
+                        </table>
+                   
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="button" class="btn btn-block btn-warning btn-lg" value="@myclass.GetTT("bt_save")" id="btnSaveCN" onclick="SaveFunc()" style="width: 100px; height: 35px;" />
+                </div>
+            </div>
+
+            </div>
+        </div>
 
 
