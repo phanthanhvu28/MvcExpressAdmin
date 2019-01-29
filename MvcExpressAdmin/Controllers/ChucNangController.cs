@@ -440,31 +440,40 @@ namespace MvcExpressAdmin.Controllers
             if (sLOAIDM == "dmcha")
             {
                 var vdm = db.DanhMucs.Where(a => a.MaDMC == madm);
-                foreach (DanhMuc item in vdm)
+                if (vdm.Count() > 0)
                 {
-                    //db.DanhMucCTs.RemoveRange(db.DanhMucCTs.Where(a=>a.MaDM==));                  
-                    if (db.DanhMucCTs.Where(a => a.MaDM == item.MaDM).Count() > 0)
-                        db.DanhMucCTs.RemoveRange(db.DanhMucCTs.Where(a => a.MaDM == item.MaDM));
+                    foreach (DanhMuc item in vdm)
+                    {
+                        //db.DanhMucCTs.RemoveRange(db.DanhMucCTs.Where(a=>a.MaDM==));                  
+                        if (db.DanhMucCTs.Where(a => a.MaDM == item.MaDM).Count() > 0)
+                            db.DanhMucCTs.RemoveRange(db.DanhMucCTs.Where(a => a.MaDM == item.MaDM));
 
-                    if (db.ChucNangs.Where(a => a.MaDM == item.MaDM).Count() > 0)
-                        db.ChucNangs.RemoveRange(db.ChucNangs.Where(a => a.MaDM == item.MaDM));
+                        if (db.ChucNangs.Where(a => a.MaDM == item.MaDM).Count() > 0)
+                            db.ChucNangs.RemoveRange(db.ChucNangs.Where(a => a.MaDM == item.MaDM));
 
-                    if (db.PhanQuyens.Where(a => a.MaDM == item.MaDM).Count() > 0)
-                        db.PhanQuyens.RemoveRange(db.PhanQuyens.Where(a => a.MaDM == item.MaDM));
-
+                        if (db.PhanQuyens.Where(a => a.MaDM == item.MaDM).Count() > 0)
+                            db.PhanQuyens.RemoveRange(db.PhanQuyens.Where(a => a.MaDM == item.MaDM));
+                    }
                 }
-
-                db.DanhMucs.RemoveRange(db.DanhMucs.Where(r => r.MaDMC == madm));
-                db.DanhMucChaCTs.RemoveRange(db.DanhMucChaCTs.Where(r => r.MaDMC == madm));
-                db.DanhMucChas.RemoveRange(db.DanhMucChas.Where(r => r.MaDMC == madm));
+                if (db.DanhMucs.Where(r => r.MaDMC == madm).Count() > 0)
+                    db.DanhMucs.RemoveRange(db.DanhMucs.Where(r => r.MaDMC == madm));
+                if (db.DanhMucChaCTs.Where(r => r.MaDMC == madm).Count() > 0)
+                    db.DanhMucChaCTs.RemoveRange(db.DanhMucChaCTs.Where(r => r.MaDMC == madm));
+                if (db.DanhMucChas.Where(r => r.MaDMC == madm).Count() > 0)
+                    db.DanhMucChas.RemoveRange(db.DanhMucChas.Where(r => r.MaDMC == madm));
             }
             else // dmcon
             {
-                db.DanhMucCTs.RemoveRange(db.DanhMucCTs.Where(r => r.MaDM == madm));
-                db.ChucNangs.RemoveRange(db.ChucNangs.Where(r => r.MaDM == madm));
-                db.PhanQuyens.RemoveRange(db.PhanQuyens.Where(r => r.MaDM == madm));
-                db.NhanVienChucNangs.RemoveRange(db.NhanVienChucNangs.Where(r => r.MaDM == madm));
-                db.DanhMucs.RemoveRange(db.DanhMucs.Where(r => r.MaDM == madm));
+                if (db.DanhMucChaCTs.Where(r => r.MaDMC == madm).Count() > 0)
+                    db.DanhMucCTs.RemoveRange(db.DanhMucCTs.Where(r => r.MaDM == madm));
+                if (db.ChucNangs.Where(r => r.MaDM == madm).Count() > 0)
+                    db.ChucNangs.RemoveRange(db.ChucNangs.Where(r => r.MaDM == madm));
+                if (db.PhanQuyens.Where(r => r.MaDM == madm).Count() > 0)
+                    db.PhanQuyens.RemoveRange(db.PhanQuyens.Where(r => r.MaDM == madm));
+                if (db.NhanVienChucNangs.Where(r => r.MaDM == madm).Count() > 0)
+                    db.NhanVienChucNangs.RemoveRange(db.NhanVienChucNangs.Where(r => r.MaDM == madm));
+                if (db.DanhMucs.Where(r => r.MaDM == madm).Count() > 0)
+                    db.DanhMucs.RemoveRange(db.DanhMucs.Where(r => r.MaDM == madm));
             }
             db.SaveChanges();
             return Json("1", JsonRequestBehavior.AllowGet);

@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Phân quyền";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    MvcExpressAdmin.Controllers.AdminSiteController myclass = new MvcExpressAdmin.Controllers.AdminSiteController();
 }
 @section scripts{
     <script>
@@ -86,9 +87,59 @@
 }
 <div class="headingtop">
     <section class="content-header">
-        <h1 class="cssheaderleft">
-            @ViewData["HeadingTenDM"]
-        </h1>
+        <asp:Panel runat="server" ID="pnplus">
+            <div style="float: left; clear: both;">
+                <label class="icon120m bg-blue1" onclick="ModalNVAll()" style="">
+                    <i class="fa_excel fa-plus bg-blue2"></i>
+                </label>
+                <label class="icon120blue bg-blue2 cursor" id="Label1" onclick="ModalNVAll()">
+                    @myclass.GetTT("tt_updLogin")
+                    
+                </label>
+            </div>
+        </asp:Panel>
+        <asp:Panel runat="server" ID="pncopy">
+            <div>
+                <label class="icon120m bg-blue1" style="" onclick="CopyQuyen()">
+                    <i class="fa_excel fa-exchange bg-yellow1"></i>
+                </label>
+                <label class="icon120blue bg-yellow1 cursor" id="Label2" onclick="CopyQuyen()">
+                    @myclass.GetTT("tt_copyper")
+                </label>
+            </div>
+        </asp:Panel>
+        <asp:Panel runat="server" ID="pndel">
+            <div>
+                <label class="icon120m bg-red" style="" onclick="ShowDelQuyen()">
+                    <i class="fa_excel fa-remove bg-purple"></i>
+                </label>
+                <label class="icon120blue bg-purple cursor" id="Label3" onclick="ShowDelQuyen()">
+                    @myclass.GetTT("tt_delQ")
+                </label>
+            </div>
+        </asp:Panel>
+
+        <asp:Panel runat="server" ID="pnMDir">
+            <div style="float: left;">
+                <label class="icon120m bg-blue1" onclick="ModalMDir()" style="">
+                    <i class="fa_excel fa-folder-open bg-blue2"></i>
+                </label>
+                <label class="icon120blue bg-blue2 cursor" id="Label4" onclick="ModalMDir()">
+                    Quản lý thư mục
+                </label>
+            </div>
+        </asp:Panel>
+
+        <asp:Panel runat="server" ID="pnreset">
+            <div style="float: left;">
+                <label class="icon120m bg-green1" onclick="ModalResetPass()">
+                    <i class="fa_excel fa-unlock-alt bg-red1"></i>
+                </label>
+                <label class="icon120r bg-red1 cursor" id="lbReset" onclick="ModalResetPass()">
+                    @myclass.GetTT("tt_resetpw")
+                </label>
+            </div>
+        </asp:Panel>
         <ol class="breadcrumb">
             @Html.Raw(ViewData["HeadingTopRight"])
         </ol>
@@ -97,46 +148,17 @@
 <section class="content">
     <div style="width:100%; margin-top:2px;margin-left:2px;margin-right:2px;">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="box box-warning">
                     <div class="box-body" id="divLeft">
-                        @*<table id="tableGrid" class="table table-striped table-bordered dt-responsive" style="width:100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Bộ phận</th>
-                                        <th>User</th>
-                                        <th>Họ tên</th>
-                                        <th>Quyền</th>
-                                    </tr>
-                                </thead>
-                            </table>*@
+                        @Html.Action("LoadNhanVien", "PhanQuyen")
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="box box-danger">
                     <div class="box-body" id="divRight">
-                        <div ng-app="" ng-controller="BasicController">
-                            Name: <input type="text" ng-model="name"><br>
-                            Age: <input type="number" ng-model="age"><br>
-                            Out put: {{ output() }}
-                        </div>
-                        @*<div ng-controller="BasicController">
-                <p>
-                Chủ sở hữu: {{data.fullname}} <br />
-                Email: {{data.email}} <br />
-                Điện Thoại: {{data.phone}} <br />
-                Chủ Đề: {{data.topic}} <br />
-                Website: {{data.website}}
-            </p>
-        </div>*@
-
-
-                        @*First Name:
-        <input type="text" ng-model="fname" />
-        <br /> Last Name:
-        <input type="text" ng-model="lname" />
-        <br /> Result: {{fname+''+lname}}*@
+                        @Html.Action("LoadChucNang", "PhanQuyen")
 
                     </div>
                 </div>
