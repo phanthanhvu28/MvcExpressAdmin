@@ -96,15 +96,15 @@ namespace MvcExpressAdmin.Models
                 .Property(e => e.Icon)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<DanhMuc>()
-                .HasMany(e => e.ChucNangs)
-                .WithRequired(e => e.DanhMuc)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<DanhMuc>()
+            //    .HasMany(e => e.ChucNangs)
+            //    .WithRequired(e => e.DanhMuc)
+            //    .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<DanhMuc>()
-                .HasMany(e => e.DanhMucCTs)
-                .WithRequired(e => e.DanhMuc)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<DanhMuc>()
+            //    .HasMany(e => e.DanhMucCTs)
+            //    .WithRequired(e => e.DanhMuc)
+            //    .WillCascadeOnDelete(false);
 
             //modelBuilder.Entity<DanhMuc>()
             //    .HasMany(e => e.NhanViens)

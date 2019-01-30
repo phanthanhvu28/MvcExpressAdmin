@@ -40,7 +40,7 @@ namespace MvcExpressAdmin.Controllers
                 s.Append("<tbody id='dscn'>");
                 var dmc = from a in db.DanhMucChaCTs
                           from b in db.DanhMucChas
-                          where a.MaDMC == b.MaDMC && a.LID.Equals(languge) 
+                          where a.MaDMC == b.MaDMC && a.LID.Equals(languge)
                           orderby b.ThuTu
                           select new { b.MaDMC, a.TenDMC, b.HienThi };
                 if (dmc.Count() > 0)
@@ -479,20 +479,22 @@ namespace MvcExpressAdmin.Controllers
             return Json("1", JsonRequestBehavior.AllowGet);
         }
 
-
-        public int Update_HieuLuc_Cha(string sMaDMC, string sHienThi)
+        [HttpPost]
+        public ActionResult Update_HieuLuc_Cha(string sMaDMC, string sHienThi)
         {
             int madm = int.Parse(sMaDMC);
             bool hienthi = (sHienThi == "true" ? true : false);
             DanhMucCha dmc = db.DanhMucChas.SingleOrDefault(r => r.MaDMC == madm);
-            if(dmc !=null)
+            if (dmc != null)
             {
                 dmc.HienThi = hienthi;
             }
             db.SaveChanges();
-            return db.SaveChanges();
+            return Json(0, JsonRequestBehavior.AllowGet);
         }
-        public int Update_HieuLuc_Con(string sMaDM, string sHienThi)
+
+        [HttpPost]
+        public ActionResult Update_HieuLuc_Con(string sMaDM, string sHienThi)
         {
             int madm = int.Parse(sMaDM);
             bool hienthi = (sHienThi == "true" ? true : false);
@@ -502,7 +504,7 @@ namespace MvcExpressAdmin.Controllers
                 dm.HienThi = hienthi;
             }
             db.SaveChanges();
-            return db.SaveChanges();
+            return Json(0, JsonRequestBehavior.AllowGet);
         }
     }
 }

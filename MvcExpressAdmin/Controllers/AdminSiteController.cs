@@ -37,12 +37,10 @@ namespace MvcExpressAdmin.Controllers
                     int cout1 = dmc.Count();
                     if (dmc.Count() > 0)
                     {
-
                         foreach (var item in dmc)
                         {
                             s.Append("<li class='treeview active'><a ><i class='" + item.CssClass + "'></i><span>" + item.TenDMC + "</span><span class='pull-right-container'><i class='fa fa-angle-left pull-rightd'></i></span></a>");
                             s.Append("<ul class='treeview-menu' id='menu'>");
-
                             var dm = (from f1 in db.DanhMucs
                                       from f2 in db.DanhMucCTs
                                       from f3 in db.PhanQuyens

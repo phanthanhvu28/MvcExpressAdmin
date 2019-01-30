@@ -9,13 +9,13 @@ namespace MvcExpressAdmin.Models
     [Table("DanhMuc")]
     public partial class DanhMuc
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DanhMuc()
-        {
-            ChucNangs = new HashSet<ChucNang>();
-            DanhMucCTs = new HashSet<DanhMucCT>();
-           // NhanViens = new HashSet<NhanVien>();
-        }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        //public DanhMuc()
+        //{
+        //    //ChucNangs = new HashSet<ChucNang>();
+        //    //DanhMucCTs = new HashSet<DanhMucCT>();
+        //   // NhanViens = new HashSet<NhanVien>();
+        //}
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -33,13 +33,13 @@ namespace MvcExpressAdmin.Models
         [StringLength(50)]
         public string Icon { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChucNang> ChucNangs { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<ChucNang> ChucNangs { get; set; }
 
-        public virtual DanhMucCha DanhMucCha { get; set; }
+        //public virtual DanhMucCha DanhMucCha { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DanhMucCT> DanhMucCTs { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<DanhMucCT> DanhMucCTs { get; set; }
 
        // [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
        // public virtual ICollection<NhanVien> NhanViens { get; set; }

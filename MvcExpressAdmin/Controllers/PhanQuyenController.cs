@@ -61,7 +61,7 @@ namespace MvcExpressAdmin.Controllers
                         s.Append("<td  style='width:80px'  id='m" + item.MaNV + "'>" + item.TenNhom + "</td>");
                         s.Append("<td  style='width:100px'  id='n" + item.MaNV + "'>" + item.SoThe + "</td>");
                         s.Append("<td  style='width:120px'  id='n" + item.MaNV + "'>" + item.HoTen + "</td>");
-                        s.Append("<td style='width:80px' align='center'>  <img src='../Content/Layout/Images/permission.png' class='csspermission' onclick=\"Xem_Quyen_By_MaNV('" + stt + "','" + item.MaNV + "','" + item.HoTen + "')\"/></td>");
+                        s.Append("<td style='width:80px' align='center'>  <img src='../Content/Layout/Images/permission.png' class='csspermission' onclick=\"Xem_Quyen_By_MaNV('" + stt + "','" + item.MaNV + "')\"/></td>");
 
                         s.Append("</tr>");
                     }
@@ -116,7 +116,7 @@ namespace MvcExpressAdmin.Controllers
                 s.Append("<tr style='height:60px'>");
                 s.Append("<td style='width:10%;text-align:center'>" + AS.GetTT("tt_id") + "</td>");
                 s.Append("<td style='width:20%'>" + AS.GetTT("tt_tt") + "</td>");
-                s.Append("<td style='width:70%'>" + AS.GetTT("tt_cn") + "<label id='lbHoTen' class='lbcss'></td>");
+                s.Append("<td style='width:70%'>" + AS.GetTT("tt_cn") + "<label id='lbHoTen' class='lbcss' /></td>");
                 s.Append("</tr>");
                 s.Append("</thead></table>");
                 s.Append("<div class='scrollbar' style='overflow-y:scroll;max-height:" + (AS.sHeight() - 210) + "px'>");
@@ -175,25 +175,110 @@ namespace MvcExpressAdmin.Controllers
             {
                 foreach (var r in cn)
                 {
-                    string macn = r.MaCN;                   
+                    string macn = r.MaCN;
                     var nvcn = from a in db.DanhMucs
                                from b in db.NhanVienChucNangs
                                where a.MaDM == b.MaDM && b.MaNV == MANV && b.MaCN.Equals(macn)
-                               select new {b.MaDM,b.MaCN };
+                               select new { b.MaDM, b.MaCN };
                     s.Append("<div style='margin-left:3px;margin-right: 5px;float:left;width:auto;vertical-align:middle;' class='boxper' align='left' id='cn" + r.MaDM + "'>");
-                    if (nvcn.Count()>0)
+                    if (nvcn.Count() > 0)
                     {
-                        s.Append("<label style='margin:3px'><input type='checkbox' checked='checkbox' class='checkbox-slider slider-icon colored-palegreen' id='chk" + r.MaDM + "-" + r.MaCN+"' value='" + r.MaCN + "' onclick=\"SetFunc('" +r.MaDM + "','" + r.MaCN + "')\"> <span class='text' id='lb" + r.MaDM + r.MaCN + "'></span>");
+                        s.Append("<label style='margin:3px'><input type='checkbox' checked='checkbox' class='checkbox-slider slider-icon colored-palegreen' id='chk" + r.MaDM + "-" + r.MaCN + "' value='" + r.MaCN + "' onclick=\"SetFunc('" + r.MaDM + "','" + r.MaCN + "')\"> <span class='text' id='lb" + r.MaDM + r.MaCN + "'></span>");
                         s.Append(" <span style='float:left; margin-right:5px;margin-top:3px;' title='" + r.MaCN + "'>" + r.TenCN + "</span></label></div>");
                     }
                     else
                     {
-                        s.Append("<label style='margin:3px'><input type='checkbox' class='checkbox-slider slider-icon colored-palegreen' id='chk" + r.MaDM + "-" + r.MaCN + "' value='" + r.MaCN + "' onclick=\"SetFunc('" + r.MaDM + "','" + r.MaCN + "')\"> <span class='text' id='lb" + r.MaDM+ r.MaCN + "'></span>");
+                        s.Append("<label style='margin:3px'><input type='checkbox' class='checkbox-slider slider-icon colored-palegreen' id='chk" + r.MaDM + "-" + r.MaCN + "' value='" + r.MaCN + "' onclick=\"SetFunc('" + r.MaDM + "','" + r.MaCN + "')\"> <span class='text' id='lb" + r.MaDM + r.MaCN + "'></span>");
                         s.Append(" <span style='float:left; margin-right:5px;margin-top:3px;' title='" + r.MaCN + "'>" + r.TenCN + "</span></label></div>");
                     }
                 }
             }
             return s;
+        }
+        [HttpPost]
+        public ActionResult ShowPerm(int sMaNV)
+        {
+            string data = "";
+            try
+            {
+                var hoten = from a in db.NhanViens
+                            where a.MaNV == sMaNV
+                            select new { a.HoTen };
+                data += hoten.FirstOrDefault().HoTen;
+
+                var chucnang = from a in db.NhanVienChucNangs
+                               where a.MaNV == sMaNV
+                               select a;
+                if (chucnang.Count() > 0)
+                {
+                    foreach (var cn in chucnang)
+                    {
+                        data += "#$%chk" + cn.MaDM + "-" + cn.MaCN;
+                    }
+                }
+
+                return Json(new { success = true, data }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json("", JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SetFunc(int sMaDM, string sMaCN, string sMaNV, string sCHK)
+        {
+            sMaNV = sMaNV.ToLower();
+            sMaNV = sMaNV.Replace(",undefined", "");
+            sMaNV = sMaNV.Replace(",on", "");
+            sMaNV = sMaNV.Replace(",false", "");
+            sMaNV = sMaNV.Replace(",true", "");            
+
+            string[] nd = sMaNV.Split(',');
+            int len = nd.Length;
+            if (len > 0)
+            {
+                for (int y = 1; y < len; y++)
+                {
+                    int manv = int.Parse(nd[y].ToString());
+                    var check_nvcn = from a in db.NhanVienChucNangs
+                                     where a.MaNV == manv && a.MaDM == sMaDM && a.MaCN.Equals(sMaCN)
+                                     select a;
+                    var check_nvcn2 = from a in db.NhanVienChucNangs
+                                      where a.MaNV == manv && a.MaDM == sMaDM
+                                      select a;
+
+                    if (check_nvcn.Count() > 0)
+                        db.NhanVienChucNangs.RemoveRange(db.NhanVienChucNangs.Where(d => d.MaNV == manv && d.MaDM == sMaDM && d.MaCN.Equals(sMaCN)));
+                    if (check_nvcn2.Count() > 0)
+                        db.PhanQuyens.RemoveRange(db.PhanQuyens.Where(d => d.MaNV == manv && d.MaDM == sMaDM));
+
+                    var nvcn = from a in db.NhanVienChucNangs
+                               where a.MaNV == manv && a.MaDM == sMaDM && a.MaCN.Equals(sMaCN)
+                               select a;
+                    if (nvcn.Count() == 0 && sCHK == "true")
+                    {
+                        var checkpq = from a in db.PhanQuyens
+                                      where a.MaDM == sMaDM && a.MaNV == manv
+                                      select a;
+                        if (checkpq.Count() == 0)
+                        {
+                            PhanQuyen pq = new PhanQuyen();
+                            pq.MaDM = sMaDM;
+                            pq.MaNV = manv;
+                            db.PhanQuyens.Add(pq);
+                        }
+
+                        NhanVienChucNang tb = new NhanVienChucNang();
+                        tb.MaNV = manv;
+                        tb.MaDM = sMaDM;
+                        tb.MaCN = sMaCN;
+                        db.NhanVienChucNangs.Add(tb);
+                    }
+                    db.SaveChanges();
+                }
+            }
+            return Json("1", JsonRequestBehavior.AllowGet);
         }
     }
 }

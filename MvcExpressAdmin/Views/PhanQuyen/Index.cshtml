@@ -83,6 +83,112 @@
                     return $scope.name + " " + $scope.age + " tuoi";
                 }
         }
+
+        function Xem_Quyen_By_MaNV(stt, manv) {
+            UnAllBox();
+            $('#chknv' + stt).prop("checked", true);
+            $("#ndchon").val("0," + manv);
+            UnCheckUserBox();
+            $.ajax({
+                type: "POST",                
+                url: '@Url.Action("ShowPerm", "PhanQuyen")',
+                data: "{'sMaNV':'" + manv + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    //alert(data.data);
+                    var tv = data.data;               
+                    if (tv.length > 1) {                      
+                        var ch = tv.split("#$%");
+                        var len = ch.length;
+                        $("#lbHoTen").html(ch[0]);
+                       
+                        if (len > 0) {
+                            for (i = 1; i < len; i++) {
+                                if (ch[i] != "undifined") {
+                                    $('#' + ch[i]).prop('checked', true);                                  
+                                }                               
+                            }
+                        }
+                    }                   
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function UnAllBox() {            
+            for (var i = 0; i < $("#dsnv").find("tr").length; i++) {
+                var checkbox = $("#dsnv").find("tr").eq(i).find("td").find("input[type=checkbox]");
+                $(checkbox).prop("checked", false);
+                $("#ndchon").val('');
+            }
+        }
+        function UnCheckUserBox() {
+            for (var i = 1; i < $("#dscn").find("tr").length; i++) {
+                var checkbox = $("#dscn").find("tr").eq(i).find("td").find("input[type=checkbox]");
+                $(checkbox).attr("checked", false);
+            }
+        }
+        function SetFunc(MaDM, MaCN) {
+           
+            var nd = $("#ndchon").val();
+            
+            var id = "lb" + MaDM.toString() + MaCN.toString();
+            var chk = $("#chk" + MaDM.toString() + "-" + MaCN.toString()).is(":checked");
+            
+            if (nd == null || nd.length == 0 || nd == "0") {
+
+                CheckNotify(id, "kaka", "top", "error", false, false);
+                if (chk) {
+                    $("#chk" + MaDM.toString() + "-" + MaCN.toString()).prop("checked", false);
+                }
+                else {
+                    $("#chk" + MaDM.toString() + "-" + MaCN.toString()).prop("checked", true);
+                }
+            }
+            else {                
+                $.ajax({
+                    type: "POST",                 
+                    url: '@Url.Action("SetFunc", "PhanQuyen")',
+                    data: "{'sMaDM':'" + MaDM + "', 'sMaCN':'" + MaCN + "', 'sMaNV':'" + nd + "', 'sCHK':'" + chk + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == 1) {
+                            CheckNotify("" + id, "Thành công", "top", "success", true, false);
+                        }
+                        else {
+                            CheckNotify("" + id, "Thất bại", "top", "error", true, false);
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        }
+        function SelectUser(tt2, vl) {
+            //chknv2, 56
+            var tt = $("#" + tt2).is(':checked');
+            var m = $("#ndchon").val();
+            if (!tt) {
+                m = m.replace("," + vl, "");
+                $("#ndchon").val(m);
+            }
+            else if (tt) {
+                m = m.replace("," + vl, "");
+                m = m + "," + vl;
+                $("#ndchon").val(m);               
+            }
+            else if (m != vl) {
+                m = m.replace("," + vl, "");
+                m = m + "," + vl;
+                $("#ndchon").val(m);
+            }
+            else if (m == null || m.length == 0 || m == "0") {
+                $("#ndchon").val("0," + vl);
+            }           
+        }
     </script>
 }
 <div class="headingtop">
@@ -148,6 +254,7 @@
 <section class="content">
     <div style="width:100%; margin-top:2px;margin-left:2px;margin-right:2px;">
         <div class="row">
+            <input type="hidden" id="ndchon" />
             <div class="col-md-6">
                 <div class="box box-warning">
                     <div class="box-body" id="divLeft">
