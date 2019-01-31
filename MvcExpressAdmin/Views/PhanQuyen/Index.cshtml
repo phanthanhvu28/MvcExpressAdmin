@@ -90,34 +90,34 @@
             $("#ndchon").val("0," + manv);
             UnCheckUserBox();
             $.ajax({
-                type: "POST",                
+                type: "POST",
                 url: '@Url.Action("ShowPerm", "PhanQuyen")',
                 data: "{'sMaNV':'" + manv + "'}",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
                     //alert(data.data);
-                    var tv = data.data;               
-                    if (tv.length > 1) {                      
+                    var tv = data.data;
+                    if (tv.length > 1) {
                         var ch = tv.split("#$%");
                         var len = ch.length;
                         $("#lbHoTen").html(ch[0]);
-                       
+
                         if (len > 0) {
                             for (i = 1; i < len; i++) {
                                 if (ch[i] != "undifined") {
-                                    $('#' + ch[i]).prop('checked', true);                                  
-                                }                               
+                                    $('#' + ch[i]).prop('checked', true);
+                                }
                             }
                         }
-                    }                   
+                    }
                 },
                 error: function () {
 
                 }
             });
         }
-        function UnAllBox() {            
+        function UnAllBox() {
             for (var i = 0; i < $("#dsnv").find("tr").length; i++) {
                 var checkbox = $("#dsnv").find("tr").eq(i).find("td").find("input[type=checkbox]");
                 $(checkbox).prop("checked", false);
@@ -131,12 +131,12 @@
             }
         }
         function SetFunc(MaDM, MaCN) {
-           
+
             var nd = $("#ndchon").val();
-            
+
             var id = "lb" + MaDM.toString() + MaCN.toString();
             var chk = $("#chk" + MaDM.toString() + "-" + MaCN.toString()).is(":checked");
-            
+
             if (nd == null || nd.length == 0 || nd == "0") {
 
                 CheckNotify(id, "kaka", "top", "error", false, false);
@@ -147,9 +147,9 @@
                     $("#chk" + MaDM.toString() + "-" + MaCN.toString()).prop("checked", true);
                 }
             }
-            else {                
+            else {
                 $.ajax({
-                    type: "POST",                 
+                    type: "POST",
                     url: '@Url.Action("SetFunc", "PhanQuyen")',
                     data: "{'sMaDM':'" + MaDM + "', 'sMaCN':'" + MaCN + "', 'sMaNV':'" + nd + "', 'sCHK':'" + chk + "'}",
                     contentType: "application/json; charset=utf-8",
@@ -178,7 +178,7 @@
             else if (tt) {
                 m = m.replace("," + vl, "");
                 m = m + "," + vl;
-                $("#ndchon").val(m);               
+                $("#ndchon").val(m);
             }
             else if (m != vl) {
                 m = m.replace("," + vl, "");
@@ -187,7 +187,511 @@
             }
             else if (m == null || m.length == 0 || m == "0") {
                 $("#ndchon").val("0," + vl);
-            }           
+            }
+        }
+
+        function ModalResetPass() {
+            $("#modalResetMK").modal();
+            $("#txtSoThe_reset").val('');
+            $("#txtHoTen_reset").val('');
+            $("#txtmkm_reset").val('');
+            $("#txtconfirm_reset").val('');
+        }
+        function GetHoTen() {
+            var st = $("#txtSoThe_reset").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetHoTen_BySoThe", "PhanQuyen")',
+                data: "{'sSoThe':'" + st + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#txtHoTen_reset").val(data.data);
+                },
+                failure: function (response) {
+
+                }
+            });
+        }
+        function ResetMK() {
+            var st = $("#txtSoThe_reset").val();
+            var ht = $("#txtHoTen_reset").val();
+            var mkm = $("#txtmkm_reset").val();
+            var confirm = $("#txtconfirm_reset").val();
+            if (ht == null || ht.length == 0) {
+                CheckNotify("txtSoThe_reset", "Chưa lấy được username", "bottom", "error", true, false);
+            }
+            else if (mkm == null || mkm.length == 0) {
+                CheckNotify("txtmkm_reset", "Chưa nhập mật khẩu mới", "top", "error", false, false);
+            }
+            else if (mkm != confirm) {
+                CheckNotify("txtconfirm_reset", "MK xác nhận chưa đúng", "top", "error", false, false);
+            }
+
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("ResetMK", "PhanQuyen")',
+                    data: "{'sSoThe':'" + st + "','sPass':'" + mkm + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == 1) {
+                            CheckNotify("btnSave_reset", "Thành công", "top", "success", true, false);
+                        }
+                        else if (data == 0) {
+                            CheckNotify("btnSave_reset", "Thất bại", "left", "error", true, false);
+                        }
+                        else {
+                            CheckNotify("btnSave_reset", "Error", "top", "error", true, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function CopyQuyen() {
+            $("#modalCopyQuyen").modal();
+        }
+        function ShowDelQuyen() {
+            $("#modalDelQuyen").modal();
+        }
+       
+        function Load_Quyen_By_MaNV_Copy() {
+
+            $("#dsquyen_copy").html("<div style='padding:60px' align='center'><img src='../Content/Layout/Images/loading.gif'></div>");
+            var id_ht_ma = $('#txtNguon').val();
+            var sp = id_ht_ma.split("-");
+            var sothe = sp[0];
+            $.ajax({
+                type: "POST",
+                 url: '@Url.Action("LOAD_QUYEN_BY_MANV_COPY", "PhanQuyen")',
+                data: "{'sSoThe':'" + sothe + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#dsquyen_copy").fadeIn();
+                    var ch = data.data;
+                    $("#dsquyen_copy").html(ch);
+                },
+                error: function () {
+                }
+            });
+        }
+        function Load_Quyen_By_MaNV_Copy_Dich() {
+
+            $("#dsquyen_copy_dich").html("<div style='padding:60px' align='center'><img src='../Content/Layout/Images/loading.gif'></div>");
+            var id_ht_ma = $('#txtDich').val();
+            var sp = id_ht_ma.split("-");
+            var sothe = sp[0];
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LOAD_QUYEN_BY_MANV_COPY", "PhanQuyen")',
+                data: "{'sSoThe':'" + sothe + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#dsquyen_copy_dich").fadeIn();
+                    var ch = data.data;
+                    $("#dsquyen_copy_dich").html(ch);
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function Load_Quyen_By_MaNV_Delete() {
+            $("#dsquyen_del").html("<div style='padding:60px' align='center'><img src='../Content/Layout/Images/loading.gif'></div>");
+            var id_ht_ma = $('#txtSoThe_Del').val();
+            var sp = id_ht_ma.split("-");
+            var sothe = sp[0];
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LOAD_QUYEN_BY_MANV_COPY", "PhanQuyen")',
+                data: "{'sSoThe':'" + sothe + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    $("#dsquyen_del").fadeIn();
+                    var ch = data.data;
+                    $("#dsquyen_del").html(ch);
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function autocomp() {
+            var tag = $("#txtNguon").val();
+            var availableTags = [];
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: '@Url.Action("Load_Auto", "PhanQuyen")',
+                data: "{'stag':'" + tag + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    var tv = data.data;
+                    var sp = tv.split("#$%");
+                    var len = sp.length;
+                    for (y = 0; y < len; y++) {
+                        availableTags.push(sp[y]);
+                    }
+
+                },
+                error: function (data) {
+                }
+            });
+            $("#txtNguon").autocomplete({
+                source: availableTags
+            });
+        }
+        function Auto_SoTheDich() {
+            var tag = $("#txtDich").val();
+            var availableTags = [];
+            $.ajax({
+                type: "POST",
+                async: false,
+                 url: '@Url.Action("Load_Auto", "PhanQuyen")',
+                data: "{'stag':'" + tag + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var tv = data.data;
+                    var sp = tv.split("#$%");
+                    var len = sp.length;
+                    for (y = 0; y < len; y++) {
+                        availableTags.push(sp[y]);
+                    }
+                },
+                error: function (data) {
+                }
+            });
+
+            $("#txtDich").autocomplete({
+                source: availableTags
+            });
+        }
+        function autocomp_del() {
+            var tag = $("#txtSoThe_Del").val();
+            var availableTags = [];
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: '@Url.Action("Load_Auto", "PhanQuyen")',
+                data: "{'stag':'" + tag + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    var tv = data.data;
+                    var sp = tv.split("#$%");
+                    var len = sp.length;
+                    for (y = 0; y < len; y++) {
+                        availableTags.push(sp[y]);
+                    }
+                },
+                error: function (data) {
+                }
+            });
+            $("#txtSoThe_Del").autocomplete({
+                source: availableTags
+            });
+        }
+        function CopyQ() {
+            var v1 = $('#txtNguon').val();
+            var v2 = $('#txtDich').val();
+            if (v1 == null || v1.length == 0) {
+                CheckNotify("txtNguon", "Nhập số username nguồn", "right", "error", true, false);
+            }
+            else if (v2 == null || v2.length == 0) {
+                CheckNotify("txtDich", "Nhập số username đích", "right", "error", true, false);
+            }
+            else {
+                var sp1 = $('#txtNguon').val().split("-");
+                var sothe1 = sp1[0];
+                var sp2 = v2.split("-");
+                var sothe2 = sp2[0];
+
+                $.confirm({
+                    title:'Copy quyền',
+                    content: 'Bạn có muốn copy quyền? <br> Từ <strong>' + sothe1 + '</strong> đến <strong>' + sothe2 + '</strong>',
+                    confirm: function () {
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("Copy_Quyen", "PhanQuyen")',
+                            data: "{'sSoThe1':'" + sothe1 + "','sSoThe2':'" + sothe2 + "'}",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data == 1) {
+                                    Load_Quyen_By_MaNV_Copy_Dich();
+                                }
+                                else if (data == 0) {
+                                    CheckNotify("btncopyq", "Không có dữ liệu copy", "left", "error", true, false);
+                                }
+                                else {
+                                    CheckNotify("btncopyq", "Thất bại", "top", "error", true, false);
+                                }
+
+                            },
+                            error: function () {
+
+                            }
+                        });
+                    }
+                })
+            }
+        }
+        function DeleteQ() {
+            var v2 = $('#txtDich').val();
+            if (v2 == null || v2.length == 0) {
+                CheckNotify("txtDich", "Nhập username đích", "right", "error", true, false);
+            }
+            else {
+                var sp2 = v2.split("-");
+                var sothe2 = sp2[0];
+
+                $.confirm({
+                    title: 'Xóa quyền !',
+                    content: 'Bạn có muốn xóa quyền?</br><strong>' + v2 + '</strong>',
+                    confirm: function () {
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("Delete_Quyen", "PhanQuyen")',
+                            data: "{'sSoThe2':'" + sothe2 + "'}",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+
+                                if (data == 1) {
+                                    CheckNotify("btndeleteq", "Thành công", "bottom", "success", true, false);
+                                    Load_Quyen_By_MaNV_Copy_Dich();
+                                }
+                                else if (data == 0) {
+                                    CheckNotify("btndeleteq", "Không có dữ liệu xóa", "left", "error", true, false);
+                                }
+                                else {
+                                    CheckNotify("btndeleteq", "Thất bại", "bottom", "error", true, false);
+                                }
+
+                            },
+                            error: function () {
+
+                            }
+                        });
+                    }
+                })
+            }
+        }
+        function DeletePermission() {
+
+            var st = $('#txtSoThe_Del').val();
+            if (st == null || st.length == 0) {
+                CheckNotify("txtSoThe_Del", "Nhập username", "right", "error", true, false);
+            }
+            else {
+                var sp = st.split("-");
+                var sothe = sp[0];
+
+                $.confirm({
+                    title: 'Xóa quyền!',
+                    content: 'Bạn có muốn xóa quyền?</br><strong>' + st + '</strong>',
+                    confirm: function () {
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("Delete_Quyen", "PhanQuyen")',
+                            data: "{'sSoThe2':'" + sothe + "'}",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+
+                                if (data == 1) {
+                                    CheckNotify("btn_Del_Q", "Thành công", "left", "success", true, false);
+                                    Load_Quyen_By_MaNV_Delete();
+                                }
+                                else if (data == 0) {
+                                    CheckNotify("btn_Del_Q", "Không có dữ liệu xóa", "left", "error", true, false);
+                                }
+                                else {
+                                    CheckNotify("btn_Del_Q", "Thất bại", "left", "error", true, false);
+                                }
+
+                            },
+                            error: function () {
+
+                            }
+                        });
+                    }
+                })
+            }
+        }
+
+        function UpdateNV(manv) {
+            var bp = $("#slnhom_modal_action" + manv + " option:selected").val();
+            var st = $("#txtSoThe" + manv).val();
+            var ht = $("#txtHoTen" + manv).val();
+            var gioitinh = $("input[type=radio][name=form-field-radio" + manv + "]:checked").val();
+
+            $.ajax({
+                type: "POST",
+                 url: '@Url.Action("UpdateNV", "PhanQuyen")',
+                data: "{'sMaNV':'" + manv + "','sSoThe':'" + st + "','sHoTen':'" + ht + "','sGioiTinh':'" + gioitinh + "','sNhomNDID':'" + bp + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data == 1) {
+                       // ChangeRecord();
+                        //ShowDataByPage(1);
+                    }
+                },
+                failure: function (response) {
+
+                }
+            });
+        }
+        function UpdateNVDangNhap(manv) {
+
+            var st = $("#txtSoThe" + manv).val();
+            var lgin = $("#chkLogin" + manv).is(':checked');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UpdateNV_DangNhap", "PhanQuyen")',
+                data: "{'sMaNV':'" + manv + "','sSoThe':'" + st + "','sAllow':'" + lgin + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data== 1) {
+                        CheckNotify("chkLogin" + manv, "Thành công", "top", "success", false, false);
+                    }
+                    else if (data== 0) {
+                        CheckNotify("chkLogin" + manv, "Thất bại", "top", "error", false, false);
+                    }
+                    else {
+                        CheckNotify("chkLogin" + manv, "Error", "top", "error", false, false);
+                    }
+                },
+                failure: function (response) {
+
+                }
+            });
+        }
+
+        function DeleteNV(manv) {
+            $.confirm({
+                title: 'Confirm!',
+                confirm: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("DeleteNV", "PhanQuyen")',
+                        data: "{'sMaNV':'" + manv + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == 1) {
+                                $("#tr_modal" + manv).fadeOut();
+                                //ChangeRecord();
+                                //ShowDataByPage(1);
+                            }
+                            else if (data == 0) {
+                                CheckNotify("tr_modal" + manv, "Thất bại", "top", "error", true, false);
+                            }
+                            else {
+                                CheckNotify("tr_modal" + manv, "Error", "top", "error", true, false);
+                            }
+                        }
+                    });
+                }
+            })
+        }
+        function InsertNV() {
+            var bp = $("#slnhom_modal option:selected").val();
+            var st = $("#txtsothe_modal").val();
+            var ht = $("#txthoten_modal").val();
+
+            var gioitinh = $("input[type=radio][name=form-field-radio]:checked").val();
+
+            var lgin = $("#chkLogin_modal").is(':checked');
+
+            if (bp == null || bp.length == 0) {
+                CheckNotify("slnhom_modal", "Chọn bộ phận", "top", "error", true, false);
+            }
+            else if (st == null || st.length == 0) {
+                CheckNotify("txtsothe_modal", "Nhập username", "top", "error", true, false);
+            }
+            else if (ht == null || ht.length == 0) {
+                CheckNotify("txthoten_modal", "Nhập họ tên", "top", "error", true, false);
+            }
+
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("InsertNV", "PhanQuyen")',
+                    data: "{'sSoThe':'" + st + "','sHoTen':'" + ht + "','sGioiTinh':'" + gioitinh + "','sBoPhan':'" + bp + "','sAllow':'" + lgin + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("btnInsertNV", "Thành công", "left", "success", true, false);
+                            Load_DSNV_Insert();
+                        }
+                        else if (data == 0) {
+                            CheckNotify("btnInsertNV", "Thất bại", "left", "error", true, false);
+                        }
+                        else {
+                            CheckNotify("btnInsertNV", "Error", "top", "error", true, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+         function ModalNVAll() {
+            $("#modalUpdateNV").modal();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LOAD_NHANVIEN_MODAL", "PhanQuyen")',
+                data: "",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#modal_dsnv").fadeIn();
+                    var ch = data.data;
+                    $("#modal_dsnv").html(ch);
+                },
+                error: function () {
+
+                }
+            });
+
+        }
+         function Load_DSNV_Insert() {            
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LOAD_NHANVIEN_INSERT", "PhanQuyen")',
+                data: "",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#body_dsnv").fadeIn();
+                    var ch = data.data;
+                    $("#body_dsnv").html(ch);
+                },
+                error: function () {
+
+                }
+            });
+
         }
     </script>
 }
@@ -200,7 +704,7 @@
                 </label>
                 <label class="icon120blue bg-blue2 cursor" id="Label1" onclick="ModalNVAll()">
                     @myclass.GetTT("tt_updLogin")
-                    
+
                 </label>
             </div>
         </asp:Panel>
@@ -221,17 +725,6 @@
                 </label>
                 <label class="icon120blue bg-purple cursor" id="Label3" onclick="ShowDelQuyen()">
                     @myclass.GetTT("tt_delQ")
-                </label>
-            </div>
-        </asp:Panel>
-
-        <asp:Panel runat="server" ID="pnMDir">
-            <div style="float: left;">
-                <label class="icon120m bg-blue1" onclick="ModalMDir()" style="">
-                    <i class="fa_excel fa-folder-open bg-blue2"></i>
-                </label>
-                <label class="icon120blue bg-blue2 cursor" id="Label4" onclick="ModalMDir()">
-                    Quản lý thư mục
                 </label>
             </div>
         </asp:Panel>
@@ -273,4 +766,159 @@
         </div>
     </div>
 </section>
+
+<div id="modalResetMK" style="" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 365px">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">@myclass.GetTT("tt_resetpw").ToUpper()</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table style="width: 100%">
+                    <tr>
+                        <td style="height: 45px;">
+                            <label class="icon120" for="name">@myclass.GetTT("tt_card")</label>
+                            <input type="text" name="name" class="txtn" id="txtSoThe_reset" placeholder="@myclass.GetTT(" tt_card")" maxlength="150" style="width: 100px;" onchange="GetHoTen()" />
+                            <input type="text" name="name" class="txtn" readonly="readonly" id="txtHoTen_reset" placeholder="@myclass.GetTT("tt_ht")" style="width: 150px; color: blue" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height: 45px;">
+                            <label class="icon120" for="name">@myclass.GetTT("tt_mkm")</label>
+                            <input type="password" name="name" id="txtmkm_reset" class="txtn" placeholder="@myclass.GetTT("tt_mkm")" maxlength="150" style="width: 250px;" />
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td style="height: 45px;">
+                            <label class="icon120" for="name">@myclass.GetTT("tt_confirm")</label>
+                            <input type="password" name="name" id="txtconfirm_reset" class="txtn" placeholder="@myclass.GetTT("tt_confirm")" maxlength="150" style="width: 250px;" />
+                        </td>
+
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input type="button" class="btn btn-block btn-warning btn-lg" value="@myclass.GetTT("bt_save")" id="btnSave_reset" onclick="ResetMK()" style="width: 100px; height: 35px;" />
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalCopyQuyen" style="width:100%" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="min-width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">@myclass.GetTT("tt_copyper").ToUpper()</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="box box-warning">
+                            <div class="box-body">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td>
+                                            <label class="icon120n" for="name">@myclass.GetTT("tt_user_nguon")</label>
+                                            <input name="name" class="txtn" id="txtNguon" placeholder="@myclass.GetTT("tt_user_nguon")" onkeypress="autocomp()" onchange="Load_Quyen_By_MaNV_Copy()" style="width: 60%" />
+                                        </td>
+                                        <td>
+                                            <input type="button" class="btn btn-block btn-warning btn-lg" value="@myclass.GetTT("tt_copyper")" id="btncopyq" onclick="CopyQ()" style="height: 35px;" />
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="line_copyq">
+                                </div>
+                                <div id="dsquyen_copy" style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box box-danger">
+                            <div class="box-body">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td>
+                                            <label class="icon120n" for="name">@myclass.GetTT("tt_user_dich")</label>
+                                            <input type="text" name="name" class="txtn" id="txtDich" placeholder="@myclass.GetTT("tt_user_dich")" onkeypress="Auto_SoTheDich()" onchange="Load_Quyen_By_MaNV_Copy_Dich()" style="width: 60%;" />
+                                        </td>
+                                        <td>
+                                            <input type="button" class="btn btn-block btn-danger btn-lg" value="@myclass.GetTT("tt_delQ")" id="btndeleteq" onclick="DeleteQ()" style="height: 35px;" />
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="line_copyq">
+                                </div>
+                                <div id="dsquyen_copy_dich" style="width: 100%"></div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalDelQuyen" style="width:100%" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">@myclass.GetTT("tt_delQ").ToUpper()</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table style="width: 100%">
+                    <tr>
+                        <td>
+                            <label class="icon120n" for="name">@myclass.GetTT("tt_card") </label>
+                            <input name="name" class="txtn" id="txtSoThe_Del" placeholder="@myclass.GetTT("tt_card")" onkeypress="autocomp_del()" onchange="Load_Quyen_By_MaNV_Delete()" style="width: 60%" />
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-block btn-danger btn-lg" value="@myclass.GetTT("tt_delQ")" id="btn_Del_Q" onclick="DeletePermission()" style="height: 35px;" />
+                        </td>
+                    </tr>
+                </table>
+                <div class="line_copyq">
+                </div>
+                <div id="dsquyen_del" style="width: 100%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalUpdateNV" style="width:100%" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width:800px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">@myclass.GetTT("tt_updLogin").ToUpper()</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modal_dsnv" style="float: left; clear: both;">
+                    @*<div id="modal_dsnv" style="width: 100%"></div>*@
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
