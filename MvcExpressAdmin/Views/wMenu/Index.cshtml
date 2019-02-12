@@ -10,7 +10,7 @@
             $("#txtMenu1").val('');
         }
         function AddDanhmuc(mdmc, tendmc) {
-            $('#ModalMenu2').modal();            
+            $('#ModalMenu2').modal();
             $("#txtMaDMC").val(mdmc);
             $("#txtTenMNC").val(tendmc);
             $("#txtTenDMCon").val('');
@@ -24,7 +24,7 @@
 
                 $.ajax({
                     type: "POST",
-                        url: '@Url.Action("INSERT_MENU1", "wMenu")',
+                    url: '@Url.Action("INSERT_MENU1", "wMenu")',
                     data: "{'sNAME':'" + tendm + "'}",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -61,6 +61,7 @@
                     success: function (data) {
                         if (data== 1) {
                             CheckNotify("btnUpdCate", "Thành công", "top", "success", true, false);
+
                             LOAD_DANHMUC_AJAX();
                         }
                         else {
@@ -85,6 +86,229 @@
                         $("#dsdata").fadeIn();
                         $("#dsdata").html(data.data);
                     }
+
+                }
+            });
+        }
+        function DeleteM1(mID) {
+
+            $.confirm({
+                title: 'Delete!',
+                content: 'Tất cả các danh mục loại này sẽ xóa hết!',
+                confirm: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("DeleteM1", "wMenu")',
+                        data: "{'mID':'" + mID + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == 1) {
+                                LOAD_DANHMUC_AJAX();
+                            }
+                            else {
+                                CheckNotify("tr1_" + mID, "Thất bại", "top", "error", false, false);
+                            }
+                        },
+                        error: function () {
+                            CheckNotify("tr1_" + mID, "Error", "top", "error", false, false);
+
+                        }
+                    });
+                },
+                cancel: function () {
+
+                }
+            });
+        }
+        function DeleteM2(sID) {
+            $.confirm({
+                title: 'Delete!',
+                content: 'Bạn có chắc chắn xóa!',
+                confirm: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("DeleteM2", "wMenu")',
+                        data: "{'sID':'" + sID + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == 1) {
+                                $('#submenu' + sID).fadeOut();
+                            }
+                            else {
+                                CheckNotify("submenu" + sID, "Thất bại", "top", "error", false, false);
+                            }
+                        },
+                        error: function () {
+                            CheckNotify("submenu" + sID, "Error", "top", "error", false, false);
+
+                        }
+                    });
+                },
+                cancel: function () {
+
+                }
+            });
+        }
+
+        function Update_Name_Menu1(mID) {
+            var menucha = $("#txtMenu1" + mID).val();
+            if (menucha == null || menucha.length == 0) {
+                CheckNotify("txtMenu1" + mID, "Chưa nhập menu cha", "top", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Update_Name_Menu1", "wMenu")',
+                    data: "{'mID':'" + mID + "','sNAME':'" + menucha + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("txtMenu1" + mID, "Thành công", "top", "success", false, false);
+                        }
+
+                        else {
+                            CheckNotify("txtMenu1" + mID, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function UpdateNameCate(sID) {
+            var catename = $("#txtNameCate" + sID).val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UpdateNameCate", "wMenu")',
+                data: "{'sID':'" + sID + "','sNAME':'" + catename + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data == 1) {
+                        CheckNotify("txtNameCate" + sID, "Thành công", "top", "success", false, false);
+
+                    }
+                    else {
+                        CheckNotify("txtNameCate" + sID, "Error", "top", "error", false, false);
+                    }
+                },
+                failure: function (response) {
+
+                }
+            });
+        }
+        function UpdateSTT_Menu1(mID) {
+            var stt = $("#txtSTT_Type" + mID).val();
+            if (stt == null || stt.length == 0 || stt == 0) {
+                CheckNotify("txtSTT_Type" + mID, "Chưa nhập stt", "top", "error", true, false);
+            }
+            else if (!validNumber(stt)) {
+                CheckNotify("txtSTT_Type" + mID, "Định dạng stt không đúng", "top", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateSTT_Menu1", "wMenu")',
+                    data: "{'mID':'" + mID + "','sSTT':'" + stt + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("txtSTT_Type" + mID, "Thành công", "top", "success", false, false);
+
+                        }
+                        else {
+                            CheckNotify("txtSTT_Type" + mID, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+
+        function UpdateSTT(sID) {
+            var stt = $("#txtSTT" + sID).val();
+            if (stt == null || stt.length == 0 || stt == 0) {
+                CheckNotify("txtSTT" + sID, "Chưa nhập stt", "top", "error", true, false);
+            }
+            else if (!validNumber(stt)) {
+                CheckNotify("txtSTT" + sID, "Định dạng stt không đúng", "top", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                     url: '@Url.Action("UpdateSTT", "wMenu")',
+                    data: "{'sID':'" + sID + "','sSTT':'" + stt + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("txtSTT" + sID, "Thành công", "top", "success", false, false);
+
+                        }
+                        else {
+                            CheckNotify("txtSTT" + sID, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function UpdateHienThi1(mID) {
+            var hthi = $("#chkCate_" + mID).is(':checked');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UpdateHienThi1", "wMenu")',
+                data: "{'mID':'" + mID + "','sHIEULUC':'" + hthi + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data == 1) {
+                        CheckNotify("chkCate_" + mID, "Thành công", "top", "success", false, false);
+
+                    }
+                    else {
+                        CheckNotify("chkCate_" + mID, "Error", "top", "error", false, false);
+                    }
+                },
+                failure: function (response) {
+
+                }
+            });
+        }
+        function UpdateHienThi2(sID) {
+            var hieuluc = $("#chkCate2_" + sID).is(':checked');
+
+            $.ajax({
+                type: "POST",
+
+                url: '@Url.Action("UpdateHienThi2", "wMenu")',
+                data: "{'sID':'" + sID + "','sHIEULUC':'" + hieuluc + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data == 1) {
+                        CheckNotify("chkCate2_" + sID, "Thành công", "top", "success", false, false);
+                    }
+                    else {
+                        CheckNotify("chkCate2_" + sID, "Error", "top", "error", false, false);
+                    }
+                },
+                failure: function (response) {
 
                 }
             });

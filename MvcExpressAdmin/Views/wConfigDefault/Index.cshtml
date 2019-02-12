@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Config menu website";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+
+}
+<div class="headingtop">
+    <section class="content-header">
+        <h1 class="cssheaderleft">
+            @ViewData["HeadingTenDM"]
+        </h1>
+        <ol class="breadcrumb">
+            @Html.Raw(ViewData["HeadingTopRight"])
+        </ol>
+    </section>
+</div>
+<div style="width:100%; margin-top:2px;margin-left:2px;margin-right:2px;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-body" id="divLeft">
+                    @Html.Action("LoadData", "wConfigDefault")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

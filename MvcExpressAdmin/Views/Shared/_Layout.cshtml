@@ -179,88 +179,88 @@
 
 
                 <div class="modal-body">
-                   
-                        <table style="width: 100%">
-                            <tr>
-                                <td style="height: 45px;width:100px">
-                                    <label style="width:100%" class="icon120" for="name">@myClass.GetTT("tt_mkc") </label>
-                                </td>
-                                <td style="height: 45px;">
-                                    
-                                    <input type="password" name="name" class="txtn" id="txtmkc" placeholder="@myClass.GetTT("tt_mkc")" maxlength="150" style="width: 100%;" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="height: 45px;">
-                                    <label style="width:100%" class="icon120" for="name">@myClass.GetTT("tt_mkm")</label>
-                                </td>
-                                <td style="height: 45px;">
-                                   
-                                    <input type="password" name="name" id="txtmkm" class="txtn" placeholder="@myClass.GetTT("tt_mkm")" maxlength="150" style="width: 100%;" />
-                                </td>
 
-                            </tr>
-                            <tr>
-                                <td style="height: 45px;">
-                                    <label style="width:100%" class="icon120" for="name">@myClass.GetTT("tt_confirm")</label>
-                                </td>
-                                <td style="height: 45px;">
-                                   
-                                    <input type="password" name="name" id="txtconfirm" class="txtn" placeholder="@myClass.GetTT("tt_confirm")" maxlength="150" style="width: 100%;" />
-                                </td>
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="height: 45px;width:100px">
+                                <label style="width:100%" class="icon120" for="name">@myClass.GetTT("tt_mkc") </label>
+                            </td>
+                            <td style="height: 45px;">
 
-                            </tr>
-                          
-                        </table>                   
+                                <input type="password" name="name" class="txtn" id="txtmkc" placeholder="@myClass.GetTT("tt_mkc")" maxlength="150" style="width: 100%;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="height: 45px;">
+                                <label style="width:100%" class="icon120" for="name">@myClass.GetTT("tt_mkm")</label>
+                            </td>
+                            <td style="height: 45px;">
+
+                                <input type="password" name="name" id="txtmkm" class="txtn" placeholder="@myClass.GetTT("tt_mkm")" maxlength="150" style="width: 100%;" />
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td style="height: 45px;">
+                                <label style="width:100%" class="icon120" for="name">@myClass.GetTT("tt_confirm")</label>
+                            </td>
+                            <td style="height: 45px;">
+
+                                <input type="password" name="name" id="txtconfirm" class="txtn" placeholder="@myClass.GetTT("tt_confirm")" maxlength="150" style="width: 100%;" />
+                            </td>
+
+                        </tr>
+
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <input type="button" class="btn btn-block btn-warning btn-lg" value="@myClass.GetTT("bt_save")" id="btnSave" onclick="DoiMK()" style="width: 100px; height: 35px;" />
                 </div>
             </div>
-            </div>
         </div>
+    </div>
 
-        <script src="../Content/Layout/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../Content/Layout/bootstrap/js/bootstrap.min.js"></script>
 
-        <!-- AdminLTE App -->
-        <script src="../Content/Layout/dist/js/app.min.js"></script>
-        <script src="../Content/Layout/notify/jquery.notyfy.js"></script>
-        <script src="../Content/Layout/notify/notify.js"></script>
-        <script src="../Content/Layout/notify/notify-metro.js"></script>
-        <script src="../Content/Layout/notify/jquery.fixedheadertable.js"></script>
-        <script src="../Content/Layout/notify/jquery-confirm.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../Content/Layout/dist/js/app.min.js"></script>
+    <script src="../Content/Layout/notify/jquery.notyfy.js"></script>
+    <script src="../Content/Layout/notify/notify.js"></script>
+    <script src="../Content/Layout/notify/notify-metro.js"></script>
+    <script src="../Content/Layout/notify/jquery.fixedheadertable.js"></script>
+    <script src="../Content/Layout/notify/jquery-confirm.js"></script>
 
-        <link href="../Content/Layout/notify/jquery-confirm.css" rel="stylesheet" />
-
-
-
-        <script src="../Content/Layout/dist/js/popover.js"></script>
-        <link href="../Content/Layout/dist/css/popover.css" rel="stylesheet" />
-
-        <script src="../Content/Layout/datatime/jquery.datetimepicker.full.js"></script>
-        <link href="../Content/Layout/datatime/jquery.datetimepicker.css" rel="stylesheet" />
-
-        <link href="../Content/Layout/autocomplete/css_auto.css" rel="stylesheet" />
-
-
-        <script src="../Content/Layout/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+    <link href="../Content/Layout/notify/jquery-confirm.css" rel="stylesheet" />
 
 
 
+    <script src="../Content/Layout/dist/js/popover.js"></script>
+    <link href="../Content/Layout/dist/css/popover.css" rel="stylesheet" />
 
-        @*---------------------lightbox--------------*@
-        @*<script src="../Content/Layout/js/jquery.lightbox-0.5.js"></script>
-            <link href="../Content/Layout/lightbox.css" rel="stylesheet" />
-            <script src="../Content/Layout/js/bootshop.js"></script>*@
+    <script src="../Content/Layout/datatime/jquery.datetimepicker.full.js"></script>
+    <link href="../Content/Layout/datatime/jquery.datetimepicker.css" rel="stylesheet" />
+
+    <link href="../Content/Layout/autocomplete/css_auto.css" rel="stylesheet" />
+
+
+    <script src="../Content/Layout/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 
 
 
-        @*@Scripts.Render("~/bundles/jquery")
-            @Scripts.Render("~/bundles/bootstrap")*@
-        @RenderSection("scripts", required: false)
 
-        <script>
+    @*---------------------lightbox--------------*@
+    @*<script src="../Content/Layout/js/jquery.lightbox-0.5.js"></script>
+        <link href="../Content/Layout/lightbox.css" rel="stylesheet" />
+        <script src="../Content/Layout/js/bootshop.js"></script>*@
+
+
+
+    @*@Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")*@
+    @RenderSection("scripts", required: false)
+
+    <script>
         $(function () {
             var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/") + 1);
             // alert(pgurl);
@@ -409,43 +409,46 @@
                 content: '@Html.Raw(myClass.ListLanguge())'
             }
         );
-        </script>
-        <link href="~/Content/Datatable/dataTables.bootstrap.min.css" rel="stylesheet" />
-        <link href="~/Content/Datatable/responsive.bootstrap.min.css" rel="stylesheet" />
-        <script src="~/Content/Datatable/jquery.dataTables.min.js"></script>
-        <script src="~/Content/Datatable/dataTables.bootstrap4.min.js"></script>
+    </script>
+    <link href="~/Content/Datatable/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Datatable/responsive.bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Content/Datatable/jquery.dataTables.min.js"></script>
+    <script src="~/Content/Datatable/dataTables.bootstrap4.min.js"></script>
 
-        <link href="~/Content/FreezeTable/ScrollTabla.css" rel="stylesheet" />
-        <script src="~/Content/FreezeTable/jquery.CongelarFilaColumna.js"></script>
-        <script src="~/Scripts/angular.min.js"></script>
-        <script type="text/javascript">
-            window.onresize = function (event) {
-                SetWidthHeight();
-            }
-            function SetWidthHeight() {
-                var height = $(window).height();
-                var width = $(window).width();
+    <link href="~/Content/FreezeTable/ScrollTabla.css" rel="stylesheet" />
+    <script src="~/Content/FreezeTable/jquery.CongelarFilaColumna.js"></script>
 
-                $.ajax({
-                    url: "../../windowSize.ashx",
-                    data: {
-                        'Height': height,
-                        'Width': width
-                    },
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "text"
-                }).done(function (data) {
-                    if (data.isFirst) {
-                        window.location.reload();
-                    };
-                }).fail(function (xhr) {
-                    alert("Problem to retrieve browser size.");
-                });
-            }
-            $(function () {
-                SetWidthHeight();
+    <script src="~/Scripts/Valid_Reg.js"></script>
+
+    <script src="~/Scripts/angular.min.js"></script>
+    <script type="text/javascript">
+        window.onresize = function (event) {
+            SetWidthHeight();
+        }
+        function SetWidthHeight() {
+            var height = $(window).height();
+            var width = $(window).width();
+
+            $.ajax({
+                url: "../../windowSize.ashx",
+                data: {
+                    'Height': height,
+                    'Width': width
+                },
+                contentType: "application/json; charset=utf-8",
+                dataType: "text"
+            }).done(function (data) {
+                if (data.isFirst) {
+                    window.location.reload();
+                };
+            }).fail(function (xhr) {
+                alert("Problem to retrieve browser size.");
             });
+        }
+        $(function () {
+            SetWidthHeight();
+        });
 
-        </script>
+    </script>
 </body>
 </html>

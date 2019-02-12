@@ -49,7 +49,7 @@ namespace MvcExpressAdmin.Controllers
                         s.Append("<tr id='trdmcha" + r.mID + "'>");
                         s.Append("<td  align='center' style='width:40px;background-color:#b5ebf8;' class='heading'>");
                         s.Append("<input type='button' class='add2' id='a" + r.mID + "'onclick=\"AddDanhmuc('" + r.mID + "','" + r.Name + "')\">");
-                        s.Append("<input type='button' class='imgdel' id='d" + r.mID + "'  onclick=\"DeleteM1('" + r.mID + "',1)\">");
+                        s.Append("<input type='button' class='imgdel' id='d" + r.mID + "'  onclick=\"DeleteM1('" + r.mID + "'," + r.STT + ")\">");
                         s.Append("</td>");
 
                         s.Append("<td  style='width:40px;background-color:#b5ebf8' class='heading'  align='center' id='td1_" + r.mID + "'>" + r.mID + "</td>");
@@ -119,7 +119,7 @@ namespace MvcExpressAdmin.Controllers
                         s.Append("<tr id='trdmcha" + r.mID + "'>");
                         s.Append("<td  align='center' style='width:40px;background-color:#b5ebf8;' class='heading'>");
                         s.Append("<input type='button' class='add2' id='a" + r.mID + "'onclick=\"AddDanhmuc('" + r.mID + "','" + r.Name + "')\">");
-                        s.Append("<input type='button' class='imgdel' id='d" + r.mID + "'  onclick=\"DeleteM1('" + r.mID + "',1)\">");
+                        s.Append("<input type='button' class='imgdel' id='d" + r.mID + "'  onclick=\"DeleteM1('" + r.mID + "'," + r.STT + ")\">");
                         s.Append("</td>");
 
                         s.Append("<td  style='width:40px;background-color:#b5ebf8' class='heading'  align='center' id='td1_" + r.mID + "'>" + r.mID + "</td>");
@@ -199,6 +199,124 @@ namespace MvcExpressAdmin.Controllers
             m2.Effect = true;
             m2.STT = stt;
             db.wMenu2.Add(m2);
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteM1(string mID)
+        {
+            int smID = int.Parse(mID);
+            var w2 = db.wMenu2.Where(r => r.mID == smID).ToList();
+            if (w2.Count() > 0)
+            {
+                foreach(var item in w2)
+                {
+                    int sID = item.sID;
+                    if(db.wNewsMenuIds.Where(r => r.sID == sID).Count()>0)
+                        db.wNewsMenuIds.RemoveRange(db.wNewsMenuIds.Where(r => r.sID == sID));
+                }
+                db.wMenu2.RemoveRange(db.wMenu2.Where(r => r.mID == smID));              
+
+            }
+            var w22 = db.wMenu1.Where(r => r.mID == smID).ToList();
+            if (w22.Count() > 0)
+            {
+                db.wMenu1.RemoveRange(db.wMenu1.Where(r => r.mID == smID));
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult DeleteM2(string sID)
+        {
+            int sId = int.Parse(sID);
+            var w2 = db.wNewsMenuIds.Where(r => r.sID == sId).ToList();
+            if (w2.Count() > 0)
+            {
+
+                db.wNewsMenuIds.RemoveRange(db.wNewsMenuIds.Where(r => r.sID == sId));
+                var w22 = db.wMenu2.Where(r => r.sID == sId).ToList();
+                if (w22.Count() > 0)
+                {
+                    db.wMenu2.RemoveRange(db.wMenu2.Where(r => r.sID == sId));
+                }
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult Update_Name_Menu1(string mID, string sNAME)
+        {
+            int smID = int.Parse(mID);
+            wMenu1 mn = db.wMenu1.SingleOrDefault(r => r.mID == smID);
+            if (mn != null)
+            {
+                mn.Name = sNAME;
+            }           
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult UpdateNameCate(string sID, string sNAME)
+        {
+            int ID = int.Parse(sID);
+            wMenu2 mn = db.wMenu2.SingleOrDefault(r => r.sID == ID);
+            if (mn != null)
+            {
+                mn.Name = sNAME;
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult UpdateSTT_Menu1(string mID, string sSTT)
+        {
+            int smID = int.Parse(mID);
+            int stt = int.Parse(sSTT);
+            wMenu1 mn = db.wMenu1.SingleOrDefault(r => r.mID == smID);
+            if (mn != null)
+            {
+                mn.STT = stt;
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult UpdateSTT(string sID, string sSTT)
+        {
+            int ID = int.Parse(sID);
+            int stt = int.Parse(sSTT);
+            wMenu2 mn = db.wMenu2.SingleOrDefault(r => r.mID == ID);
+            if (mn != null)
+            {
+                mn.STT = stt;
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateHienThi1(string mID, string sHIEULUC)
+        {
+            int smID = int.Parse(mID);
+            wMenu1 mn = db.wMenu1.SingleOrDefault(r => r.mID == smID);
+            if (mn != null)
+            {
+                mn.Effect = sHIEULUC == "true" ? true : false;
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult UpdateHienThi2(string sID, string sHIEULUC)
+        {
+            int ID = int.Parse(sID);
+            wMenu2 mn = db.wMenu2.SingleOrDefault(r => r.sID == ID);
+            if (mn != null)
+            {
+                mn.Effect = sHIEULUC == "true" ? true : false;
+            }
             db.SaveChanges();
             return Json("1", JsonRequestBehavior.AllowGet);
         }

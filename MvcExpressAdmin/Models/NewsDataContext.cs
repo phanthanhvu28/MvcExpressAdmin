@@ -65,6 +65,7 @@ namespace MvcExpressAdmin.Models
         public virtual DbSet<wViewsDate> wViewsDates { get; set; }
         public virtual DbSet<FacilitySite> FacilitySites { get; set; }
         public virtual DbSet<wViewNew> wViewNews { get; set; }
+        public virtual DbSet<wNewsMenuId> wNewsMenuIds { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -175,10 +176,10 @@ namespace MvcExpressAdmin.Models
                 .Property(e => e.Languge)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<mNewspaperMenu>()
-                .HasMany(e => e.wMenu2)
-                .WithMany(e => e.mNewspaperMenus)
-                .Map(m => m.ToTable("wNewsMenuId").MapLeftKey("NewspaperMenuId").MapRightKey("sID"));
+            //modelBuilder.Entity<mNewspaperMenu>()
+            //    .HasMany(e => e.wMenu2)
+            //    .WithMany(e => e.mNewspaperMenus)
+            //    .Map(m => m.ToTable("wNewsMenuId").MapLeftKey("NewspaperMenuId").MapRightKey("sID"));
 
             modelBuilder.Entity<mTypeApp>()
                 .HasMany(e => e.mCateApps)
@@ -213,10 +214,10 @@ namespace MvcExpressAdmin.Models
                 .HasOptional(e => e.mPerThuMuc)
                 .WithRequired(e => e.NhanVien);
 
-            modelBuilder.Entity<NhanVien>()
-                .HasMany(e => e.NhanVienChucNangs)
-                .WithRequired(e => e.NhanVien)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<NhanVien>()
+            //    .HasMany(e => e.NhanVienChucNangs)
+            //    .WithRequired(e => e.NhanVien)
+            //    .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<NhanVienChucNang>()
                 .Property(e => e.MaCN)
@@ -288,7 +289,7 @@ namespace MvcExpressAdmin.Models
 
             modelBuilder.Entity<wViewNew>()
                 .Property(e => e.rssID)
-                .IsUnicode(false);
+                .IsUnicode(false);           
         }
     }
 }

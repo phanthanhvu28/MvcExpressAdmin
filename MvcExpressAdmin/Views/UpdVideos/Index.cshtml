@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Cập nhật videos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        function DisplayWeb(IDMenu) {
+            var check_web = $("#chkweb" + IDMenu).is(':checked');           
+            $.ajax({
+                type: "POST",                
+                url: '@Url.Action("DisplayWeb", "UpdVideos")',
+                data: "{'IDMenu':'" + IDMenu + "','DisplayWeb':'" + check_web + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data == 1) {
+                        CheckNotify("chkweb" + IDMenu, "Thành công", "left", "success", true, false);
+                    }
+                },
+                error: function () {
+                }
+            });
+
+        }
+    </script>
+}
+<div class="headingtop">
+    <section class="content-header">
+        <h1 class="cssheaderleft">
+            @ViewData["HeadingTenDM"]
+        </h1>
+        <ol class="breadcrumb">
+            @Html.Raw(ViewData["HeadingTopRight"])
+        </ol>
+    </section>
+</div>
+<div style="width:100%; margin-top:2px;margin-left:2px;margin-right:2px;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-body" id="divLeft">
+                    @Html.Action("LoadData", "UpdVideos")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

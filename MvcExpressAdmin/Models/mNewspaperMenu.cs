@@ -9,13 +9,13 @@ namespace MvcExpressAdmin.Models
     [Table("mNewspaperMenu")]
     public partial class mNewspaperMenu
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public mNewspaperMenu()
-        {
-            mNewsMenus = new HashSet<mNewsMenu>();
-            rssNews = new HashSet<rssNew>();
-            wMenu2 = new HashSet<wMenu2>();
-        }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        //public mNewspaperMenu()
+        //{
+        //    mNewsMenus = new HashSet<mNewsMenu>();
+        //    rssNews = new HashSet<rssNew>();
+        //    wMenu2 = new HashSet<wMenu2>();
+        //}
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -39,15 +39,15 @@ namespace MvcExpressAdmin.Models
 
         public bool? Video { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<mNewsMenu> mNewsMenus { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<mNewsMenu> mNewsMenus { get; set; }
 
-        public virtual mNewspaper mNewspaper { get; set; }
+        //public virtual mNewspaper mNewspaper { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<rssNew> rssNews { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<rssNew> rssNews { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<wMenu2> wMenu2 { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<wMenu2> wMenu2 { get; set; }
     }
 }

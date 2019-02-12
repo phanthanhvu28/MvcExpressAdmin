@@ -10,11 +10,11 @@ namespace MvcExpressAdmin.Models
     public partial class NhanVien
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public NhanVien()
-        {
-            NhanVienChucNangs = new HashSet<NhanVienChucNang>();
-            DanhMucs = new HashSet<DanhMuc>();
-        }
+        //public NhanVien()
+        //{
+        //    NhanVienChucNangs = new HashSet<NhanVienChucNang>();
+        //    DanhMucs = new HashSet<DanhMuc>();
+        //}
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -42,10 +42,10 @@ namespace MvcExpressAdmin.Models
 
         public virtual NhomNhanVien NhomNhanVien { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NhanVienChucNang> NhanVienChucNangs { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<NhanVienChucNang> NhanVienChucNangs { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DanhMuc> DanhMucs { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<DanhMuc> DanhMucs { get; set; }
     }
 }

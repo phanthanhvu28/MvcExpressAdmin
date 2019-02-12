@@ -161,7 +161,10 @@
     <Compile Include="Controllers\GhiChuController.cs" />
     <Compile Include="Controllers\PhanQuyenController.cs" />
     <Compile Include="Controllers\PQTrangBaoController.cs" />
+    <Compile Include="Controllers\UpdVideosController.cs" />
+    <Compile Include="Controllers\wConfigDefaultController.cs" />
     <Compile Include="Controllers\wMenuController.cs" />
+    <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\FacilitySite.cs" />
     <Compile Include="Models\GioiTinh.cs" />
     <Compile Include="Models\LNew.cs" />
@@ -173,6 +176,7 @@
     <Compile Include="Models\PhanQuyen.cs" />
     <Compile Include="Models\wMessage.cs" />
     <Compile Include="Models\wNew.cs" />
+    <Compile Include="Models\wNewsMenuId.cs" />
     <Compile Include="Models\wService.cs" />
     <Compile Include="Models\wSlider.cs" />
     <Compile Include="Models\wVideo.cs" />
@@ -2148,6 +2152,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\sitemap.xml" />
+    <Content Include="Scripts\Valid_Reg.js" />
     <Content Include="systemjs.config.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -2179,6 +2184,8 @@
     <Content Include="Views\AngularMvc\Index.cshtml" />
     <Content Include="tsconfig.json" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\wConfigDefault\Index.cshtml" />
+    <Content Include="Views\UpdVideos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
