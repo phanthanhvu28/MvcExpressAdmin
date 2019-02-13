@@ -4,7 +4,129 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section scripts{
+    <script type="text/javascript">
+         function CheckRight(mID) {
+            var chkRight = $("#chkRight" + mID.toString()).is(":checked");
+            $.ajax({
+                type: "POST",                
+                url: '@Url.Action("CheckRight", "wConfigDefault")',
+                data: "{'mID':'" + mID + "','FRight':'" + chkRight + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data == 1) {
+                        CheckNotify("chkRight" + mID, "Thành công", "top", "success", false, false);
+                    }
+                    else {
+                        CheckNotify("chkRight" + mID, "Thất bại", "top", "error", false, false);
+                    }
+                }
+            });
+        }
+        function CheckUpperVideo(mID) {
+            var chkUpperVideo = $("#chkUpperVideo" + mID.toString()).is(":checked");
+            $.ajax({
+                type: "POST",
+                
+                 url: '@Url.Action("CheckUpperVideo", "wConfigDefault")',
+                data: "{'mID':'" + mID + "','UpperVideo':'" + chkUpperVideo + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data == 1) {
+                        CheckNotify("chkUpperVideo" + mID, "Thành công", "top", "success", false, false);
+                    }
+                    else {
+                        CheckNotify("chkUpperVideo" + mID, "Thất bại", "top", "error", false, false);
+                    }
+                }
+            });
+        }
+        function SelectFormat(mID, Type) {
+            var chkColumn = $("#chkColumn" + mID.toString()).is(":checked");
+            var chkSlider = $("#chkSlider" + mID.toString()).is(":checked");
+            var chkTab = $("#chkTab" + mID.toString()).is(":checked");
+            var bit = "0";
 
+            if (Type == 1) {
+                $("#chkSlider" + mID.toString()).prop("checked", false);
+                $("#chkTab" + mID.toString()).prop("checked", false);
+                bit = ((chkColumn) ? "1" : "0");
+            }
+            if (Type == 2) {
+                $("#chkColumn" + mID.toString()).prop("checked", false);
+                $("#chkTab" + mID.toString()).prop("checked", false);
+                bit = ((chkSlider) ? "1" : "0");
+            }
+            if (Type == 3) {
+                $("#chkColumn" + mID.toString()).prop("checked", false);
+                $("#chkSlider" + mID.toString()).prop("checked", false);
+                bit = ((chkTab) ? "1" : "0");
+            }
+
+            $.ajax({
+                type: "POST",                
+                url: '@Url.Action("CheckFormat", "wConfigDefault")',
+                data: "{'mID':'" + mID + "','sTID':'" + Type + "','sBit':'" + bit + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (Type == 1) {
+
+                        if (data == 1) {
+                            CheckNotify("chkColumn" + mID, "Thành công", "top", "success", false, false);
+
+                        }                       
+                        else {
+                            CheckNotify("chkColumn" + mID, "Error", "top", "error", false, false);
+                        }
+                    }
+                    else if (Type == 2) {
+
+                        if (data == 1) {
+                            CheckNotify("chkSlider" + mID, "Thành công", "top", "success", false, false);
+
+                        }                       
+                        else {
+                            CheckNotify("chkSlider" + mID, "Error", "top", "error", false, false);
+                        }
+                    }
+                    else if (Type == 3) {
+
+                        if (data == 1) {
+                            CheckNotify("chkTab" + mID, "Thành công", "top", "success", false, false);
+
+                        }                        
+                        else {
+                            CheckNotify("chkTab" + mID, "Error", "top", "error", false, false);
+                        }
+                    }
+                },
+                failure: function (response) {
+
+                }
+            });
+        }
+        function LoadNewsPaperMenu(sID) {
+            $("#modalListNewspaper").modal();
+            $.ajax({
+                type: "POST",                
+                url: '@Url.Action("ListMenuNewsPaper", "wConfigDefault")',
+                data: "{'sID':'" + sID + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#listMenu").fadeIn();
+                    var ch = data.data;
+                    $("#listMenu").html(ch);
+                },
+                error: function () {
+
+                }
+            });
+        }
+    </script>
 }
 <div class="headingtop">
     <section class="content-header">
@@ -23,6 +145,26 @@
                 <div class="box-body" id="divLeft">
                     @Html.Action("LoadData", "wConfigDefault")
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalListNewspaper" style="width:100%" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width:400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">DANH SÁCH TRANG BÁO</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="listMenu" style="float: left; clear: both;">                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
