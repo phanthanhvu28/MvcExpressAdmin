@@ -32,6 +32,8 @@ namespace MvcExpressAdmin.Models
         [StringLength(100)]
         public string rssDate { get; set; }
 
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        //[DataType(DataType.Date)]
         public DateTime? DateInput { get; set; }
 
         public bool? HotNews { get; set; }

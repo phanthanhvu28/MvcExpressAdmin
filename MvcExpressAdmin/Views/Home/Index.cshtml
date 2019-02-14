@@ -1,20 +1,176 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+@section scripts{
+    <script type="text/javascript">
+        //$(document).ready(function () {
+        //    LoadData();
+        //});
+        $(function () {
+            LoadData();
+        });
+        function LoadData() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadData", "Home")',
+                data: "",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var spl = data.data.split("#$%^");
+                    $("#lbCountApp").html(spl[0]);
+                    $("#lbSizeHost").html(spl[1]);
+                    $("#load_count_news_vietnam_today").html(spl[2]);
+                },
+                error: function () {
+
+                }
+            });
+        }
+    </script>
+
+}
 
 <div class="headingtop">
     <section class="content-header">
-        <h1 class="cssheaderleft">
-          Trang chủ
-        </h1>
+        <div style="float: left; clear: both;">
+            <label class="icon120m bg-blue1" onclick="ChartApp()" style="">
+                <i class="fa_excel fa-bar-chart bg-red1"></i>
+            </label>
+            <label class="icon120blue bg-blue2 cursor" id="Label1" onclick="ChartApp()">
+                Tổng số lượng app:
+                <strong id="lbCountApp" style="color: red; font-weight: bold; font-size: 20px">
+                </strong>
+            </label>
+        </div>
+
+        <div style="float: left;">
+            <label class="icon120m bg-blue1" onclick="Shrinkfile()" style="">
+                <i class="fa_excel fa-bell bg-red1"></i>
+            </label>
+            <label class="icon120blue bg-yellow cursor" onclick="Shrinkfile()">
+                Dung lượng host:
+                <strong id="lbSizeHost" style="color: white; font-weight: bold; font-size: 20px">
+
+                </strong>
+            </label>
+        </div>
+
+        <div style="float: left;">
+            <label class="icon120m bg-red1" onclick="UpdNewsWebsite()" style="">
+                <i class="fa_excel fa-internet-explorer bg-blue"></i>
+            </label>
+            <label class="icon120blue bg-green1 cursor" onclick="UpdNewsWebsite()">
+                Cập nhật tin tức cho website
+            </label>
+        </div>
+
+        <div style="float: left;">
+            <label class="icon120m bg-yellow" onclick="DelNewsBeforeTowDay()" style="">
+                <i class="fa_excel fa-database bg-blue"></i>
+            </label>
+            <label class="icon120blue bg-blue2 cursor" onclick="DelNewsBeforeTowDay()">
+                Xóa dữ liệu database
+            </label>
+        </div>
+
+
+        <div style="float: left;">
+            <label class="icon120m bg-yellow" onclick="ViewReportDevice()">
+                <i class="fa_excel fa-pie-chart bg-red1"></i>
+            </label>
+            <label class="icon120r bg-red1 cursor" id="lbReset" onclick="ViewReportDevice()">
+                Xem báo cáo device
+            </label>
+        </div>
+
 
         <ol class="breadcrumb">
-            <li><a><i class="fa fa-dashboard"></i>Hệ thống</a></li>
-            <li class="active">Trang chủ</li>
+            <li><a><i class="fa fa-dashboard"></i>Theo dõi hệ thống</a></li>
+
         </ol>
 
     </section>
 </div>
-<section class="content">
-   
-</section>
+<div style="width:100%; margin-top:2px;margin-left:2px;margin-right:2px;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-body">
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-aqua">
+                            <div class="inner">
+                                <h3 id="load_count_news_vietnam_today">                                    
+                                </h3>
+
+                                <p>Tin tức báo việt nam hôm nay</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a href="ListNewsRss.aspx" class="small-box-footer">More news <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-green">
+                            <div class="inner">
+                                <h3 id="load_count_news_nuocngoai_today">
+                                    234
+                                </h3>
+
+                                <p>Tin tức báo nước ngoài hôm nay</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                            <a class="small-box-footer" style="height: 25px"></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-yellow">
+                            <div class="inner">
+                                <h3 id="load_count_access_topday">
+                                    567
+                                </h3>
+                                <p>Lần truy cập hôm nay</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                            <a class="small-box-footer" style="height: 25px"></a>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-red">
+                            <div class="inner">
+                                <h3 id="load_count_news_view">
+                                    789
+                                </h3>
+                                <p>Lượt xem tin hôm nay</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pie-graph"></i>
+                            </div>
+                            <a href="#" class="small-box-footer" style="height: 25px"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-body">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

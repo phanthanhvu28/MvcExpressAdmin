@@ -1387,6 +1387,7 @@
     <Content Include="Content\Layout\plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="Content\Layout\plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="package.json" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\MvcExpressAdmin20181107 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MvcExpressAdmin20181107114325 - Web Deploy.pubxml" />
     <Content Include="Scripts\angular.min.js.map" />

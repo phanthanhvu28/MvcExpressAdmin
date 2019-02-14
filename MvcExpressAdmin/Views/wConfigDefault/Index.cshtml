@@ -5,6 +5,9 @@
 }
 @section scripts{
     <script type="text/javascript">
+        $(document).ready(function () {
+            //$("#listmenu").CongelarFilaColumna({ Columnas: 0, coloreacelda: true, colorcelda: '#EFFBFB' });
+        });
          function CheckRight(mID) {
             var chkRight = $("#chkRight" + mID.toString()).is(":checked");
             $.ajax({
@@ -117,12 +120,106 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    $("#listMenu").fadeIn();
-                    var ch = data.data;
-                    $("#listMenu").html(ch);
+                    var spl = data.data.split("#$%^");
+                    $("#modalTitleMenu").html(spl[0]);
+                    $("#listMenu").fadeIn();                 
+                    $("#listMenu").html(spl[1]);
                 },
                 error: function () {
 
+                }
+            });
+        }
+        function LoadListSelected(sID) {
+            $("#modalSelectedListNewspaper").modal();
+           $.ajax({
+               type: "POST",
+               url: '@Url.Action("ListSelected", "wConfigDefault")',               
+                data: "{'sID':'" + sID + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+               success: function (data) {
+                   var spl = data.data.split("#$%^");
+                   $("#modalTitleMenu2").html(spl[0]);
+                   $("#listSelected").fadeIn();
+                   $("#listSelected").html(spl[1]);                    
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function CheckUpdateNewspaperId(sID, NewspaperMenuId) {
+            var chkMenu = $("#idcheck" + NewspaperMenuId).is(':checked');
+            $.ajax({
+                type: "POST",                
+                url: '@Url.Action("InsertNewsMenuId", "wConfigDefault")',
+                data: "{'sID':'" + sID + "','NewspaperMenuId':'" + NewspaperMenuId + "','chkMenu':'" + chkMenu + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data == 1) {
+                        CheckNotify("idcheck" + NewspaperMenuId, "Thành công", "left", "success", true, false);
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("ReloadListMenu", "wConfigDefault")',
+                            data: "{'sID':'" + sID + "'}",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                var d = data.data;
+                                $("#Rload" + sID).fadeIn();
+                                $("#Rload" + sID).html(d);
+                            },
+                            error: function () {
+
+                            }
+                        });                 
+
+                    }
+                    else {
+                        CheckNotify("idcheck" + NewspaperMenuId, "Thất bại", "left", "error", true, false);
+                    }
+                }
+            });
+        }
+
+        function CheckListSelected(sID, NewspaperMenuId) {
+             var idSelected = $("#idSelected" + NewspaperMenuId).is(':checked');
+            $.ajax({
+                type: "POST",                
+                url: '@Url.Action("InsertNewsMenuId", "wConfigDefault")',
+                data: "{'sID':'" + sID + "','NewspaperMenuId':'" + NewspaperMenuId + "','chkMenu':'" + idSelected + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data == 1) {
+                        $("#limn" + NewspaperMenuId).fadeOut();
+                        $("#mn" + sID + NewspaperMenuId).fadeOut();    
+                        CheckNotify("idSelected" + NewspaperMenuId, "Thành công", "left", "success", true, false);                                        
+
+                    }
+                    else {
+                        CheckNotify("idSelected" + NewspaperMenuId, "Thất bại", "left", "error", true, false);
+                    }
+                }
+            });
+        }
+         function CheckListSelected2(sID, NewspaperMenuId) {
+             var idSelected = $("#idSelected2" + NewspaperMenuId).is(':checked');
+            $.ajax({
+                type: "POST",                
+                url: '@Url.Action("InsertNewsMenuId", "wConfigDefault")',
+                data: "{'sID':'" + sID + "','NewspaperMenuId':'" + NewspaperMenuId + "','chkMenu':'" + idSelected + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data == 1) {
+                        $("#mn" + sID + NewspaperMenuId).fadeOut();    
+                    }
+                    else {
+                        CheckNotify("idSelected2" + NewspaperMenuId, "Thất bại", "left", "error", true, false);
+                    }
                 }
             });
         }
@@ -154,13 +251,34 @@
     <div class="modal-dialog modal-dialog-centered" role="document" style="width:400px">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">DANH SÁCH TRANG BÁO</h5>
+                <h5 class="modal-title" id="modalTitleMenu" style="color:brown;font-size:18px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">DANH SÁCH TRANG BÁO</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div id="listMenu" style="float: left; clear: both;">                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="modalSelectedListNewspaper" style="width:100%" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width:400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleMenu2" style="color:brown;font-size:18px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">DANH SÁCH TRANG BÁO CHỌN</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="listSelected">
                 </div>
             </div>
             <div class="modal-footer">
