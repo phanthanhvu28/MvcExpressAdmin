@@ -32,8 +32,8 @@ namespace MvcExpressAdmin.Controllers
                                from c in db.PhanQuyens
                                from d in db.DanhMucs
                                where a.MaDMC == b.MaDMC && b.LID.Equals(lid) && a.HienThi == true && c.MaDM == d.MaDM && d.MaDMC == a.MaDMC && c.MaNV == manv
-                               orderby a.ThuTu ascending
-                               select new { a.MaDMC, b.TenDMC, a.CssClass }).Distinct();                 
+                              // orderby a.ThuTu ascending
+                               select new { a.MaDMC, b.TenDMC, a.CssClass,a.ThuTu }).Distinct().OrderBy(x=>x.ThuTu);                 
                     if (dmc.Count() > 0)
                     {
                         foreach (var item in dmc)
@@ -44,9 +44,9 @@ namespace MvcExpressAdmin.Controllers
                                       from f2 in db.DanhMucCTs
                                       from f3 in db.PhanQuyens
                                       where f1.MaDM == f2.MaDM && f2.LID.Equals(lid) && f1.HienThi == true && f1.MaDMC == item.MaDMC && f1.MaDM==f3.MaDM && f3.MaNV==manv
-                                      orderby f1.ThuTu ascending
-                                      select new { f1.MaDM, f1.Site, f2.TenDM }
-                                      ).Distinct();
+                                     // orderby f1.ThuTu descending
+                                      select new { f1.MaDM, f1.Site, f2.TenDM, f1.ThuTu }
+                                      ).Distinct().OrderBy(x=>x.ThuTu);
                            // int cout2 = dm.Count();
                             if (dm.Count() > 0)
                             {

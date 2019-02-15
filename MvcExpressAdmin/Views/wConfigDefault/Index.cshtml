@@ -112,6 +112,8 @@
             });
         }
         function LoadNewsPaperMenu(sID) {
+            $("#modalTitleMenu").html();
+            $("#listMenu").html();
             $("#modalListNewspaper").modal();
             $.ajax({
                 type: "POST",                

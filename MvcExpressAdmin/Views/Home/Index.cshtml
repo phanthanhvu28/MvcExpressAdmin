@@ -3,9 +3,9 @@
 }
 @section scripts{
     <script type="text/javascript">
-        //$(document).ready(function () {
-        //    LoadData();
-        //});
+        $(document).ready(function () {
+           // $("#listNewspaper").CongelarFilaColumna({ Columnas: 0, coloreacelda: true, colorcelda: '#EFFBFB' });
+        });
         $(function () {
             LoadData();
         });
@@ -21,12 +21,18 @@
                     $("#lbCountApp").html(spl[0]);
                     $("#lbSizeHost").html(spl[1]);
                     $("#load_count_news_vietnam_today").html(spl[2]);
+                    $("#load_count_news_nuocngoai_today").html(spl[3]);
+                    $("#load_count_access_topday").html(spl[4]);
+
+                    $("#load_count_news_view").html(spl[5]);
+
                 },
                 error: function () {
 
                 }
             });
         }
+
     </script>
 
 }
@@ -92,85 +98,93 @@
 
     </section>
 </div>
-<div style="width:100%; margin-top:2px;margin-left:2px;margin-right:2px;">
+<section class="content">
     <div class="row">
-        <div class="col-md-12">
-            <div class="box box-warning">
-                <div class="box-body">
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-aqua">
-                            <div class="inner">
-                                <h3 id="load_count_news_vietnam_today">                                    
-                                </h3>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3 id="load_count_news_vietnam_today"></h3>
 
-                                <p>Tin tức báo việt nam hôm nay</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
-                            </div>
-                            <a href="ListNewsRss.aspx" class="small-box-footer">More news <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-green">
-                            <div class="inner">
-                                <h3 id="load_count_news_nuocngoai_today">
-                                    234
-                                </h3>
-
-                                <p>Tin tức báo nước ngoài hôm nay</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-stats-bars"></i>
-                            </div>
-                            <a class="small-box-footer" style="height: 25px"></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-yellow">
-                            <div class="inner">
-                                <h3 id="load_count_access_topday">
-                                    567
-                                </h3>
-                                <p>Lần truy cập hôm nay</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-person-add"></i>
-                            </div>
-                            <a class="small-box-footer" style="height: 25px"></a>
-                        </div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-lg-3 col-xs-6">
-                        <!-- small box -->
-                        <div class="small-box bg-red">
-                            <div class="inner">
-                                <h3 id="load_count_news_view">
-                                    789
-                                </h3>
-                                <p>Lượt xem tin hôm nay</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-pie-graph"></i>
-                            </div>
-                            <a href="#" class="small-box-footer" style="height: 25px"></a>
-                        </div>
-                    </div>
+                    <p>Tin tức báo việt nam hôm nay</p>
                 </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a class="small-box-footer" style="height: 25px"></a>
             </div>
         </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3 id="load_count_news_nuocngoai_today"></h3>
+
+                    <p>Tin tức báo nước ngoài hôm nay</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a class="small-box-footer" style="height: 25px"></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3 id="load_count_access_topday">
+                        0
+                    </h3>
+                    <p>Lần truy cập hôm nay</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a class="small-box-footer" style="height: 25px"></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3 id="load_count_news_view">
+                        789
+                    </h3>
+                    <p>Lượt xem tin hôm nay</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="#" class="small-box-footer" style="height: 25px"></a>
+            </div>
+        </div>
+
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title" style="color:darkcyan">Danh sách thông tin quốc gia</h3>
+                </div>
+                <div class="box-body" style="">
+                    @Html.Action("LoadRegionNews", "Home")
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <div class="col-md-6">
             <div class="box box-info">
-                <div class="box-body">
+                <div class="box-header with-border">
+                    <h3 class="box-title" style="color:deepskyblue">Biểu đồ thống kê</h3>
                 </div>
+                <div class="box-body chart-responsive">
+                    @Html.Action("LoadChart", "Home")
+                </div>
+                <!-- /.box-body -->
             </div>
         </div>
     </div>
-</div>
+</section>

@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>JavaScript Shield UI Demos</title>
+    <link id="themecss" rel="stylesheet" type="text/css" href="//www.shieldui.com/shared/components/latest/css/light-bootstrap/all.min.css" />
+    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+</head>
+<body class="theme-light">
+    <div id="chart"></div>
+    <script type="text/javascript">
+        $(function () {
+            $("#chart").shieldChart({
+                theme: "bootstrap",
+                exportOptions: {
+                    image: false,
+                    print: false
+                },
+                seriesSettings: {
+                    bar: {
+                        stackMode: "normal"
+                    }
+                },
+                axisX: {
+                    categoricalValues: [
+                        "1952", "1956", "1960", "1964", "1968", "1972", "1976",
+                        "1984", "1988", "1992", "1996", "2000", "2004", "2008", "2012"
+                    ]
+                },
+                primaryHeader: {
+                    text: "Chart"
+                },
+                dataSeries: [{
+                    seriesType: "bar",
+                    collectionAlias: "Gold Medals",
+                    data: [40, 32, 34, 36, 45, 33, 34, 83, 36, 37, 44, 37, 35, 36, 46]
+                }, {
+                    seriesType: "bar",
+                    collectionAlias: "Silver Medals",
+                    data: [19, 25, 21, 26, 28, 31, 35, 60, 31, 34, 32, 24, 40, 38, 29]
+                }, {
+                    seriesType: "bar",
+                    collectionAlias: "Bronze Medals",
+                    data: [17, 17, 16, 28, 34, 30, 25, 30, 27, 37, 25, 33, 26, 36, 29]
+                }, {
+                    seriesType: "bar",
+                    collectionAlias: "Bronze",
+                    data: [11, 30, 27, 28, 34, 30, 25, 30, 27, 37, 25, 33, 26, 36, 29]
+                }]
+            });
+        });
+    </script>
+</body>
+</html>

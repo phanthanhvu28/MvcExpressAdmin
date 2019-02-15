@@ -133,8 +133,8 @@ namespace MvcExpressAdmin.Controllers
             //s.Append("<tr>");
             //s.Append("<td>Tổng</td>");
             //s.Append("</tr>");
-            s.Append("</tfooter>");
-            //s.Append("</tbody>");
+           // s.Append("</tfooter>");
+            s.Append("</tbody>");
             s.Append("</table>");
             s.Append("</div>");
             return "" + s;
