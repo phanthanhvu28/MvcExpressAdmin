@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Menu trang báo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#listMenu").CongelarFilaColumna({ Columnas: 0, coloreacelda: true, colorcelda: '#EFFBFB' });
+        });
+    </script>
+}
+<div class="headingtop">
+    <section class="content-header">
+
+
+        <div style="float: left;">
+            <label class="icon120m bg-blue" onclick="popListRegion()">
+                <i class="fa_excel fa-refresh bg-red1"></i>
+            </label>
+            <label class="icon120m bg-red1 cursor" id="lbReset" onclick="popListRegion()">
+                Danh sách quốc gia
+            </label>
+        </div>
+
+        <div style="float: left;">
+            <label class="icon120m bg-green1" onclick="popupTimezone()">
+                <i class="fa_excel fa-refresh bg-red1"></i>
+            </label>
+            <label class="icon120r bg-blue cursor" onclick="popupTimezone()">
+                Danh sách TimeZone
+            </label>
+        </div>
+
+
+        <ol class="breadcrumb">
+            @Html.Raw(ViewData["HeadingTopRight"])
+        </ol>
+    </section>
+</div>
+<div style="width:100%; margin-top:2px;margin-left:2px;margin-right:2px;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-body" id="divLeft">
+                    @Html.Action("LoadData", "mNewspaper")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

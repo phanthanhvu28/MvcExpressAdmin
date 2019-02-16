@@ -159,6 +159,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AngularMvcController.cs" />
     <Compile Include="Controllers\GhiChuController.cs" />
+    <Compile Include="Controllers\mNewspaperController.cs" />
     <Compile Include="Controllers\PhanQuyenController.cs" />
     <Compile Include="Controllers\PQTrangBaoController.cs" />
     <Compile Include="Controllers\UpdVideosController.cs" />
@@ -1303,6 +1304,40 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\add.png" />
+    <Content Include="images\additem.png" />
+    <Content Include="images\btn_close.png" />
+    <Content Include="images\btn_save.png" />
+    <Content Include="images\cal.png" />
+    <Content Include="images\cancel.png" />
+    <Content Include="images\del.png" />
+    <Content Include="images\del2.png" />
+    <Content Include="images\deparment.png" />
+    <Content Include="images\detail.png" />
+    <Content Include="images\dir.png" />
+    <Content Include="images\edit.png" />
+    <Content Include="images\edit2.png" />
+    <Content Include="images\excel.png" />
+    <Content Include="images\export.jpg" />
+    <Content Include="images\export.png" />
+    <Content Include="images\flag\cn.png" />
+    <Content Include="images\flag\en.png" />
+    <Content Include="images\flag\kh.png" />
+    <Content Include="images\flag\vn.png" />
+    <Content Include="images\list.png" />
+    <Content Include="images\loading.gif" />
+    <Content Include="images\move.png" />
+    <Content Include="images\noimage.png" />
+    <Content Include="images\notick.jpg" />
+    <Content Include="images\ok.png" />
+    <Content Include="images\oka.png" />
+    <Content Include="images\permission.png" />
+    <Content Include="images\right.png" />
+    <Content Include="images\ssx.png" />
+    <Content Include="images\tickgreen.jpg" />
+    <Content Include="images\tickred.jpg" />
+    <Content Include="images\warehouse.png" />
+    <Content Include="index.html" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-aria.js" />
@@ -2187,9 +2222,11 @@
     <Content Include="Scripts\version.json" />
     <Content Include="Views\wConfigDefault\Index.cshtml" />
     <Content Include="Views\UpdVideos\Index.cshtml" />
+    <Content Include="Views\mNewspaper\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Layout\chart\" />
     <Folder Include="Content\Layout\new247\images\logos\" />
     <Folder Include="Views\AdminSite\" />
   </ItemGroup>

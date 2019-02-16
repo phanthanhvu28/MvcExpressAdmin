@@ -106,5 +106,114 @@ namespace MvcExpressAdmin.Controllers
             db.SaveChanges();
             return Json("1", JsonRequestBehavior.AllowGet);
         }
+
+
+        [HttpPost]
+        public ActionResult LoadMenuVideo()
+        {
+            StringBuilder s = new StringBuilder();
+            string LID = CookieCls.GetLanguge();
+            int manv = int.Parse(CookieCls.GetMaNV());
+            string data = "";
+            s.Append("<table id='listMenuVideo' width='100%' class='mytable'>");
+            s.Append("<thead>");
+            s.Append("<tr style='height:50px'>");
+            s.Append("<td style='width:200px;text-align:left;font-size:18px'>Title</td>");
+            s.Append("<td style='width:200px;text-align:left;font-size:18px'>Title Web</td>");
+            s.Append("<td style='width:300px;text-align:left;font-size:18px'>Link</td>");
+            s.Append("<td style='width:70px;text-align:center;font-size:18px'>Home</td>");
+            s.Append("<td style='width:80px;text-align:center;font-size:18px'>Column 3</td>");
+            s.Append("<td style='width:80px;text-align:center;font-size:18px'>Column 4</td>");
+            s.Append("<td style='width:70px;text-align:center;font-size:18px'>Thứ tự</td>");
+            s.Append("</tr>");
+            s.Append("</thead>");
+            s.Append("</table>");
+           
+       
+            var dt = (from a in db.LMenuByLefts
+                     where a.Display == true
+                     select new {a.IDMenu,a.Title,a.Link,a.IdFc,a.DisplayHome,a.TitleWeb,a.STT,a.STTWeb }).OrderBy(x=>x.STT);
+            if(dt.Count()>0)
+            {
+                s.Append("<div class='scrollbar' style='overflow-y:overlay;max-height:" + (AS.sHeight() - 370) + "px'>");
+                s.Append("<table id='listMenuVideo' width='100%' class='mytable'>");
+                foreach (var r in dt)
+                {
+                    string DisplayHome = r.DisplayHome== true ? " checked=checked" : "";
+                    string col3 = r.IdFc == "col3" ? " checked=checked" : "";
+                    string col4 = r.IdFc == "col4" ? " checked=checked" : "";
+                    s.Append("<tr id='tr" + r.IDMenu + "'>");
+
+                    s.Append("<td class='heading' style='width:200px;height:50px;'>" + r.Title + "</td>");
+                    s.Append("<td class='heading' style='width:200px;height:50px;'><input class='txtn' type='text' id='txtTitle" + r.IDMenu + "' value='" + r.TitleWeb + "' onchange='UpdateTitleWeb(" + r.IDMenu + ")' style='width:90%;' /></td>");
+                    s.Append("<td class='heading' style='width:300px;height:50px;'>" + r.Link + "</td>");
+
+                    s.Append("<td style='width:70px; text-align:center;'><label class='lbcheck' style='z-index:1000'><input class='chkhidden' value='" + r.IDMenu + "' type='checkbox' " + DisplayHome + " onchange=\"CheckHome(" + r.IDMenu + ")\" id='chkHome" + r.IDMenu + "'> <span class='text'></span></label></td>");
+
+                    s.Append("<td style='width:80px; text-align:center;'> <label class='lbcheck' style='z-index:1000'><input class='chkhidden' value='" + r.IDMenu + "' type='checkbox' " + col3 + " onchange=\"CheckColumn(" + r.IDMenu + ",3)\" id='chkColumn3" + r.IDMenu + "'> <span class='text'></span></label></td>");
+                    s.Append("<td style='width:80px; text-align:center;'> <label class='lbcheck' style='z-index:1000'><input class='chkhidden' value='" + r.IDMenu + "' type='checkbox' " + col4 + " onchange=\"CheckColumn(" + r.IDMenu + ",4)\" id='chkColumn4" + r.IDMenu + "'> <span class='text'></span></label></td>");
+                    s.Append("<td class='heading' style='width:70px;height:50px;'><input class='txtn' type='text' id='txtSTTWeb" + r.IDMenu + "' value='" + r.STTWeb + "' onchange='UpdateSTTWeb(" + r.IDMenu + ")' style='width:90%;' /></td>");
+
+
+                    s.Append("</tr>");
+                }
+                s.Append("</table>");
+                s.Append("</div>");
+            }
+            //s.Append("</table>");
+            data = "" + s;
+            return Json(new { success = true, data }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateTitleWeb(string IDMenu, string TitleWeb)
+        {
+            int ID = int.Parse(IDMenu);
+            LMenuByLeft mn = db.LMenuByLefts.SingleOrDefault(r => r.IDMenu == ID);
+            if (mn != null)
+            {
+                mn.TitleWeb = TitleWeb;
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult UpdateSTTWeb(string IDMenu, string STTWeb)
+        {
+            int ID = int.Parse(IDMenu);
+            int stt = STTWeb == "" ? 0 : int.Parse(STTWeb);
+            LMenuByLeft mn = db.LMenuByLefts.SingleOrDefault(r => r.IDMenu == ID);
+            if (mn != null)
+            {
+                mn.STTWeb = stt;
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult CheckHome(string IDMenu, string DisplayHome)
+        {
+            int ID = int.Parse(IDMenu);
+            bool home = DisplayHome == "1" ? true : false;
+            LMenuByLeft mn = db.LMenuByLefts.SingleOrDefault(r => r.IDMenu == ID);
+            if (mn != null)
+            {
+                mn.DisplayHome = home;
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult CheckColumn(string IDMenu, string Column)
+        {
+            int ID = int.Parse(IDMenu);            
+            LMenuByLeft mn = db.LMenuByLefts.SingleOrDefault(r => r.IDMenu == ID);
+            if (mn != null)
+            {
+                mn.IdFc = Column;
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
     }
 }
