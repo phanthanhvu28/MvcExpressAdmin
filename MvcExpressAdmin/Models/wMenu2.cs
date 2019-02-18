@@ -12,7 +12,7 @@ namespace MvcExpressAdmin.Models
         public wMenu2()
         {
             wNews = new HashSet<wNew>();
-            mNewspaperMenus = new HashSet<mNewspaperMenu>();
+            //mNewspaperMenus = new HashSet<mNewspaperMenu>();
         }
 
         [Key]
@@ -33,7 +33,7 @@ namespace MvcExpressAdmin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<wNew> wNews { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<mNewspaperMenu> mNewspaperMenus { get; set; }
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<mNewspaperMenu> mNewspaperMenus { get; set; }
     }
 }

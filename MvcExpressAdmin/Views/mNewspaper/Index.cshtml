@@ -5,9 +5,727 @@
 }
 @section scripts{
     <script type="text/javascript">
-        $(document).ready(function () {
-            $("#listMenu").CongelarFilaColumna({ Columnas: 0, coloreacelda: true, colorcelda: '#EFFBFB' });
-        });
+        function Update_Name_Menu1(mID) {
+            var menucha = $("#txtMenu1" + mID).val();
+            if (menucha == null || menucha.length == 0) {
+                CheckNotify("txtMenu1" + mID, "Chưa nhập tên trang báo", "top", "error", true, false);
+            }
+
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Update_Name_Newspaper", "mNewspaper")',
+                    data: "{'mID':'" + mID + "','sNAME':'" + menucha + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == 1) {
+                            CheckNotify("txtMenu1" + mID, "Thành công", "top", "success", false, false);
+
+                        }
+                        else {
+                            CheckNotify("txtMenu1" + mID, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function Update_Link_Website(mID) {
+            var link = $("#txtLinkwebsite" + mID).val();
+            if (link == null || link.length == 0) {
+                CheckNotify("txtLinkwebsite" + mID, "Chưa nhập tên website", "top", "error", true, false);
+            }
+
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Update_Link_Website", "mNewspaper")',
+                    data: "{'mID':'" + mID + "','sLINK':'" + link + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("txtLinkwebsite" + mID, "Thành công", "top", "success", false, false);
+
+                        }
+                        else {
+                            CheckNotify("txtLinkwebsite" + mID, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function UpdateSTT_Menu1(mID) {
+            var stt = $("#txtSTT_Type" + mID).val();
+            if (stt == null || stt.length == 0 || stt == 0) {
+                CheckNotify("txtSTT_Type" + mID, "Chưa nhập stt", "top", "error", true, false);
+            }
+            else if (!validNumber(stt)) {
+                CheckNotify("txtSTT_Type" + mID, "Định dạng stt không đúng", "top", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateSTT_Newspaper", "mNewspaper")',
+                    data: "{'mID':'" + mID + "','sSTT':'" + stt + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("txtSTT_Type" + mID, "Thành công", "top", "success", false, false);
+                        }
+                        else {
+                            CheckNotify("txtSTT_Type" + mID, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function UpdateNameCate(sID) {
+            var catename = $("#txtNameCate" + sID).val();
+            if (catename == null || catename.length == 0) {
+                CheckNotify("txtNameCate" + sID, "Tên menu không được để trống", "top", "error", true, false);
+
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateTitle_NewsMenu", "mNewspaper")',
+                    data: "{'sID':'" + sID + "','sNAME':'" + catename + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("txtNameCate" + sID, "Thành công", "top", "success", false, false);
+                        }
+
+                        else {
+                            CheckNotify("txtNameCate" + sID, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function UpdateRssLink(sID) {
+            var rsslink = $("#txtRss" + sID).val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UpdateRssLink_NewsMenu", "mNewspaper")',
+                data: "{'sID':'" + sID + "','sRSSLINK':'" + rsslink + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data == 1) {
+                        CheckNotify("txtRss" + sID, "Thành công", "top", "success", false, false);
+
+                    }
+                    else {
+                        CheckNotify("txtRss" + sID, "Error", "top", "error", false, false);
+                    }
+                },
+                failure: function (response) {
+
+                }
+            });
+            // }
+        }
+        function UpdateSTT(sID) {
+            var stt = $("#txtSTT" + sID).val();
+            if (stt == null || stt.length == 0 || stt == 0) {
+                CheckNotify("txtSTT" + sID, "Chưa nhập stt", "top", "error", true, false);
+            }
+            else if (!validNumber(stt)) {
+                CheckNotify("txtSTT" + sID, "Định dạng stt không đúng", "top", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+
+                    url: '@Url.Action("UpdateSTT", "mNewspaper")',
+                    data: "{'sID':'" + sID + "','sSTT':'" + stt + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("txtSTT" + sID, "Thành công", "top", "success", false, false);
+
+                        }
+                        else {
+                            CheckNotify("txtSTT" + sID, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function UpdateTopMenu(sID) {
+            var topmenu = $("#chkTopMenu_" + sID).is(':checked');
+
+            $.ajax({
+                type: "POST",
+
+                url: '@Url.Action("UpdateTopMenu", "mNewspaper")',
+                data: "{'sID':'" + sID + "','sTopMenu':'" + topmenu + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data == 1) {
+                        CheckNotify("chkTopMenu_" + sID, "Thành công", "top", "success", false, false);
+                    }
+                    else {
+                        CheckNotify("chkTopMenu_" + sID, "Error", "top", "error", false, false);
+                    }
+                },
+                failure: function (response) {
+
+                }
+            });
+        }
+
+        function UpdateVideo(sID) {
+            var video = $("#chkVideo_" + sID).is(':checked');
+
+            $.ajax({
+                type: "POST",
+                  url: '@Url.Action("UpdateVideo", "mNewspaper")',
+                data: "{'sID':'" + sID + "','sVideo':'" + video + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data == 1) {
+                        CheckNotify("chkVideo_" + sID, "Thành công", "top", "success", false, false);
+
+                    }
+                    else {
+                        CheckNotify("chkVideo_" + sID, "Error", "top", "error", false, false);
+                    }
+                },
+                failure: function (response) {
+
+                }
+            });
+        }
+        function UpdateHienThi2(sID) {
+            var hieuluc = $("#chkCate2_" + sID).is(':checked');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UpdateHienThi2", "mNewspaper")',
+                data: "{'sID':'" + sID + "','sHieuLuc':'" + hieuluc + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data == 1) {
+                        CheckNotify("chkCate2_" + sID, "Thành công", "top", "success", false, false);
+                    }
+                    else {
+                        CheckNotify("chkCate2_" + sID, "Error", "top", "error", false, false);
+                    }
+                },
+                failure: function (response) {
+
+                }
+            });
+        }
+        function PopupMenuLeft(mID) {
+            $("#modalListMenuLeft").modal();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LOADMENU_BY_NEWSPAPERID", "mNewspaper")',
+                data: "{'sNewspaperId':'" + mID + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#listMenuLeft").fadeIn();
+                    $("#listMenuLeft").html(data.data);
+                },
+                error: function () {
+
+                }
+            });
+        }
+
+        function Update_Title_MenuLeft(mID) {
+            var title = $("#txtTitleLeft" + mID).val();
+            if (title == null || title.length == 0) {
+                CheckNotify("txtTitleLeft" + mID, "Chưa nhập tên menu left", "top", "error", true, false);
+            }
+
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Update_Title_MenuLeft", "mNewspaper")',
+                    data: "{'mID':'" + mID + "','sTitle':'" + title + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("txtTitleLeft" + mID, "Thành công", "top", "success", false, false);
+
+                        }
+                        else {
+                            CheckNotify("txtTitleLeft" + mID, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function UpdateSTT_MenuLeft(mID) {
+            var stt = $("#txtSTTLeft" + mID).val();
+            if (stt == null || stt.length == 0) {
+                CheckNotify("txtSTTLeft" + mID, "Nhập số thứ tự", "top", "error", true, false);
+            }
+
+            else {
+                $.ajax({
+                    type: "POST",
+                     url: '@Url.Action("Update_Title_MenuLeft", "mNewspaper")',
+                    data: "{'mID':'" + mID + "','sSTT':'" + stt + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == 1) {
+                            CheckNotify("txtSTTLeft" + mID, "Thành công", "top", "success", false, false);
+                        }
+                        else {
+                            CheckNotify("txtSTTLeft" + mID, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function UpdateTitleMenu(IDMenu) {
+            var title = $("#txtTitleMenu" + IDMenu).val();
+            if (title == null || title.length == 0) {
+                CheckNotify("txtTitleMenu" + IDMenu, "Chưa nhập tên menu", "top", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Update_Title_Menu", "mNewspaper")',
+                    data: "{'IDMenu':'" + IDMenu + "','sTitle':'" + title + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == 1) {
+                            CheckNotify("txtTitleMenu" + IDMenu, "Thành công", "top", "success", false, false);
+                        }
+                        else {
+                            CheckNotify("txtTitleMenu" + IDMenu, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function UpdateLinkMenu(IDMenu) {
+            var link = $("#txtLinkMenu" + IDMenu).val();
+            if (link == null || link.length == 0) {
+                CheckNotify("txtLinkMenu" + IDMenu, "Chưa nhập link", "top", "error", true, false);
+
+            }
+
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateLinkMenu", "mNewspaper")',
+                    data: "{'IDMenu':'" + IDMenu + "','sLink':'" + link + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("txtLinkMenu" + IDMenu, "Thành công", "top", "success", false, false);
+
+                        }
+                        else {
+                            CheckNotify("txtLinkMenu" + IDMenu, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function UpdateSTTMenu(IDMenu) {
+            var stt = $("#txtSTTMenu" + IDMenu).val();
+            if (stt == null || stt.length == 0) {
+                CheckNotify("txtSTTMenu" + IDMenu, "Chưa nhập STT", "top", "error", true, false);
+
+            }
+
+            else {
+                $.ajax({
+                    type: "POST",
+
+                     url: '@Url.Action("UpdateSTTMenu", "mNewspaper")',
+                    data: "{'IDMenu':'" + IDMenu + "','sSTT':'" + stt + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("txtSTTMenu" + IDMenu, "Thành công", "top", "success", false, false);
+
+                        }
+                        else {
+                            CheckNotify("txtSTTMenu" + IDMenu, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function UpdateDisplay_MenuLeft(mID) {
+            var hthi = $("#chkMenuLeft" + mID).is(':checked');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UpdateDisplay_MenuLeft", "mNewspaper")',
+                data: "{'mID':'" + mID + "','sHieuLuc':'" + hthi + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data == 1) {
+                        CheckNotify("chkMenuLeft" + mID, "Thành công", "top", "success", false, false);
+
+                    }
+                    else {
+                        CheckNotify("chkMenuLeft" + mID, "Error", "top", "error", false, false);
+                    }
+                },
+                failure: function (response) {
+
+                }
+            });
+        }
+        function UpdateDisplayMenu(IDMenu) {
+            var hthi = $("#chkDisplayMenu" + IDMenu).is(':checked');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UpdateDisplayMenu", "mNewspaper")',
+                data: "{'IDMenu':'" + IDMenu + "','sHieuLuc':'" + hthi + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data == 1) {
+                        CheckNotify("chkDisplayMenu" + IDMenu, "Thành công", "top", "success", false, false);
+
+                    }
+                    else {
+                        CheckNotify("chkDisplayMenu" + IDMenu, "Error", "top", "error", false, false);
+                    }
+                },
+                failure: function (response) {
+
+                }
+            });
+        }
+        function AddLeft(IDLeft) {
+            $("#txtLeftID").val(IDLeft);
+            $("#modalAddLeft").modal();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Load_Title_ByID", "mNewspaper")',
+                data: "{'LeftID':'" + IDLeft + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#txtTitleMNLeft").val(data.data);
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function AddMenuLeft(NewspaperId) {
+            $("#modalAddMNL").modal(); 
+            $("#txtHDTB").val(NewspaperId);
+        }
+        function SaveMenuLeft() {
+            var newspaperId = $("#txtHDTB").val();
+            var title = $("#txtTitleLeft").val();
+            var hieuluc = $("#chkHL_MenuLeft").is(":checked");
+            if (title == null || title.length == 0) {
+                CheckNotify("txtTitleLeft", "Nhập tên menu left", "bottom", "error", true, false);
+            }
+            else {
+
+                $.ajax({
+                    type: "POST",                    
+                    url: '@Url.Action("INSERTMENULEFT", "mNewspaper")',
+                    data: "{'NewspaperId':'" + newspaperId + "','sTitle':'" + title + "','sHIEULUC':'" + hieuluc + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == 1) {
+                            CheckNotify("btnUpd_MenuLeft", "Thành công", "top", "success", true, false);
+                           // LOAD_MENULEFT_AJAX();
+                        }
+                        else {
+                            CheckNotify("btnUpd_MenuLeft", "Thất bại", "top", "error", true, false);
+
+                        }
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
+        }
+        function DeleteMenuLeft(mID) {
+
+            $.confirm({
+                title: 'Delete!',
+                content: 'Tất cả các danh mục left này sẽ xóa hết!',
+                confirm: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("DeleteMenuLeft", "mNewspaper")',                        
+                        data: "{'mID':'" + mID + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == 1) {
+                               // LOAD_MENULEFT_AJAX();
+                            }
+                            else {
+                                CheckNotify("trleft_" + mID, "Thất bại", "top", "error", false, false);
+                            }
+                        },
+                        error: function () {
+                            CheckNotify("trleft_" + mID, "Error", "top", "error", false, false);
+
+                        }
+                    });
+                },
+                cancel: function () {
+
+                }
+            });
+        }
+        function SaveMenuLeft2() {
+            var LeftID = $("#txtLeftID").val();            
+            var title = $("#txtTitle2").val();
+            var link = $("#txtLink2").val();
+            var hieuluc = $("#chkHL_MenuLeft2").is(":checked");
+            if (title == null || title.length == 0) {
+                CheckNotify("txtTitle2", "Nhập tên menu", "bottom", "error", true, false);
+            }
+            else if (link == null || link.length == 0) {
+                CheckNotify("txtLink2", "Nhập link", "bottom", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("INSERTMENUBYLEFT", "mNewspaper")',
+                    data: "{'sLID':'" + LeftID + "','sTitle':'" + title + "','sLink':'" + link + "','sHIEULUC':'" + hieuluc + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data== 1) {
+                            CheckNotify("btnUpd_MenuLeft2", "Thành công", "top", "success", true, false);
+                            LOAD_MENULEFT_AJAX(LeftID);
+                        }
+                        else {
+                            CheckNotify("btnUpd_MenuLeft2", "Thất bại", "top", "error", true, false);
+                        }
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
+        }
+        function DeleteMenu(IDMenu) {
+
+            $.confirm({
+                title: 'Delete!',
+                content: 'Bạn có chắc chắn xóa!',
+                confirm: function () {
+                    $.ajax({
+                        type: "POST",                        
+                        url: '@Url.Action("DeleteMenu", "mNewspaper")',
+                        data: "{'IDMenu':'" + IDMenu + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == 1) {
+                                $('#submenuleft' + IDMenu).fadeOut();
+                            }
+                            else {
+                                CheckNotify("submenuleft" + mID, "Thất bại", "top", "error", false, false);
+                            }
+                        },
+                        error: function () {
+                            CheckNotify("submenuleft" + mID, "Error", "top", "error", false, false);
+
+                        }
+                    });
+                },
+                cancel: function () {
+
+                }
+            });
+        }
+        function LOAD_MENULEFT_AJAX(NewspaperId) {
+           // var newspaperid = $("#txtNewspaperId").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LOAD_MENU_AJAX", "mNewspaper")',
+                data: "{'sNewspaperId':'" + NewspaperId + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#dsMenuLeft").fadeIn();
+                    $("#dsMenuLeft").html(data.data);
+                },
+                error: function () {
+                }
+            });
+        }
+        function AddDanhmuc(dm) {          
+            $("#txtHiddenTrangBao").val(dm);
+            $("#modalAddDM").modal();
+             $.ajax({
+                type: "POST",
+                 url: '@Url.Action("LoadTrangBao", "mNewspaper")',
+                 data: "{'IDTrangBao':'" + dm + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#txtTrangBao").val(data.data);
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function SaveDanhMuc() {
+            var tendm = $("#txtTenDM").val();
+            var slLoai = $("#txtHiddenTrangBao").val();
+            var linkrss = $("#txtRssLink").val();
+            var chktopmenu = $("#chkTopmenu").is(":checked");
+
+            var chkvideo = $("#chkVideo").is(":checked");
+            if (tendm == null || tendm.length == 0 || tendm == "0") {
+
+                CheckNotify("txtTenDM", "Nhập tên menu con", "top", "error", true, false);
+            }
+            else if (slLoai == null || slLoai.length == 0) {
+
+                CheckNotify("slCateApp", "Chưa có menu cha", "top", "error", true, false);
+            }
+           
+            else {
+
+                $.ajax({
+                    type: "POST",                    
+                    url: '@Url.Action("INSERT_NEWSPAPERMENU", "mNewspaper")',
+                    data: "{'sMID':'" + slLoai + "','sNAME':'" + tendm + "','sRSSLINK':'" + linkrss + "','sTOPMENU':'" + chktopmenu + "','sVIDEO':'" + chkvideo + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("btnUpdCate", "Thành công", "top", "success", true, false);
+                            LOAD_DANHMUC_AJAX();
+                        }
+                        else {
+                            CheckNotify("btnUpdCate", "Thất bại", "top", "error", true, false);
+
+                        }
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
+        }
+        function DeleteM2(sID) {
+            $.confirm({
+                title: 'Delete!',
+                content: 'Bạn có chắc chắn xóa!',
+                confirm: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("DeleteM2", "mNewspaper")',                        
+                        data: "{'sID':'" + sID + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == 1) {  
+                                $('#submenu' + sID).fadeOut();
+                            }
+                            else {
+                                CheckNotify("submenu" + sID, "Thất bại", "top", "error", false, false);
+                            }
+                        },
+                        error: function () {
+                            CheckNotify("submenu" + sID, "Error", "top", "error", false, false);
+
+                        }
+                    });
+                },
+                cancel: function () {
+
+                }
+            });
+        }
+        function LOAD_DANHMUC_AJAX() {
+            var region = "vie";
+            $.ajax({
+                type: "POST",                
+                 url: '@Url.Action("LOAD_DANHMUC_AJAX", "mNewspaper")',   
+                data: "{'Region':'" + region + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#listMenu").fadeIn();
+                    $("#listMenu").html(data.data);
+                },
+                error: function () {
+
+                }
+            });
+
+        }
+      
     </script>
 }
 <div class="headingtop">
@@ -44,6 +762,172 @@
             <div class="box box-warning">
                 <div class="box-body" id="divLeft">
                     @Html.Action("LoadData", "mNewspaper")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalListMenuLeft" style="width:100%" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width:900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleMenu" style="color:brown;font-size:18px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">DANH SÁCH MENU VIDEO LEFT</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="listMenuLeft" style="clear: both;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalAddLeft" style="width:100%;margin-top:50px;" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width:450px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleMenu" style="color:brown;font-size:18px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">CẬP NHẬT MENU</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtLeftID" />
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">Menu left</div>
+                        <input type="text" id="txtTitleMNLeft" style="width: 94%" class="form-control styleText" tabindex="0" disabled="disabled" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">Title</div>
+                        <input type="text" id="txtTitle2" style="width: 94%" class="form-control styleText" tabindex="1" placeholder="Nhập tên menu" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">Link</div>
+                        <input type="text" id="txtLink2" style="width: 94%" class="form-control styleText" tabindex="2" placeholder="Nhập link" />
+                    </div>
+                </div>
+
+
+                <div class="box-body">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input type="checkbox" id="chkHL_MenuLeft2" tabindex="3" checked="checked" />
+                        </span>
+                        <span>
+                            <button type="button" class="btn btn-success btn-flat" style="height: 33px;">Hiệu lực</button>
+                        </span>
+                        <div class="navbar-right" style="margin-right: 5px;">
+                            <input type="button" id="btnUpd_MenuLeft2" value="Cập nhật menu" class="btn btn-success" onclick="SaveMenuLeft2()" tabindex="3" style="height: 33px;" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>           
+        </div>
+    </div>
+</div>
+
+<div id="modalAddMNL" style="width:100%;margin-top:50px;" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width:450px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleMenu" style="color:brown;font-size:18px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">VIDEO MENU</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtHDTB" />
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">Title</div>
+                        <input type="text" id="txtTitleLeft" style="width: 94%" class="form-control styleText" tabindex="1" placeholder="Nhập tên menu left" />
+                    </div>
+                </div>
+
+
+                <div class="box-body">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input type="checkbox" id="chkHL_MenuLeft" tabindex="2" checked="checked" />
+                        </span>
+                        <span>
+                            <button type="button" class="btn btn-success btn-flat" style="height: 33px;">Hiệu lực</button>
+                        </span>
+                        <div class="navbar-right" style="margin-right: 5px;">
+                            <input type="button" id="btnUpd_MenuLeft" value="Cập nhật menu" class="btn btn-success" onclick="SaveMenuLeft()" tabindex="3" style="height: 33px;" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalAddDM" style="width:100%;margin-top:50px;" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width:450px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleMenu" style="color:brown;font-size:18px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">CẬP NHẬT DANH MỤC</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="txtHiddenTrangBao" />
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">Trang báo</div>
+                        <input type="text" id="txtTrangBao" style="color:blue" class="form-control styleText" tabindex="1" disabled="disabled" />
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">Menu</div>
+                        <input type="text" id="txtTenDM" class="form-control styleText" tabindex="2" placeholder="Nhập tên menu" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">Link Rss</div>
+                        <input type="text" id="txtRssLink" class="form-control styleText" tabindex="3" placeholder="Nhập link Rss" />
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input type="checkbox" id="chkTopmenu" tabindex="4" checked="checked" />
+                        </span>
+                        <span>
+                            <button type="button" class="btn btn-danger btn-flat">Top menu</button>
+                        </span>
+
+                        <span class="input-group-addon">
+                            <input type="checkbox" id="chkVideo" tabindex="5" />
+                        </span>
+                        <span>
+                            <button type="button" class="btn btn-info btn-flat">Video</button>
+                        </span>
+
+                        <div class="navbar-right" style="margin-right: 5px;">
+                            <input type="button" id="btnUpdCate" value="Cập nhật" class="btn btn-warning" onclick="SaveDanhMuc()" tabindex="4" style="height: 33px;" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
