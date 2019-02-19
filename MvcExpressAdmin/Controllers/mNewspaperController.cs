@@ -25,7 +25,7 @@ namespace MvcExpressAdmin.Controllers
                 s.Append("<table width='100%' class='mytable' id=''>");
                 s.Append("<thead>");
                 s.Append("<tr style='height:50px;'>");
-                s.Append("<td style='width:40px;height:55px' align='center'><input type='button' class='additem' id='adddanhmucm' value='&nbsp;' onclick=\"AddFlatform()\"></td>");
+                s.Append("<td style='width:40px;height:55px' align='center'><input type='button' class='additem' id='adddanhmucm' value='&nbsp;' onclick=\"AddNewsPaper()\"></td>");
                 s.Append("<td style='width:40px; text-align:center; font-size:18px'>" + AS.GetTT("tt_id") + "</td>");
                 s.Append("<td style='width:120px;text-align:left; font-size:18px'>Tên danh mục</td>");
                 s.Append("<td style='width:160px;text-align:left; font-size:18px'>Link website</td>");
@@ -44,7 +44,7 @@ namespace MvcExpressAdmin.Controllers
                 s.Append("</thead>");
                 s.Append("</table>");
 
-                s.Append("<div style='margin: 0 auto;overflow: auto;width: 100%;position: relative;height:" + (AS.sHeight() - 190) + "px'>");
+                s.Append("<div style='margin: 0 auto;overflow: auto;width: 100%;position: relative;height:" + (AS.sHeight() - 220) + "px'>");
                 s.Append("<table width='100%' class='mytable' id='listMenu' style='' >");
                 s.Append("<tbody>");
                 var dt = from a in db.mNewspapers
@@ -318,7 +318,7 @@ namespace MvcExpressAdmin.Controllers
             s.Append("<thead>");
             s.Append("<tr style='height:50px;'>");
 
-            s.Append("<td style='width:40px;height:55px' align='center'><input type='button' class='additem' id='idmnleft' value='&nbsp;' onclick=\"AddMenuLeft("+ sNewspaperId + ")\">");
+            s.Append("<td style='width:40px;height:55px' align='center'><input type='button' class='additem' id='idmnleft' value='&nbsp;' onclick=\"AddMenuLeft(" + sNewspaperId + ")\">");
 
 
             s.Append("</td>");
@@ -410,7 +410,7 @@ namespace MvcExpressAdmin.Controllers
         {
             StringBuilder s = new StringBuilder();
             string data = "";
-          
+
             s.Append("<tbody>");
             int ID = int.Parse(sNewspaperId);
             var dt = from a in db.LMenuLefts
@@ -464,7 +464,7 @@ namespace MvcExpressAdmin.Controllers
                     }
                 }
             }
-            s.Append("</tbody>");           
+            s.Append("</tbody>");
             data = "" + s;
             return Json(new { success = true, data }, JsonRequestBehavior.AllowGet);
         }
@@ -619,7 +619,7 @@ namespace MvcExpressAdmin.Controllers
             entity.TopMenu = sTOPMENU == "true" ? true : false;
             entity.GroupApp = sRSSLINK == "" ? false : true;
             entity.Video = sVIDEO == "true" ? true : false;
-            entity.Display = true;      
+            entity.Display = true;
             entity.Stt = stt;
             db.mNewspaperMenus.Add(entity);
             db.SaveChanges();
@@ -632,7 +632,7 @@ namespace MvcExpressAdmin.Controllers
             var cn = db.mNewspaperMenus.Where(r => r.NewspaperMenuId == ID).ToList();
             if (cn.Count() > 0)
             {
-                if(db.wNewsMenuIds.Where(r => r.NewspaperMenuId == ID).ToList().Count()>0)
+                if (db.wNewsMenuIds.Where(r => r.NewspaperMenuId == ID).ToList().Count() > 0)
                     db.wNewsMenuIds.RemoveRange(db.wNewsMenuIds.Where(r => r.NewspaperMenuId == ID));
                 if (db.rssNews.Where(r => r.NewspaperMenuId == ID).ToList().Count() > 0)
                     db.rssNews.RemoveRange(db.rssNews.Where(r => r.NewspaperMenuId == ID));
@@ -652,7 +652,7 @@ namespace MvcExpressAdmin.Controllers
             entity.IDMenuLeft = ID;
             entity.NewspaperId = NewspaperId;
             entity.Title = sTitle;
-            entity.Display = sHIEULUC == "true" ? true : false;           
+            entity.Display = sHIEULUC == "true" ? true : false;
             entity.STT = stt;
             db.LMenuLefts.Add(entity);
             db.SaveChanges();
@@ -665,10 +665,58 @@ namespace MvcExpressAdmin.Controllers
             var cn = db.LMenuByLefts.Where(r => r.IDMenuLeft == ID).ToList();
             if (cn.Count() > 0)
             {
-                db.LMenuByLefts.RemoveRange(db.LMenuByLefts.Where(r => r.IDMenuLeft == ID));  
+                db.LMenuByLefts.RemoveRange(db.LMenuByLefts.Where(r => r.IDMenuLeft == ID));
             }
             if (db.LMenuLefts.Where(r => r.IDMenuLeft == ID).ToList().Count() > 0)
                 db.LMenuLefts.RemoveRange(db.LMenuLefts.Where(r => r.IDMenuLeft == ID));
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        public ActionResult INSERT_NEWSPAPER(string sNAME, string sLINKWEBISTE, string sICON, string sHIEULUC, string sLanguge)
+        {
+            mNewspaper entity = new mNewspaper();
+            int ID = db.mNewspapers.Select(x => x.NewspaperId).DefaultIfEmpty(0).Max() + 1;
+            int? stt = db.mNewspapers.Select(x => x.Stt).DefaultIfEmpty(0).Max() + 1;
+            entity.NewspaperId = ID;
+            entity.Title = sNAME;
+            entity.Website = sLINKWEBISTE;
+            entity.Icon = sICON;
+            entity.Display = true;
+            entity.Stt = stt;
+            entity.Languge = sLanguge;
+            db.mNewspapers.Add(entity);
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteM1(string mID)
+        {
+            int ID = int.Parse(mID);
+
+            var entity = from a in db.mNewspaperMenus
+                         where a.NewspaperId == ID
+                         select new { a.NewspaperMenuId };
+            if (entity.Count() > 0)
+            {
+                foreach (var v in entity)
+                {
+                    if (db.wNewsMenuIds.Where(r => r.NewspaperMenuId == v.NewspaperMenuId).Count() > 0)
+                        db.wNewsMenuIds.RemoveRange(db.wNewsMenuIds.Where(r => r.NewspaperMenuId == v.NewspaperMenuId));
+                }
+            }
+
+            if (db.mNewspaperMenus.Where(r => r.NewspaperId == ID).Count() > 0)
+                db.mNewspaperMenus.RemoveRange(db.mNewspaperMenus.Where(r => r.NewspaperId == ID));
+
+            var cn = db.mNewspapers.Where(r => r.NewspaperId == ID);
+            if (cn.Count() > 0)
+            {
+                db.mNewspapers.RemoveRange(db.mNewspapers.Where(r => r.NewspaperId == ID));
+            }
             db.SaveChanges();
             return Json("1", JsonRequestBehavior.AllowGet);
         }

@@ -249,6 +249,7 @@
             });
         }
         function PopupMenuLeft(mID) {
+            $("#txtHiddenTrangBao").val(mID);            
             $("#modalListMenuLeft").modal();
             $.ajax({
                 type: "POST",
@@ -475,10 +476,12 @@
         }
         function AddMenuLeft(NewspaperId) {
             $("#modalAddMNL").modal(); 
+           // var ID = $("#txtHiddenTrangBao").val();
             $("#txtHDTB").val(NewspaperId);
         }
         function SaveMenuLeft() {
-            var newspaperId = $("#txtHDTB").val();
+           // var newspaperId = $("#txtHDTB").val();
+            var newspaperId = $("#txtHiddenTrangBao").val();
             var title = $("#txtTitleLeft").val();
             var hieuluc = $("#chkHL_MenuLeft").is(":checked");
             if (title == null || title.length == 0) {
@@ -495,6 +498,7 @@
                     success: function (data) {
                         if (data == 1) {
                             CheckNotify("btnUpd_MenuLeft", "Thành công", "top", "success", true, false);
+                            LOAD_MENULEFT_AJAX(newspaperId);
                            // LOAD_MENULEFT_AJAX();
                         }
                         else {
@@ -509,7 +513,7 @@
             }
         }
         function DeleteMenuLeft(mID) {
-
+            var newspaperId = $("#txtHiddenTrangBao").val();
             $.confirm({
                 title: 'Delete!',
                 content: 'Tất cả các danh mục left này sẽ xóa hết!',
@@ -522,7 +526,7 @@
                         dataType: "json",
                         success: function (data) {
                             if (data == 1) {
-                               // LOAD_MENULEFT_AJAX();
+                                LOAD_MENULEFT_AJAX(newspaperId);
                             }
                             else {
                                 CheckNotify("trleft_" + mID, "Thất bại", "top", "error", false, false);
@@ -540,6 +544,7 @@
             });
         }
         function SaveMenuLeft2() {
+            var newspaperId = $("#txtHiddenTrangBao").val();
             var LeftID = $("#txtLeftID").val();            
             var title = $("#txtTitle2").val();
             var link = $("#txtLink2").val();
@@ -560,7 +565,7 @@
                     success: function (data) {
                         if (data== 1) {
                             CheckNotify("btnUpd_MenuLeft2", "Thành công", "top", "success", true, false);
-                            LOAD_MENULEFT_AJAX(LeftID);
+                            LOAD_MENULEFT_AJAX(newspaperId);
                         }
                         else {
                             CheckNotify("btnUpd_MenuLeft2", "Thất bại", "top", "error", true, false);
@@ -620,7 +625,7 @@
             });
         }
         function AddDanhmuc(dm) {          
-            $("#txtHiddenTrangBao").val(dm);
+            $("#txtHDInsertNewspaper").val(dm);
             $("#modalAddDM").modal();
              $.ajax({
                 type: "POST",
@@ -638,18 +643,18 @@
         }
         function SaveDanhMuc() {
             var tendm = $("#txtTenDM").val();
-            var slLoai = $("#txtHiddenTrangBao").val();
+            var slLoai = $("#txtHDInsertNewspaper").val();
             var linkrss = $("#txtRssLink").val();
             var chktopmenu = $("#chkTopmenu").is(":checked");
 
             var chkvideo = $("#chkVideo").is(":checked");
             if (tendm == null || tendm.length == 0 || tendm == "0") {
 
-                CheckNotify("txtTenDM", "Nhập tên menu con", "top", "error", true, false);
+                CheckNotify("txtTenDM", "Nhập tên menu", "top", "error", true, false);
             }
             else if (slLoai == null || slLoai.length == 0) {
 
-                CheckNotify("slCateApp", "Chưa có menu cha", "top", "error", true, false);
+                CheckNotify("txtTrangBao", "Chưa có trang báo", "top", "error", true, false);
             }
            
             else {
@@ -725,6 +730,82 @@
             });
 
         }
+
+        function AddNewsPaper() {
+            $("#modalAddNewspapers").modal();    
+        }
+        function SaveMenu1() {
+            var tendm = $("#txtMenu1").val();
+            var web = $("#txtWebsite").val();
+            var icon = "";
+            var region = "vie";
+            var hieuluc = $("#chkHL_Flatform").is(":checked");
+            if (tendm == null || tendm.length == 0) {
+
+                CheckNotify("txtMenu1", "Nhập tên trang báo", "bottom", "error", true, false);
+            }
+            else if (web == null || web.length == 0) {
+
+                CheckNotify("txtWebsite", "Nhập link webiste", "bottom", "error", true, false);
+            }           
+
+            else {
+
+                $.ajax({
+                    type: "POST",                    
+                    url: '@Url.Action("INSERT_NEWSPAPER", "mNewspaper")',
+                    data: "{'sNAME':'" + tendm + "','sLINKWEBISTE':'" + web + "','sICON':'" + icon + "','sHIEULUC':'" + hieuluc + "','sLanguge':'" + region + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("btnUpd_Flatform", "Thành công", "top", "success", true, false);
+                            LOAD_DANHMUC_AJAX();
+                           // LOAD_TYPEAPP_AJAX();
+                        }
+                        else {
+                            CheckNotify("btnUpd_Flatform", "Thất bại", "top", "error", true, false);
+
+                        }
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
+        }
+
+        function DeleteM1(mID) {
+            $.confirm({
+                title: 'Delete!',
+                content: 'Tất cả các danh mục trang này sẽ xóa hết!',
+                confirm: function () {
+                    $.ajax({
+                        type: "POST",                        
+                        url: '@Url.Action("DeleteM1", "mNewspaper")',
+                        data: "{'mID':'" + mID + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == 1) {
+                                LOAD_DANHMUC_AJAX();
+                            }
+                            else {
+                                CheckNotify("tr1_" + mID, "Thất bại", "top", "error", false, false);
+                            }
+                        },
+                        error: function () {
+                            CheckNotify("tr1_" + mID, "Error", "top", "error", false, false);
+
+                        }
+                    });
+                },
+                cancel: function () {
+
+                }
+            });
+        }
       
     </script>
 }
@@ -768,6 +849,52 @@
     </div>
 </div>
 
+<div id="modalAddNewspapers" style="width:100%" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width:450px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleMenu" style="color:brown;font-size:18px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">CẬP NHẬT TRANG BÁO</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">Tên trang báo</div>
+                        <input type="text" id="txtMenu1" style="width: 94%" class="form-control styleText" tabindex="1" placeholder="Nhập tên trang báo" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">Website</div>
+                        <input type="text" id="txtWebsite" style="width: 94%" class="form-control styleText" tabindex="2" placeholder="Nhập link website" />
+                    </div>
+                </div>
+                
+
+                <div class="box-body">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input type="checkbox" id="chkHL_Flatform" tabindex="3" checked="checked" />
+                        </span>
+                        <span>
+                            <button type="button" class="btn btn-success btn-flat" style="height: 33px;">Hiệu lực</button>
+                        </span>
+                        <div class="navbar-right" style="margin-right: 5px;">
+                            <input type="button" id="btnUpd_Flatform" value="Cập nhật trang báo" class="btn btn-success" onclick="SaveMenu1()" tabindex="4" style="height: 33px;" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="modalListMenuLeft" style="width:100%" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document" style="width:900px">
         <div class="modal-content">
@@ -778,6 +905,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                <input type="hidden" id="txtHiddenTrangBao" />
                 <div id="listMenuLeft" style="clear: both;">
                 </div>
             </div>
@@ -848,7 +976,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="txtHDTB" />
+                @*<input type="hidden" id="txtHDTB" />*@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">Title</div>
@@ -886,7 +1014,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="txtHiddenTrangBao" />
+                <input type="hidden" id="txtHDInsertNewspaper" />
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">Trang báo</div>
