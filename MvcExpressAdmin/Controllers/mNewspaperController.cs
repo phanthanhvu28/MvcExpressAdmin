@@ -296,6 +296,19 @@ namespace MvcExpressAdmin.Controllers
             db.SaveChanges();
             return Json("1", JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult UpdateHienThi1(string mID, string sHIEULUC)
+        {
+            int ID = int.Parse(mID);
+            mNewspaper mn = db.mNewspapers.SingleOrDefault(r => r.NewspaperId == ID);
+            if (mn != null)
+            {
+                mn.Display = sHIEULUC == "true" ? true : false;
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         public ActionResult UpdateHienThi2(string sID, string sHieuLuc)
         {
@@ -708,10 +721,14 @@ namespace MvcExpressAdmin.Controllers
                         db.wNewsMenuIds.RemoveRange(db.wNewsMenuIds.Where(r => r.NewspaperMenuId == v.NewspaperMenuId));
                 }
             }
-
-            if (db.mNewspaperMenus.Where(r => r.NewspaperId == ID).Count() > 0)
-                db.mNewspaperMenus.RemoveRange(db.mNewspaperMenus.Where(r => r.NewspaperId == ID));
-
+            var entity2 = from a in db.mNewspaperMenus
+                          where a.NewspaperId == ID
+                          select new { a.NewspaperMenuId };
+            if (entity2.Count() > 0)
+            {
+                //db.mNewspaperMenus.RemoveRange(db.mNewspaperMenus.Where(r => r.NewspaperId == ID));                
+                db.mNewspaperMenus.RemoveRange(db.mNewspaperMenus.Where(r => r.NewspaperId == ID).ToList());
+            }
             var cn = db.mNewspapers.Where(r => r.NewspaperId == ID);
             if (cn.Count() > 0)
             {
@@ -719,6 +736,216 @@ namespace MvcExpressAdmin.Controllers
             }
             db.SaveChanges();
             return Json("1", JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult LOADTIMEZONE()
+        {
+            StringBuilder s = new StringBuilder();
+            string data = "";
+
+            s.Append("<table width='100%' class='mytable' >");
+            s.Append("<thead>");
+            s.Append("<tr>");
+            s.Append("<td style='width:40px;text-align:center; font-size:18px'>STT</td>");
+            s.Append("<td style='width:300px;text-align:center; font-size:18px'>ID</td>");
+
+            s.Append("<td style='width:300px;text-align:left; font-size:18px'>UTC</td>");
+
+            s.Append("<td style='width:200px;text-align:left; font-size:18px'>Time</td>");
+
+            s.Append("</tr>");
+            s.Append("</thead>");
+            s.Append("</table>");
+            s.Append("<div class='scrollbar1' style='overflow-y:scroll;max-height:" + (AS.sHeight() - 400) + "px'>");
+            s.Append("<table width='100%' class='mytable' id='dsMenuLeft' style='' >");
+            s.Append("<tbody>");
+            int i = 1;
+            foreach (TimeZoneInfo info in TimeZoneInfo.GetSystemTimeZones())
+            {
+                DateTimeOffset newTime = TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, TimeZoneInfo.FindSystemTimeZoneById(info.Id));
+                s.Append("<tr>");
+                s.Append("<td style='width:40px;text-align:center; font-size:18px'>" + i + "</td>");
+                s.Append("<td style='width:300px;text-align:center; font-size:18px'>" + info.Id + "</td>");
+
+                s.Append("<td style='width:300px;text-align:left; font-size:18px'>" + info.ToString() + "</td>");
+
+                s.Append("<td style='width:200px;text-align:left; font-size:18px'>" + newTime.ToString("dd-MM-yyyy  HH:mm:ss") + "</td>");
+
+                s.Append("</tr>");
+                i++;
+            }
+
+            s.Append("</tbody>");
+            s.Append("</table>");
+            s.Append("</div>");
+
+            data = "" + s;
+            return Json(new { success = true, data }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult LoadListRegions()
+        {
+            StringBuilder s = new StringBuilder();
+            string data = "";
+
+            s.Append("<table width='100%' class='mytable' >");
+            s.Append("<thead>");
+            s.Append("<tr>");
+            s.Append("<td style='width:40px;text-align:center; font-size:18px'><input type='button' class='add2' id='addRegion' value='&nbsp;' onclick=\"ModalAddRegion()\"></td>");
+            s.Append("<td style='width:60px;text-align:center; font-size:18px'>ID</td>");
+            s.Append("<td style='width:150px;text-align:center; font-size:18px'>Name</td>");
+            s.Append("<td style='width:300px;text-align:center; font-size:18px'>GMT</td>");
+            s.Append("<td style='width:90px;text-align:left; font-size:18px'>Thứ tự</td>");
+            s.Append("<td style='width:90px;text-align:center; font-size:18px'>Hiển thị</td>");
+            s.Append("<td style='width:40px;text-align:center; font-size:18px'>Xóa</td>");
+
+            s.Append("</tr>");
+            s.Append("</thead>");
+            s.Append("</table>");
+            s.Append("<div class='scrollbar1' style='overflow-y:scroll;max-height:" + (AS.sHeight() - 400) + "px'>");
+            s.Append("<table width='100%' class='mytable' id='RELOAD_REGION_LIST' style='' >");
+            s.Append("<tbody>");
+            var dt = from a in db.Regions
+                     orderby a.ThuTu ascending
+                     select a;
+            if (dt.Count() > 0)
+            {
+                int i = 1;
+                foreach (var r in dt)
+                {
+                    string HT = r.HienThi == true ? " checked=checked" : "";
+                    s.Append("<tr id='Region" + r.MaNuoc + "'>");
+                    s.Append("<td style='width:40px;text-align:center; font-size:18px'>" + i + "</td>");
+                    s.Append("<td style='width:60px;text-align:center; font-size:18px'>" + r.MaNuoc + "</td>");
+                    s.Append("<td style='width:150px; text-align:center'  id='TenNuoc" + r.MaNuoc + "'><input class='txtn' type='text' id='txtTenNuoc" + r.MaNuoc + "' value='" + r.TenNuoc + "' onchange=\"UpdateTN('" + r.MaNuoc + "')\" style='width:100%'></td>");
+                    s.Append("<td style='width:300px; text-align:center'  id='GMT" + r.MaNuoc + "'><input class='txtn' type='text' id='txtGMT" + r.MaNuoc + "' value='" + r.GMT + "' onchange=\"UpdateGMT('" + r.MaNuoc + "')\" style='width:100%'></td>");
+                    s.Append("<td style='width:90px; text-align:center'  id='ThuTu" + r.MaNuoc + "'><input class='txtn' type='text' id='txtTTRegion" + r.MaNuoc + "' value='" + r.ThuTu + "' onchange=\"UpdateTTRegion('" + r.MaNuoc + "')\" style='width:100%'></td>");
+                    s.Append("<td style='width:90px;text-align:center; font-size:18px'><input style='z-index:1' class='chkhidden' " + HT + " type='checkbox' onchange=\"CheckRegionDisplay('" + r.MaNuoc + "')\" id='check' > <span class='text' style='z-index:0'></span></td>");
+                    s.Append("<td  align='center' style='width:40px;' class='heading'>");
+                    s.Append("<input type='button' class='imgdel' id='btnXoaRG" + r.MaNuoc + "'  onclick=\"DeleteRegion('" + r.MaNuoc + "')\">");
+                    s.Append("</td>");
+                    s.Append("</tr>");
+                    i++;
+                }
+            }
+            s.Append("</tbody>");
+            s.Append("</table>");
+            s.Append("</div>");
+
+            data = "" + s;
+            return Json(new { success = true, data }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateTN(string MaNuoc, string TenNuoc)
+        {          
+            Region mn = db.Regions.SingleOrDefault(r => r.MaNuoc.Equals(MaNuoc));
+            if (mn != null)
+            {
+                mn.TenNuoc = TenNuoc;
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult UpdateGMT(string MaNuoc, string GMT)
+        {
+            Region mn = db.Regions.SingleOrDefault(r => r.MaNuoc.Equals(MaNuoc));
+            if (mn != null)
+            {
+                mn.GMT = GMT;
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult UpdateSTTRegion(string MaNuoc, string STT)
+        {
+            int stt = int.Parse(STT);
+            Region mn = db.Regions.SingleOrDefault(r => r.MaNuoc.Equals(MaNuoc));
+            if (mn != null)
+            {
+                mn.ThuTu = stt;
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult CheckRegionDisplay(string MaNuoc, string HienThi)
+        {
+            Region mn = db.Regions.SingleOrDefault(r => r.MaNuoc.Equals(MaNuoc));
+            if (mn != null)
+            {
+                mn.HienThi = HienThi == "true" ? true : false;
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteRegion(string MaNuoc)
+        {            
+            var cn = db.Regions.Where(r => r.MaNuoc.Equals(MaNuoc)).ToList();
+            if (cn.Count() > 0)
+            {
+                db.Regions.RemoveRange(db.Regions.Where(r => r.MaNuoc.Equals(MaNuoc)));
+            }
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult InsertRegion(string MaNuoc, string TenNuoc, string GMT, string HIEULUC)
+        {
+            Region entity = new Region();
+           
+            int? stt = db.Regions.Select(x => x.ThuTu).DefaultIfEmpty(0).Max() + 1;
+            entity.MaNuoc = MaNuoc;
+            entity.TenNuoc = TenNuoc;
+            entity.GMT = GMT;
+            entity.ThuTu = stt;
+            entity.HienThi = HIEULUC == "true" ? true : false;            
+            db.Regions.Add(entity);
+            db.SaveChanges();
+            return Json("1", JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult RELOAD_REGION()
+        {
+            StringBuilder s = new StringBuilder();
+            string data = "";
+            s.Append("<tbody>");
+            var dt = from a in db.Regions
+                     orderby a.ThuTu ascending
+                     select a;
+            if (dt.Count() > 0)
+            {
+                int i = 1;
+                foreach (var r in dt)
+                {
+                    string HT = r.HienThi == true ? " checked=checked" : "";
+                    s.Append("<tr id='Region" + r.MaNuoc + "'>");
+                    s.Append("<td style='width:40px;text-align:center; font-size:18px'>" + i + "</td>");
+                    s.Append("<td style='width:60px;text-align:center; font-size:18px'>" + r.MaNuoc + "</td>");
+                    s.Append("<td style='width:150px; text-align:center'  id='TenNuoc" + r.MaNuoc + "'><input class='txtn' type='text' id='txtTenNuoc" + r.MaNuoc + "' value='" + r.TenNuoc + "' onchange=\"UpdateTN('" + r.MaNuoc + "')\" style='width:100%'></td>");
+                    s.Append("<td style='width:300px; text-align:center'  id='GMT" + r.MaNuoc + "'><input class='txtn' type='text' id='txtGMT" + r.MaNuoc + "' value='" + r.GMT + "' onchange=\"UpdateGMT('" + r.MaNuoc + "')\" style='width:100%'></td>");
+                    s.Append("<td style='width:90px; text-align:center'  id='ThuTu" + r.MaNuoc + "'><input class='txtn' type='text' id='txtTTRegion" + r.MaNuoc + "' value='" + r.ThuTu + "' onchange=\"UpdateTTRegion('" + r.MaNuoc + "')\" style='width:100%'></td>");
+                    s.Append("<td style='width:90px;text-align:center; font-size:18px'><input style='z-index:1' class='chkhidden' " + HT + " type='checkbox' onchange=\"CheckRegionDisplay('" + r.MaNuoc + "')\" id='check' > <span class='text' style='z-index:0'></span></td>");
+                    s.Append("<td  align='center' style='width:40px;' class='heading'>");
+                    s.Append("<input type='button' class='imgdel' id='btnXoaRG" + r.MaNuoc + "'  onclick=\"DeleteRegion('" + r.MaNuoc + "')\">");
+                    s.Append("</td>");
+                    s.Append("</tr>");
+                    i++;
+                }
+            }
+            s.Append("</tbody>");
+
+
+            data = "" + s;
+            return Json(new { success = true, data }, JsonRequestBehavior.AllowGet);
         }
     }
 }

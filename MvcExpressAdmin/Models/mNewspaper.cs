@@ -9,12 +9,12 @@ namespace MvcExpressAdmin.Models
     [Table("mNewspaper")]
     public partial class mNewspaper
     {
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        //public mNewspaper()
-        //{
-        //    mNewspaperMenus = new HashSet<mNewspaperMenu>();
-        //    wNews = new HashSet<wNew>();
-        //}
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public mNewspaper()
+        {
+            mNewspaperMenus = new HashSet<mNewspaperMenu>();
+            //wNews = new HashSet<wNew>();
+        }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -36,8 +36,8 @@ namespace MvcExpressAdmin.Models
         [StringLength(50)]
         public string Languge { get; set; }
 
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        //public virtual ICollection<mNewspaperMenu> mNewspaperMenus { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<mNewspaperMenu> mNewspaperMenus { get; set; }
 
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //public virtual ICollection<wNew> wNews { get; set; }

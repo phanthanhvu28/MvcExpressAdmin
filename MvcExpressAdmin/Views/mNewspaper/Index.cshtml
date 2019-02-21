@@ -225,6 +225,28 @@
                 }
             });
         }
+        function UpdateHienThi1(mID) {
+            var hthi = $("#chkCate_" + mID).is(':checked');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UpdateHienThi1", "mNewspaper")',
+                data: "{'mID':'" + mID + "','sHIEULUC':'" + hthi + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data == 1) {
+                        CheckNotify("chkCate_" + mID, "Thành công", "top", "success", false, false);
+                    }
+                    else {
+                        CheckNotify("chkCate_" + mID, "Error", "top", "error", false, false);
+                    }
+                },
+                failure: function (response) {
+
+                }
+            });
+        }
         function UpdateHienThi2(sID) {
             var hieuluc = $("#chkCate2_" + sID).is(':checked');
 
@@ -249,7 +271,7 @@
             });
         }
         function PopupMenuLeft(mID) {
-            $("#txtHiddenTrangBao").val(mID);            
+            $("#txtHiddenTrangBao").val(mID);
             $("#modalListMenuLeft").modal();
             $.ajax({
                 type: "POST",
@@ -475,7 +497,7 @@
             });
         }
         function AddMenuLeft(NewspaperId) {
-            $("#modalAddMNL").modal(); 
+            $("#modalAddMNL").modal();
            // var ID = $("#txtHiddenTrangBao").val();
             $("#txtHDTB").val(NewspaperId);
         }
@@ -490,7 +512,7 @@
             else {
 
                 $.ajax({
-                    type: "POST",                    
+                    type: "POST",
                     url: '@Url.Action("INSERTMENULEFT", "mNewspaper")',
                     data: "{'NewspaperId':'" + newspaperId + "','sTitle':'" + title + "','sHIEULUC':'" + hieuluc + "'}",
                     contentType: "application/json; charset=utf-8",
@@ -520,7 +542,7 @@
                 confirm: function () {
                     $.ajax({
                         type: "POST",
-                        url: '@Url.Action("DeleteMenuLeft", "mNewspaper")',                        
+                        url: '@Url.Action("DeleteMenuLeft", "mNewspaper")',
                         data: "{'mID':'" + mID + "'}",
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -545,7 +567,7 @@
         }
         function SaveMenuLeft2() {
             var newspaperId = $("#txtHiddenTrangBao").val();
-            var LeftID = $("#txtLeftID").val();            
+            var LeftID = $("#txtLeftID").val();
             var title = $("#txtTitle2").val();
             var link = $("#txtLink2").val();
             var hieuluc = $("#chkHL_MenuLeft2").is(":checked");
@@ -584,7 +606,7 @@
                 content: 'Bạn có chắc chắn xóa!',
                 confirm: function () {
                     $.ajax({
-                        type: "POST",                        
+                        type: "POST",
                         url: '@Url.Action("DeleteMenu", "mNewspaper")',
                         data: "{'IDMenu':'" + IDMenu + "'}",
                         contentType: "application/json; charset=utf-8",
@@ -624,7 +646,7 @@
                 }
             });
         }
-        function AddDanhmuc(dm) {          
+        function AddDanhmuc(dm) {
             $("#txtHDInsertNewspaper").val(dm);
             $("#modalAddDM").modal();
              $.ajax({
@@ -656,11 +678,11 @@
 
                 CheckNotify("txtTrangBao", "Chưa có trang báo", "top", "error", true, false);
             }
-           
+
             else {
 
                 $.ajax({
-                    type: "POST",                    
+                    type: "POST",
                     url: '@Url.Action("INSERT_NEWSPAPERMENU", "mNewspaper")',
                     data: "{'sMID':'" + slLoai + "','sNAME':'" + tendm + "','sRSSLINK':'" + linkrss + "','sTOPMENU':'" + chktopmenu + "','sVIDEO':'" + chkvideo + "'}",
                     contentType: "application/json; charset=utf-8",
@@ -689,12 +711,12 @@
                 confirm: function () {
                     $.ajax({
                         type: "POST",
-                        url: '@Url.Action("DeleteM2", "mNewspaper")',                        
+                        url: '@Url.Action("DeleteM2", "mNewspaper")',
                         data: "{'sID':'" + sID + "'}",
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (data) {
-                            if (data == 1) {  
+                            if (data == 1) {
                                 $('#submenu' + sID).fadeOut();
                             }
                             else {
@@ -715,8 +737,8 @@
         function LOAD_DANHMUC_AJAX() {
             var region = "vie";
             $.ajax({
-                type: "POST",                
-                 url: '@Url.Action("LOAD_DANHMUC_AJAX", "mNewspaper")',   
+                type: "POST",
+                 url: '@Url.Action("LOAD_DANHMUC_AJAX", "mNewspaper")',
                 data: "{'Region':'" + region + "'}",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -732,7 +754,7 @@
         }
 
         function AddNewsPaper() {
-            $("#modalAddNewspapers").modal();    
+            $("#modalAddNewspapers").modal();
         }
         function SaveMenu1() {
             var tendm = $("#txtMenu1").val();
@@ -747,12 +769,12 @@
             else if (web == null || web.length == 0) {
 
                 CheckNotify("txtWebsite", "Nhập link webiste", "bottom", "error", true, false);
-            }           
+            }
 
             else {
 
                 $.ajax({
-                    type: "POST",                    
+                    type: "POST",
                     url: '@Url.Action("INSERT_NEWSPAPER", "mNewspaper")',
                     data: "{'sNAME':'" + tendm + "','sLINKWEBISTE':'" + web + "','sICON':'" + icon + "','sHIEULUC':'" + hieuluc + "','sLanguge':'" + region + "'}",
                     contentType: "application/json; charset=utf-8",
@@ -782,7 +804,7 @@
                 content: 'Tất cả các danh mục trang này sẽ xóa hết!',
                 confirm: function () {
                     $.ajax({
-                        type: "POST",                        
+                        type: "POST",
                         url: '@Url.Action("DeleteM1", "mNewspaper")',
                         data: "{'mID':'" + mID + "'}",
                         contentType: "application/json; charset=utf-8",
@@ -806,7 +828,244 @@
                 }
             });
         }
-      
+        function popupTimezone() {
+            $("#modalListTimeZone").modal();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LOADTIMEZONE", "mNewspaper")',
+                data: "",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#listTimezone").fadeIn();
+                    $("#listTimezone").html(data.data);
+                },
+                error: function () {
+
+                }
+            });
+        }
+
+        function popListRegion() {
+             $("#modalListRegions").modal();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadListRegions", "mNewspaper")',
+                data: "",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#listRegions").fadeIn();
+                    $("#listRegions").html(data.data);
+                },
+                error: function () {
+
+                }
+            });
+        }
+
+        function UpdateTN(MaNuoc) {
+            var tn = $("#txtTenNuoc" + MaNuoc).val();
+            if (tn == null || tn.length == 0) {
+                CheckNotify("txtTenNuoc" + MaNuoc, "Chưa nhập tên nước", "top", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateTN", "mNewspaper")',
+                    data: "{'MaNuoc':'" + MaNuoc + "','TenNuoc':'" + tn + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("txtTenNuoc" + MaNuoc, "Thành công", "top", "success", false, false);
+
+                        }
+                        else {
+                            CheckNotify("txtTenNuoc" + MaNuoc, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function UpdateGMT(MaNuoc) {
+            var gmt = $("#txtGMT" + MaNuoc).val();
+            if (gmt == null || gmt.length == 0) {
+                CheckNotify("txtGMT" + MaNuoc, "Chưa nhập tên nước", "top", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UpdateGMT", "mNewspaper")',
+                    data: "{'MaNuoc':'" + MaNuoc + "','GMT':'" + gmt + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("txtGMT" + MaNuoc, "Thành công", "top", "success", false, false);
+
+                        }
+                        else {
+                            CheckNotify("txtGMT" + MaNuoc, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+
+        function UpdateTTRegion(MaNuoc) {
+            var stt = $("#txtTTRegion" + MaNuoc).val();
+            if (stt == null || stt.length == 0 || stt == 0) {
+                CheckNotify("txtTTRegion" + MaNuoc, "Chưa nhập stt", "top", "error", true, false);
+            }
+            else if (!validNumber(stt)) {
+                CheckNotify("txtTTRegion" + MaNuoc, "Định dạng stt không đúng", "top", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+
+                    url: '@Url.Action("UpdateSTTRegion", "mNewspaper")',
+                    data: "{'MaNuoc':'" + MaNuoc + "','STT':'" + stt + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        if (data == 1) {
+                            CheckNotify("txtTTRegion" + MaNuoc, "Thành công", "top", "success", false, false);
+
+                        }
+                        else {
+                            CheckNotify("txtTTRegion" + MaNuoc, "Error", "top", "error", false, false);
+                        }
+                    },
+                    failure: function (response) {
+
+                    }
+                });
+            }
+        }
+        function CheckRegionDisplay(MaNuoc) {
+            alert(MaNuoc);
+            @*var checkHT = $("#chkDisplayRegion" + MaNuoc).is(':checked');
+
+            $.ajax({
+                type: "POST",
+
+                url: '@Url.Action("CheckRegionDisplay", "mNewspaper")',
+                data: "{'MaNuoc':'" + MaNuoc + "','HienThi':'" + checkHT + "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    if (data == 1) {
+                        CheckNotify("chkDisplayRegion" + MaNuoc, "Thành công", "top", "success", false, false);
+                    }
+                    else {
+                        CheckNotify("chkDisplayRegion" + MaNuoc, "Error", "top", "error", false, false);
+                    }
+                },
+                failure: function (response) {
+
+                }
+            });*@
+        }
+        function DeleteRegion(MaNuoc) {
+            $.confirm({
+                title: 'Delete!',
+                content: 'Bạn có chắc chắn xóa!',
+                confirm: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("DeleteRegion", "mNewspaper")',
+                        data: "{'MaNuoc':'" + MaNuoc + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == 1) {
+                                $('#Region' + MaNuoc).fadeOut();
+                            }
+                            else {
+                                CheckNotify("btnXoaRG" + MaNuoc, "Thất bại", "top", "error", false, false);
+                            }
+                        },
+                        error: function () {
+                            CheckNotify("btnXoaRG" + MaNuoc, "Error", "top", "error", false, false);
+
+                        }
+                    });
+                },
+                cancel: function () {
+
+                }
+            });
+        }
+
+        function ModalAddRegion() {
+            $("#modalAddRegion").modal();
+        }
+        function InsertRegion() {           
+            var mn = $("#txtMaNuoc").val();
+            var tn = $("#txtTenNuoc").val();
+            var gmt = $("#txtGMT").val();
+            var hieuluc = $("#chkRegionHL").is(":checked");
+            if (mn == null || mn.length == 0) {
+                CheckNotify("txtMaNuoc", "Nhập mã nước", "bottom", "error", true, false);
+            }
+            else if (tn == null || tn.length == 0) {
+                CheckNotify("txtTenNuoc", "Nhập tên nước", "bottom", "error", true, false);
+            }
+            else if (gmt == null || gmt.length == 0) {
+                CheckNotify("txtGMT", "Nhập GMT", "bottom", "error", true, false);
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("InsertRegion", "mNewspaper")',
+                    data: "{'MaNuoc':'" + mn + "','TenNuoc':'" + tn + "','GMT':'" + gmt + "','HIEULUC':'" + hieuluc + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == 1) {
+                            CheckNotify("btnInsertRegion", "Thành công", "top", "success", true, false);                         
+                            RELOAD_REGION();
+                        }
+                        else {
+                            CheckNotify("btnInsertRegion", "Thất bại", "top", "error", true, false);
+
+                        }
+                    },
+                    error: function () {
+
+                    }
+                });
+            }
+        }
+        function RELOAD_REGION() {            
+            $.ajax({
+                type: "POST",
+                 url: '@Url.Action("RELOAD_REGION", "mNewspaper")',
+                data: "",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#RELOAD_REGION_LIST").fadeIn();
+                    $("#RELOAD_REGION_LIST").html(data.data);
+                },
+                error: function () {
+
+                }
+            });
+
+        }
     </script>
 }
 <div class="headingtop">
@@ -837,6 +1096,7 @@
         </ol>
     </section>
 </div>
+
 <div style="width:100%; margin-top:2px;margin-left:2px;margin-right:2px;">
     <div class="row">
         <div class="col-md-12">
@@ -871,7 +1131,7 @@
                         <input type="text" id="txtWebsite" style="width: 94%" class="form-control styleText" tabindex="2" placeholder="Nhập link website" />
                     </div>
                 </div>
-                
+
 
                 <div class="box-body">
                     <div class="input-group">
@@ -961,7 +1221,7 @@
                     </div>
 
                 </div>
-            </div>           
+            </div>
         </div>
     </div>
 </div>
@@ -1061,4 +1321,100 @@
         </div>
     </div>
 </div>
+
+<div id="modalListTimeZone" style="width:100%" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width:900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleMenu" style="color:brown;font-size:18px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">DANH SÁCH TIME ZONE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div id="listTimezone" style="clear: both;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalListRegions" style="width:100%" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width:900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleMenu" style="color:brown;font-size:18px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">DANH SÁCH QUỐC GIA</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div id="listRegions" style="clear: both;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalAddRegion" style="width:100%; margin-top:80px" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width:500px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitleMenu" style="color:brown;font-size:18px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">INSERT REGION</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">Mã nước</div>
+                        <input type="text" id="txtMaNuoc" style="width: 100%" class="form-control styleText" tabindex="1" placeholder="Nhập mã nước" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">Tên nước</div>
+                        <input type="text" id="txtTenNuoc" style="width: 100%" class="form-control styleText" tabindex="2" placeholder="Nhập tên nước" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">GMT</div>
+                        <input type="text" id="txtGMT" style="width: 100%" class="form-control styleText" tabindex="3" placeholder="Nhập GMT" />
+                    </div>
+                </div>
+
+
+                <div class="box-body">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <input type="checkbox" id="chkRegionHL" tabindex="4" checked="checked" />
+                        </span>
+                        <span>
+                            <button type="button" class="btn btn-success btn-flat" style="height: 33px;">Hiệu lực</button>
+                        </span>
+                        <div class="navbar-right" style="">
+                            <input type="button" id="btnInsertRegion" value="INSERT REGION" class="btn btn-success" onclick="InsertRegion()" tabindex="5" style="height: 33px;" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
