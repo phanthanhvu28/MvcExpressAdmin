@@ -846,23 +846,7 @@
             });
         }
 
-        function popListRegion() {
-             $("#modalListRegions").modal();
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("LoadListRegions", "mNewspaper")',
-                data: "",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    $("#listRegions").fadeIn();
-                    $("#listRegions").html(data.data);
-                },
-                error: function () {
-
-                }
-            });
-        }
+       
 
         function UpdateTN(MaNuoc) {
             var tn = $("#txtTenNuoc" + MaNuoc).val();
@@ -956,16 +940,13 @@
         function CheckRegionDisplay(MaNuoc) {
             alert(MaNuoc);
             @*var checkHT = $("#chkDisplayRegion" + MaNuoc).is(':checked');
-
             $.ajax({
                 type: "POST",
-
                 url: '@Url.Action("CheckRegionDisplay", "mNewspaper")',
                 data: "{'MaNuoc':'" + MaNuoc + "','HienThi':'" + checkHT + "'}",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-
                     if (data == 1) {
                         CheckNotify("chkDisplayRegion" + MaNuoc, "Thành công", "top", "success", false, false);
                     }
@@ -974,7 +955,6 @@
                     }
                 },
                 failure: function (response) {
-
                 }
             });*@
         }
@@ -1012,7 +992,7 @@
         function ModalAddRegion() {
             $("#modalAddRegion").modal();
         }
-        function InsertRegion() {           
+        function InsertRegion() {
             var mn = $("#txtMaNuoc").val();
             var tn = $("#txtTenNuoc").val();
             var gmt = $("#txtGMT").val();
@@ -1035,7 +1015,7 @@
                     dataType: "json",
                     success: function (data) {
                         if (data == 1) {
-                            CheckNotify("btnInsertRegion", "Thành công", "top", "success", true, false);                         
+                            CheckNotify("btnInsertRegion", "Thành công", "top", "success", true, false);
                             RELOAD_REGION();
                         }
                         else {
@@ -1049,7 +1029,7 @@
                 });
             }
         }
-        function RELOAD_REGION() {            
+        function RELOAD_REGION() {
             $.ajax({
                 type: "POST",
                  url: '@Url.Action("RELOAD_REGION", "mNewspaper")',
@@ -1064,13 +1044,63 @@
 
                 }
             });
-
         }
+        function popListRegion() {
+             $("#modalListRegions").modal();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadListRegions", "mNewspaper")',
+                data: "",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#listRegions").fadeIn();
+                    $("#listRegions").html(data.data);
+                },
+                error: function () {
+
+                }
+            });
+          
+        }
+
+        function LoadTrangBao() {
+          //  alert($("#slRegions").val());
+            $('#listTrangBao').html('<div style="" align="center"><img src="../images/loading.gif" /> </div>');
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("LoadData", "mNewspaper")',
+                data: "{'MaNuoc':'" + $("#slRegions").val()+ "'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#listTrangBao").fadeIn();
+                    $("#listTrangBao").html(data.data);
+                },
+                error: function () {
+                }
+            });         
+        }
+        $(document).ready(function () {
+            $.get("/mNewspaper/RegionList", function (data) {
+                $("#slRegions").empty();
+                $.each(data, function (index, row) {
+                    
+                    $("#slRegions").append("<option value='" + row.MaNuoc + "'>" + row.TenNuoc + "</option>");
+                });
+            });
+            $("#slRegions").prop('selectedIndex', 1);
+            //alert($("#slRegions").val());
+           // LoadTrangBao();
+        });
     </script>
 }
 <div class="headingtop">
     <section class="content-header">
-
+        <div style="float: left;">
+            <select class="form-control select2" style="width: 250px; height:40px" tabindex="1" id="slRegions" onchange="LoadTrangBao()">                
+            </select>
+        </div>
 
         <div style="float: left;">
             <label class="icon120m bg-blue" onclick="popListRegion()">
@@ -1102,7 +1132,8 @@
         <div class="col-md-12">
             <div class="box box-warning">
                 <div class="box-body" id="divLeft">
-                    @Html.Action("LoadData", "mNewspaper")
+                    <div id="listTrangBao"></div>
+                    @*@Html.Action("LoadData", "mNewspaper")*@
                 </div>
             </div>
         </div>
@@ -1302,14 +1333,16 @@
                             <input type="checkbox" id="chkTopmenu" tabindex="4" checked="checked" />
                         </span>
                         <span>
-                            <button type="button" class="btn btn-danger btn-flat">Top menu</button>
+                            <input type="button" class="btn btn-danger btn-flat" title="Top menu" value="Top menu" />
+                            @*<button type="button" class="btn btn-danger btn-flat">Top menu</button>*@
                         </span>
 
                         <span class="input-group-addon">
                             <input type="checkbox" id="chkVideo" tabindex="5" />
                         </span>
                         <span>
-                            <button type="button" class="btn btn-info btn-flat">Video</button>
+                            <input type="button" class="btn btn-info btn-flat" for="chkVideo" value="Video" />
+                            @*<button type="button" class="btn btn-info btn-flat">Video</button>*@
                         </span>
 
                         <div class="navbar-right" style="margin-right: 5px;">

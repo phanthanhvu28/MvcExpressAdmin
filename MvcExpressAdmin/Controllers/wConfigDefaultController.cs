@@ -97,7 +97,6 @@ namespace MvcExpressAdmin.Controllers
                                 s.Append("</tr>");
                             }
                         }
-
                     }
                 }
                 s.Append("</tbody>");

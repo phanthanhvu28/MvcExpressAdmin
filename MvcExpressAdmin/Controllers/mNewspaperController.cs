@@ -16,12 +16,13 @@ namespace MvcExpressAdmin.Controllers
         AdminSiteController AS = new AdminSiteController();
         string languge = CookieCls.GetLanguge();
 
-        public string LoadData()
+        [HttpPost]
+        public ActionResult LoadData(string MaNuoc)
         {
             StringBuilder s = new StringBuilder();
             try
             {
-
+                string data = "";
                 s.Append("<table width='100%' class='mytable' id=''>");
                 s.Append("<thead>");
                 s.Append("<tr style='height:50px;'>");
@@ -48,7 +49,7 @@ namespace MvcExpressAdmin.Controllers
                 s.Append("<table width='100%' class='mytable' id='listMenu' style='' >");
                 s.Append("<tbody>");
                 var dt = from a in db.mNewspapers
-                         where a.Languge.Equals("vie")
+                         where a.Languge.Equals(MaNuoc)
                          select a;
                 if (dt.Count() > 0)
                 {
@@ -114,13 +115,22 @@ namespace MvcExpressAdmin.Controllers
                 s.Append("</tbody>");
                 s.Append("</table>");
                 s.Append("</div>");
-
-                return "" + s;
+                data = "" + s;
+                return Json(new { success = true, data }, JsonRequestBehavior.AllowGet);
+                //return "" + s;
             }
             catch
             {
-                return "";
+                return Json(0, JsonRequestBehavior.AllowGet);
+               // return "";
             }
+        }
+
+        public JsonResult RegionList()
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            List<Region> regionList = db.Regions.Where(x => x.HienThi == true).OrderBy(x => x.ThuTu).ToList();
+            return Json(regionList,JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
