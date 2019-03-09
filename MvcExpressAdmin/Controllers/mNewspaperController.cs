@@ -760,7 +760,7 @@ namespace MvcExpressAdmin.Controllers
             s.Append("<thead>");
             s.Append("<tr>");
             s.Append("<td style='width:40px;text-align:center; font-size:18px'>STT</td>");
-            s.Append("<td style='width:300px;text-align:center; font-size:18px'>ID</td>");
+            s.Append("<td style='width:300px;text-align:left; font-size:18px'>ID</td>");
 
             s.Append("<td style='width:300px;text-align:left; font-size:18px'>UTC</td>");
 
@@ -778,7 +778,7 @@ namespace MvcExpressAdmin.Controllers
                 DateTimeOffset newTime = TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, TimeZoneInfo.FindSystemTimeZoneById(info.Id));
                 s.Append("<tr>");
                 s.Append("<td style='width:40px;text-align:center; font-size:18px'>" + i + "</td>");
-                s.Append("<td style='width:300px;text-align:center; font-size:18px'>" + info.Id + "</td>");
+                s.Append("<td style='width:300px;text-align:left; font-size:18px'>" + info.Id + "</td>");
 
                 s.Append("<td style='width:300px;text-align:left; font-size:18px'>" + info.ToString() + "</td>");
 

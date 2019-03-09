@@ -293,6 +293,13 @@
     <Content Include="Content\Layout\cart\js\jquery-2.2.3.min.js" />
     <Content Include="Content\Layout\cart\js\jquery.mycart.js" />
     <Content Include="Content\Layout\cart\js\jquery.mycart.min.js" />
+    <Content Include="Content\Layout\chart\demos.js" />
+    <Content Include="Content\Layout\chart\jquery-1.11.1.min.js" />
+    <Content Include="Content\Layout\chart\jqx.base.css" />
+    <Content Include="Content\Layout\chart\jqxchart.core.js" />
+    <Content Include="Content\Layout\chart\jqxcore.js" />
+    <Content Include="Content\Layout\chart\jqxdata.js" />
+    <Content Include="Content\Layout\chart\jqxdraw.js" />
     <Content Include="Content\Layout\cssEditor.css" />
     <Content Include="Content\Layout\datatime\jquery-2.1.4.min.js" />
     <Content Include="Content\Layout\datatime\jquery.datetimepicker.css" />
@@ -2226,7 +2233,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Layout\chart\" />
     <Folder Include="Content\Layout\new247\images\logos\" />
     <Folder Include="Views\AdminSite\" />
   </ItemGroup>

@@ -1064,8 +1064,7 @@
           
         }
 
-        function LoadTrangBao() {
-          //  alert($("#slRegions").val());
+        function LoadTrangBao() {          
             $('#listTrangBao').html('<div style="" align="center"><img src="../images/loading.gif" /> </div>');
             $.ajax({
                 type: "POST",
@@ -1085,13 +1084,14 @@
             $.get("/mNewspaper/RegionList", function (data) {
                 $("#slRegions").empty();
                 $.each(data, function (index, row) {
-                    
-                    $("#slRegions").append("<option value='" + row.MaNuoc + "'>" + row.TenNuoc + "</option>");
+                    if (index == 0) {
+                        $("#slRegions").append("<option value='" + row.MaNuoc + "' selected=true >" + row.TenNuoc + "</option>");
+                        LoadTrangBao();
+                    }
+                    else
+                        $("#slRegions").append("<option value='" + row.MaNuoc + "'>" + row.TenNuoc + "</option>");
                 });
-            });
-            $("#slRegions").prop('selectedIndex', 1);
-            //alert($("#slRegions").val());
-           // LoadTrangBao();
+            });          
         });
     </script>
 }

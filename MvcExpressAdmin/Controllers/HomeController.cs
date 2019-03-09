@@ -45,6 +45,32 @@ namespace MvcExpressAdmin.Controllers
             return Json(new { success = true, data }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult Shrinkfile()
+        {
+            if (
+            Conn.UpdateRowData(@"ALTER DATABASE expressviet_com_expressviet SET RECOVERY SIMPLE
+            DBCC SHRINKFILE (expressviet_com_expressviet_log, 1)
+            ALTER DATABASE expressviet_com_expressviet SET RECOVERY FULL"))
+                return Json(1, JsonRequestBehavior.AllowGet);
+            return Json(0, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult UpdateWebsite()
+        {
+            Conn.UpdateRowData("update rssNews set  HotNews=0 where HotNews=1 update rssNews set  HotNews=1 where rssID in (select top 10 rssID from rssNews F1 inner join wNewsMenuId F2 on F1.NewspaperMenuId=F2.NewspaperMenuId where Convert(date,DateInput)=Convert(Date,getdate()) and isnull(PopularNews,0)=0 and isnull(MoreNews,0)=0 order by NEWID())");
+            Conn.UpdateRowData("update rssNews set  PopularNews=0 where PopularNews=1 update rssNews set  PopularNews=1 where rssID in (select top 10 rssID from rssNews F1 inner join wNewsMenuId F2 on F1.NewspaperMenuId=F2.NewspaperMenuId where Convert(date,DateInput)=Convert(Date,getdate()) and isnull(MoreNews,0)=0 and isnull(HotNews,0)=0 order by NEWID())");
+            Conn.UpdateRowData("update rssNews set  MoreNews=0 where  MoreNews=1 update rssNews set  MoreNews=1 where rssID in (select top 10 rssID from rssNews F1 inner join wNewsMenuId F2 on F1.NewspaperMenuId=F2.NewspaperMenuId where Convert(date,DateInput)=Convert(Date,getdate()) and isnull(PopularNews,0)=0 and isnull(HotNews,0)=0 order by NEWID())");
+            return Json(1, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public ActionResult DeleteNewsTowDay()
+        {
+            if (Conn.UpdateRowData(@"delete rssNews where NewspaperMenuId in(select distinct NewspaperMenuId from rssNews where Convert(date,DateInput) = convert(date,getdate())) and Convert(date,DateInput) < convert(date,'" + DateTime.Now.AddDays(-2) + @"')"))
+                return Json(1, JsonRequestBehavior.AllowGet);
+            return Json(0, JsonRequestBehavior.AllowGet);
+
+        }
 
         public string LoadRegionNews()
         {
@@ -61,15 +87,16 @@ namespace MvcExpressAdmin.Controllers
             s.Append("</tr>");
             s.Append("</thead>");
             s.Append("</table>");
-            s.Append("<div class='scrollbar' style='overflow-y:overlay;max-height:" + (ad.sHeight() - 300) + "px'>");
+            s.Append("<div class='scrollbar' style='overflow-y:overlay;max-height:" + (ad.sHeight() - 340) + "px'>");
             s.Append("<table id='listRegionNews' width='100%' class='mytable'>");
             s.Append("<tbody>");
             var regions = (from a in db.Regions
                           where a.HienThi == true
                           select a).OrderBy(x=>x.ThuTu);
+            int stt = 1, totalweb = 0, totalapp = 0, totalnews = 0;
             if (regions.Count() > 0)
             {
-                int stt = 1;
+               
                 foreach (var r in regions)
                 {
                     var slweb = (from a in db.mNewspapers
@@ -85,9 +112,10 @@ namespace MvcExpressAdmin.Controllers
                                  where a.Effect == true && a.NewspaperMenuId == b.NewspaperMenuId && b.NewspaperId == c.NewspaperId && c.Languge.Equals(r.MaNuoc)
                                  //&& a.DateInput.Value.Equals("02/14/2019")
                                  select a);
-
-
-                    s.Append("<tr style='font-size:18px;cursor:pointer;'>");
+                    totalweb += slweb.Count();
+                    totalapp += slapp.Count();
+                    totalnews += sltin.Count();
+                    s.Append("<tr style='font-size:18px;cursor:pointer;' onclick=\"ViewChart('" + r.MaNuoc + "','"+r.TenNuoc.ToUpper()+"')\">");
                     s.Append("<td style='width:50px; text-align:center'>" + stt + "</td>");
                     s.Append("<td style='text-align:left'>" + r.TenNuoc + "</td>");
                     s.Append("<td style='width:70px;text-align:center'>" + slweb.Count() + "</td>");
@@ -97,9 +125,16 @@ namespace MvcExpressAdmin.Controllers
                     s.Append("</tr>");
                     stt++;
                 }
-            }
-           
-            s.Append("</tbody>");          
+            }           
+            s.Append("</tbody>");
+            s.Append("<tfooter>");
+            s.Append("<tr>");
+            s.Append("<td colspan=2 style='text-align:center;background-color:#00bfff;color:#FFF;font-weight:bold'>Total</td>");
+            s.Append("<td style='width:70px;text-align:center;background-color:#0080ff;color:#FFF'>" + totalweb + "</td>");
+            s.Append("<td style='width:70px;text-align:center;background-color:#0040ff;color:#FFF'>" + totalapp + "</td>");
+            s.Append("<td style='width:70px;text-align:center;background-color:#0000ff;color:#FFF'>" + totalnews + "</td>");
+            s.Append("</tr>");
+            s.Append("</tfooter>");
             s.Append("</table>");
             s.Append("</div>");
             //s.Append("</div>");
