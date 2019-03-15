@@ -40,8 +40,8 @@ namespace MvcExpressAdmin.Controllers
                 //s.Append("<table width='100%' class='mytable' id='dsMenu' style='' >");
                 s.Append("<tbody>");
 
-                var dt1 = from a in db.wMenu1
-                          select new { a.mID, a.Name, a.Effect, a.Folder, a.STT };
+                var dt1 = (from a in db.wMenu1                           
+                           select new { a.mID, a.Name, a.Effect, a.Folder, a.STT }).Where(d => d.Effect == true);
                 if (dt1.Count() > 0)
                 {
                     foreach (var r in dt1)

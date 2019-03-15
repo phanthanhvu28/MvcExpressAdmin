@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section scripts{
-    <script type="text/javascript">
+<script type="text/javascript">
         function Update_Name_Menu1(mID) {
             var menucha = $("#txtMenu1" + mID).val();
             if (menucha == null || menucha.length == 0) {
@@ -846,7 +846,7 @@
             });
         }
 
-       
+
 
         function UpdateTN(MaNuoc) {
             var tn = $("#txtTenNuoc" + MaNuoc).val();
@@ -937,13 +937,13 @@
                 });
             }
         }
-        function CheckRegionDisplay(MaNuoc) {
-            alert(MaNuoc);
+        function CheckRegionDisplay1(MN) {
+            alert('hihi');
             @*var checkHT = $("#chkDisplayRegion" + MaNuoc).is(':checked');
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("CheckRegionDisplay", "mNewspaper")',
-                data: "{'MaNuoc':'" + MaNuoc + "','HienThi':'" + checkHT + "'}",
+                data: "{'MaNuoc':'" + MN + "','HienThi':'" + checkHT + "'}",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
@@ -1061,10 +1061,10 @@
 
                 }
             });
-          
+
         }
 
-        function LoadTrangBao() {          
+        function LoadTrangBao() {
             $('#listTrangBao').html('<div style="" align="center"><img src="../images/loading.gif" /> </div>');
             $.ajax({
                 type: "POST",
@@ -1078,7 +1078,7 @@
                 },
                 error: function () {
                 }
-            });         
+            });
         }
         $(document).ready(function () {
             $.get("/mNewspaper/RegionList", function (data) {
@@ -1091,9 +1091,9 @@
                     else
                         $("#slRegions").append("<option value='" + row.MaNuoc + "'>" + row.TenNuoc + "</option>");
                 });
-            });          
+            });
         });
-    </script>
+</script>
 }
 <div class="headingtop">
     <section class="content-header">

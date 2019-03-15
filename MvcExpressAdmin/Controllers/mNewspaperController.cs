@@ -833,7 +833,7 @@ namespace MvcExpressAdmin.Controllers
                     s.Append("<td style='width:150px; text-align:center'  id='TenNuoc" + r.MaNuoc + "'><input class='txtn' type='text' id='txtTenNuoc" + r.MaNuoc + "' value='" + r.TenNuoc + "' onchange=\"UpdateTN('" + r.MaNuoc + "')\" style='width:100%'></td>");
                     s.Append("<td style='width:300px; text-align:center'  id='GMT" + r.MaNuoc + "'><input class='txtn' type='text' id='txtGMT" + r.MaNuoc + "' value='" + r.GMT + "' onchange=\"UpdateGMT('" + r.MaNuoc + "')\" style='width:100%'></td>");
                     s.Append("<td style='width:90px; text-align:center'  id='ThuTu" + r.MaNuoc + "'><input class='txtn' type='text' id='txtTTRegion" + r.MaNuoc + "' value='" + r.ThuTu + "' onchange=\"UpdateTTRegion('" + r.MaNuoc + "')\" style='width:100%'></td>");
-                    s.Append("<td style='width:90px;text-align:center; font-size:18px'><input style='z-index:1' class='chkhidden' " + HT + " type='checkbox' onchange=\"CheckRegionDisplay('" + r.MaNuoc + "')\" id='check' > <span class='text' style='z-index:0'></span></td>");
+                    s.Append("<td style='width:90px;text-align:center; font-size:18px'><input class='chkhidden' " + HT + " type='checkbox' onclick=\"CheckRegionDisplay1('" + r.MaNuoc + "')\" id='chkDisplayRegion"+r.MaNuoc+ "' value='" + r.MaNuoc + "' > <span class='text' style='z-index:0'></span></td>");
                     s.Append("<td  align='center' style='width:40px;' class='heading'>");
                     s.Append("<input type='button' class='imgdel' id='btnXoaRG" + r.MaNuoc + "'  onclick=\"DeleteRegion('" + r.MaNuoc + "')\">");
                     s.Append("</td>");
@@ -943,7 +943,7 @@ namespace MvcExpressAdmin.Controllers
                     s.Append("<td style='width:150px; text-align:center'  id='TenNuoc" + r.MaNuoc + "'><input class='txtn' type='text' id='txtTenNuoc" + r.MaNuoc + "' value='" + r.TenNuoc + "' onchange=\"UpdateTN('" + r.MaNuoc + "')\" style='width:100%'></td>");
                     s.Append("<td style='width:300px; text-align:center'  id='GMT" + r.MaNuoc + "'><input class='txtn' type='text' id='txtGMT" + r.MaNuoc + "' value='" + r.GMT + "' onchange=\"UpdateGMT('" + r.MaNuoc + "')\" style='width:100%'></td>");
                     s.Append("<td style='width:90px; text-align:center'  id='ThuTu" + r.MaNuoc + "'><input class='txtn' type='text' id='txtTTRegion" + r.MaNuoc + "' value='" + r.ThuTu + "' onchange=\"UpdateTTRegion('" + r.MaNuoc + "')\" style='width:100%'></td>");
-                    s.Append("<td style='width:90px;text-align:center; font-size:18px'><input style='z-index:1' class='chkhidden' " + HT + " type='checkbox' onchange=\"CheckRegionDisplay('" + r.MaNuoc + "')\" id='check' > <span class='text' style='z-index:0'></span></td>");
+                    s.Append("<td style='width:90px;text-align:center; font-size:18px'><input class='chkhidden' " + HT + " type='checkbox' onclick=\"CheckRegionDisplay1('" + r.MaNuoc + "')\" id='chkDisplayRegion"+r.MaNuoc+ "' value='" + r.MaNuoc + "' > <span class='text' style='z-index:0'></span></td>");
                     s.Append("<td  align='center' style='width:40px;' class='heading'>");
                     s.Append("<input type='button' class='imgdel' id='btnXoaRG" + r.MaNuoc + "'  onclick=\"DeleteRegion('" + r.MaNuoc + "')\">");
                     s.Append("</td>");
