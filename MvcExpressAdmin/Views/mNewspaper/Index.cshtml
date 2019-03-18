@@ -937,9 +937,8 @@
                 });
             }
         }
-        function CheckRegionDisplay1(MN) {
-            alert('hihi');
-            @*var checkHT = $("#chkDisplayRegion" + MaNuoc).is(':checked');
+        function CheckRegionDisplay(MN) {           
+            var checkHT = $("#chkDisplayRegion" + MN).is(':checked');
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("CheckRegionDisplay", "mNewspaper")',
@@ -948,15 +947,15 @@
                 dataType: "json",
                 success: function (data) {
                     if (data == 1) {
-                        CheckNotify("chkDisplayRegion" + MaNuoc, "Thành công", "top", "success", false, false);
+                        CheckNotify("chkDisplayRegion" + MN, "Thành công", "top", "success", false, false);
                     }
                     else {
-                        CheckNotify("chkDisplayRegion" + MaNuoc, "Error", "top", "error", false, false);
+                        CheckNotify("chkDisplayRegion" + MN, "Error", "top", "error", false, false);
                     }
                 },
                 failure: function (response) {
                 }
-            });*@
+            });
         }
         function DeleteRegion(MaNuoc) {
             $.confirm({

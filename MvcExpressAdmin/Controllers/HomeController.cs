@@ -88,7 +88,7 @@ namespace MvcExpressAdmin.Controllers
             s.Append("</thead>");
             s.Append("</table>");
             s.Append("<div class='scrollbar' style='overflow-y:overlay;max-height:" + (ad.sHeight() - 340) + "px'>");
-            s.Append("<table id='listRegionNews' width='100%' class='mytable'>");
+            s.Append("<table id='listRegionNews' width='100%' class='mytable table-hover'>");
             s.Append("<tbody>");
             var regions = (from a in db.Regions
                           where a.HienThi == true
